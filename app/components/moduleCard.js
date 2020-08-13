@@ -2,39 +2,25 @@ import React from "react";
 import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import colors from "../config/colors";
+import { useNavigation } from "@react-navigation/native";
 
 const imageIcon = <Feather name="image" size={50} color="grey" />;
 
 function ModuleCard({ image, onPress }) {
+  const navigation = useNavigation();
   return (
-    <View style={styles.container}>
-      <TouchableOpacity onPress={onPress}>
-        <View style={styles.moduleCard}>
-          <Image style={styles.image} source={image}></Image>
-        </View>
-      </TouchableOpacity>
-
-      {/* <LinearGradient
-        style={[styles.moduleCard, { backgroundColor: colors[bgColor] }]}
-        colors={[colors.logoPurple, colors.darkPurple]}
-        start={[0, 0]}
-        end={[1, 0.5]}
-      >
-        <ImageBackground source ={image}></ImageBackground>
-        <Text style={[styles.ModuleCardText, { color: colors[txtColor] }]}>
-          {title}
-        </Text>
-        <View style={styles.moduleCardImage}>{imageIcon}</View>
-      </LinearGradient> */}
-      {/* <View style={[styles.moduleCard, { backgroundColor: colors[bgColor] }]}>
-        <View style={[styles.moduleCardImage, { backgroundColor: [bgColor] }]}>
-          {image}
-        </View>
-        <Text style={[styles.moduleCardText, { color: colors[txtColor] }]}>
-          {title}
-        </Text>
-      </View> */}
-    </View>
+    <TouchableOpacity
+      style={{
+        justifyContent: "center",
+        alignItems: "center",
+        marginBottom: 15,
+      }}
+      onPress={onPress}
+    >
+      <View style={styles.moduleCard}>
+        <Image style={styles.image} source={image}></Image>
+      </View>
+    </TouchableOpacity>
   );
 }
 
@@ -42,22 +28,21 @@ export default ModuleCard;
 
 const styles = StyleSheet.create({
   container: {
-    display: "flex",
+    justifyContent: "center",
     alignItems: "center",
-    backgroundColor: colors.lightGray,
+    marginBottom: 30,
   },
   moduleCard: {
-    height: 80,
-    width: "90%",
+    height: 100,
+    width: 350,
     flexDirection: "row",
     marginTop: 10,
-    marginBottom: 20,
+    marginBottom: 10,
     borderRadius: 15,
     backgroundColor: colors.lightPurple,
-    shadowColor: "grey",
-    shadowOffset: { width: 5, height: 5 },
-    shadowOpacity: 0.5,
     overflow: "hidden",
+    justifyContent: "center",
+    alignItems: "center",
   },
   moduleCardImage: {
     width: 75,

@@ -6,16 +6,14 @@
     "orientation": "portrait",
     "icon": "./app/assets/iconHTP_1024px.png",
     "splash": {
-      "image": "./app/assets/splash4_htp.png",
+      "image": "./app/assets/splash2_htp.png",
       "resizeMode": "cover",
       "backgroundColor": "#fff"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
