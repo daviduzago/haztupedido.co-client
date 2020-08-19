@@ -9,4 +9,7 @@ export default {
   green: "#015B00",
   gradientDarkPurple: "#65366C",
   gradientLightPurple: "#9C58A3",
+  orange: "#FF4D39",
+  gray: "#CCCCCC",
+  lightGreen: "#63AC1F",
 };

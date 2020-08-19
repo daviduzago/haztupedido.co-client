@@ -24,7 +24,7 @@ function ProductShop({
         <Text style={styles.price}>{precio}</Text>
         <Text style={styles.priceUnidad}>
           {precioUnidad}
-          <Text style={{ fontSize: 8 }}> x Unidad</Text>{" "}
+          <Text style={{ fontSize: 8 }}> x Unidad</Text>
         </Text>
         <InputSpinner
           style={{

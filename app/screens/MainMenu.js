@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, FlatList } from "react-native";
+import { StyleSheet, Text, FlatList, Image } from "react-native";
 import Screen from "../components/Screen";
-import AppHeader from "../components/AppHeader";
 import ModuleCard from "../components/moduleCard";
 import colors from "../config/colors";
 import { useNavigation } from "@react-navigation/native";
+import City from "../assets/city_background.png";
 
 const MODULES = [
   {
@@ -35,7 +35,7 @@ function MainMenu() {
   return (
     <Screen style={styles.container}>
       <FlatList
-        style={{ paddingTop: 20 }}
+        style={{ paddingTop: 20, zIndex: 1000 }}
         data={MODULES}
         keyExtractor={(module) => module.id.toString()}
         renderItem={({ item }) => (
@@ -47,6 +47,16 @@ function MainMenu() {
           ></ModuleCard>
         )}
       ></FlatList>
+      <Image
+        style={{
+          position: "absolute",
+          bottom: -200,
+          right: 0,
+          width: "100%",
+          resizeMode: "contain",
+        }}
+        source={City}
+      ></Image>
     </Screen>
   );
 }

@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Image, ImageBackground } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import colors from "../config/colors";
 import Vegetales from "../assets/vegetales.jpg";
-import Carrito from "./carrito";
+import Carrito from "./carritoIcon";
 
 function HeaderShop({ title = "Titulo", imageShop }) {
   return (

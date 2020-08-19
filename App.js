@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { SplashScreen } from "expo";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Image } from "react-native";
 import Screen from "./app/components/Screen";
 import Shop from "./app/screens/Shop";
 import Product from "./app/screens/Product";
@@ -8,7 +8,9 @@ import MainMenu from "./app/screens/MainMenu";
 import colors from "./app/config/colors";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
-import Avatar from "./app/components/avatar";
+import Carrito from "./app/components/carritoIcon";
+import Cart from "./app/screens/Cart";
+import HeaderMainMenu from "./app/assets/headerMainMenu_welcome.png";
 
 SplashScreen.preventAutoHide();
 setTimeout(SplashScreen.hide, 3000);
@@ -21,9 +23,16 @@ const StackNavigator = () => (
       component={MainMenu}
       options={{
         headerLeft: () => (
-          <View style={{ paddingLeft: 15, flexDirection: "row" }}>
-            <Avatar></Avatar>
-            <Text style={styles.greetingText}>Hola! </Text>
+          <View>
+            <Image
+              style={{
+                width: 200, 
+                height: 50,
+                resizeMode: "contain",
+                marginLeft: 10,
+              }}
+              source={HeaderMainMenu}
+            ></Image>
           </View>
         ),
         headerTitleAlign: "center",
@@ -33,9 +42,21 @@ const StackNavigator = () => (
     <Stack.Screen
       name="Shop"
       component={Shop}
-      options={{ headerTitle: "" }}
+      options={{
+        headerTitle: "",
+        headerRight: () => (
+          <View style={{ marginRight: 7, marginTop: 3 }}>
+            <Carrito cantidadItems={2} backgroundColor={colors.white}></Carrito>
+          </View>
+        ),
+      }}
     ></Stack.Screen>
     <Stack.Screen name="Product" component={Product}></Stack.Screen>
+    <Stack.Screen
+      name="Cart"
+      component={Cart}
+      options={{ headerTitle: "Tu Pedido", headerTitleAlign: "center" }}
+    ></Stack.Screen>
   </Stack.Navigator>
 );
 
