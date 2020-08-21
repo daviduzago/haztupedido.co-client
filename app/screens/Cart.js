@@ -5,7 +5,6 @@ import {
   StyleSheet,
   Text,
   View,
-  SafeAreaView,
   Image,
   TouchableWithoutFeedback,
   FlatList,
