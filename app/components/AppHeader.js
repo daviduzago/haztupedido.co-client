@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import colors from "../config/colors";
 import Avatar from "./avatar";
-import EntregarEn from "./entregarEn";
-import Carrito from "./carritoIcon";
 
 class AppHeader extends Component {
   render() {

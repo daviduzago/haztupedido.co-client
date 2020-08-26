@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View, SafeAreaView } from "react-native";
 import colors from "../config/colors";
-import InputSpinner from "./inputSpinner";
+import InputSpinnerVertical from "./inputSpinnerVertical";
 
 function ProductCart({
   image,
@@ -30,7 +30,7 @@ function ProductCart({
           <Text style={styles.precioUnidad}>${precioUnidad}</Text>
         </View>
         <View>
-          <InputSpinner></InputSpinner>
+          <InputSpinnerVertical></InputSpinnerVertical>
         </View>
       </View>
     </View>

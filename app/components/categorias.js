@@ -6,6 +6,7 @@ import {
   Dimensions,
   TouchableOpacity,
 } from "react-native";
+import categoryApi from "../api/categorias";
 import colors from "../config/colors";
 import Carousel from "react-native-snap-carousel";
 
@@ -16,36 +17,20 @@ export default class Categorias extends React.Component {
     super(props);
     this.state = {
       activeIndex: 0,
-      categorias: [
-        {
-          id: 1,
-          title: "Ofertas",
-        },
-        {
-          id: 2,
-          title: "Lacteos",
-        },
-        {
-          id: 3,
-          title: "Granos",
-        },
-        {
-          id: 4,
-          title: "Categoria 4",
-        },
-        {
-          id: 5,
-          title: "Categoria 5",
-        },
-        {
-          id: 6,
-          title: "Categoria muy larga de texto",
-        },
-      ],
+      categorias: [],
     };
   }
 
-  _renderItem({ item, index }) {
+  componentDidMount() {
+    this._loadCategories();
+  }
+
+  _loadCategories = async () => {
+    const response = await categoryApi.getCategorias();
+    this.setState({ categorias: response.data });
+  };
+
+  _renderItem({ item }) {
     return (
       <TouchableOpacity>
         <View style={styles.container}>
@@ -54,7 +39,7 @@ export default class Categorias extends React.Component {
             adjustsFontSizeToFit={true}
             style={styles.title}
           >
-            {item.title}
+            {item.descripcion}
           </Text>
         </View>
       </TouchableOpacity>
@@ -82,11 +67,13 @@ const styles = StyleSheet.create({
     backgroundColor: colors.darkPurple,
     justifyContent: "center",
     alignItems: "center",
+    padding: 2,
   },
   title: {
     fontSize: 22,
     textAlign: "center",
     fontFamily: Platform.OS === "android" ? "Roboto" : "Avenir",
     color: "white",
+    textTransform: "capitalize",
   },
 });

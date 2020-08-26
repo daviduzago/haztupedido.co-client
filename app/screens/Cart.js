@@ -78,21 +78,31 @@ function App({ route }) {
           alignItems: "center",
         }}
       >
-        <View style={styles.checkoutButton}>
-          <View style={styles.numberItemsCircle}>
-            <Text
-              style={{ fontSize: 25, color: colors.orange, fontWeight: "bold" }}
-            >
-              2
+        <TouchableWithoutFeedback
+          onPress={() => {
+            navigation.navigate("CheckOutForm");
+          }}
+        >
+          <View style={styles.checkoutButton}>
+            <View style={styles.numberItemsCircle}>
+              <Text
+                style={{
+                  fontSize: 25,
+                  color: colors.red,
+                  fontWeight: "bold",
+                }}
+              >
+                2
+              </Text>
+            </View>
+            <Text style={{ fontSize: 28, color: "white", fontWeight: "600" }}>
+              Checkout
+            </Text>
+            <Text style={{ fontSize: 15, color: "white", fontWeight: "bold" }}>
+              $100.000
             </Text>
           </View>
-          <Text style={{ fontSize: 28, color: "white", fontWeight: "600" }}>
-            Checkout
-          </Text>
-          <Text style={{ fontSize: 15, color: "white", fontWeight: "bold" }}>
-            $100.000
-          </Text>
-        </View>
+        </TouchableWithoutFeedback>
       </View>
       <View
         style={{
@@ -131,7 +141,7 @@ const styles = StyleSheet.create({
     height: 100,
     width: 100,
     borderRadius: 50,
-    backgroundColor: colors.orange,
+    backgroundColor: colors.darkPurple,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -155,7 +165,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     padding: 10,
-    backgroundColor: colors.orange,
+    backgroundColor: colors.red,
     borderRadius: 50,
     justifyContent: "space-between",
     alignItems: "center",

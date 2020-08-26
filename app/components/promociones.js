@@ -69,9 +69,9 @@ export default class Promociones extends React.Component {
 }
 const styles = StyleSheet.create({
   container: {
-    height: 120,
+    height: 100,
     borderRadius: 10,
-    backgroundColor: colors.orange,
+    backgroundColor: colors.blue,
     justifyContent: "center",
     alignItems: "center",
   },

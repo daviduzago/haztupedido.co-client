@@ -12,4 +12,7 @@ export default {
   orange: "#FF4D39",
   gray: "#CCCCCC",
   lightGreen: "#63AC1F",
+  yellow: "#FFBE00",
+  red: "#FF6969",
+  blue: "#369FFF",
 };

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View, TouchableWithoutFeedback } from "react-native";
 import InputSpinner from "react-native-input-spinner";
 import colors from "../config/colors";
-import { sub } from "react-native-reanimated";
 
 function ProductShop({
   image,

@@ -11,6 +11,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import Carrito from "./app/components/carritoIcon";
 import Cart from "./app/screens/Cart";
 import HeaderMainMenu from "./app/assets/headerMainMenu_welcome.png";
+import CheckOutForm from "./app/screens/CheckOutForm";
 
 SplashScreen.preventAutoHide();
 setTimeout(SplashScreen.hide, 3000);
@@ -26,7 +27,7 @@ const StackNavigator = () => (
           <View>
             <Image
               style={{
-                width: 200, 
+                width: 200,
                 height: 50,
                 resizeMode: "contain",
                 marginLeft: 10,
@@ -51,11 +52,20 @@ const StackNavigator = () => (
         ),
       }}
     ></Stack.Screen>
-    <Stack.Screen name="Product" component={Product}></Stack.Screen>
+    <Stack.Screen
+      options={{ headerTitle: "Producto" }}
+      name="Product"
+      component={Product}
+    ></Stack.Screen>
     <Stack.Screen
       name="Cart"
       component={Cart}
       options={{ headerTitle: "Tu Pedido", headerTitleAlign: "center" }}
+    ></Stack.Screen>
+    <Stack.Screen
+      name="CheckOutForm"
+      component={CheckOutForm}
+      options={{ headerTitle: "" }}
     ></Stack.Screen>
   </Stack.Navigator>
 );

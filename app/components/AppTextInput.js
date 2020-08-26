@@ -1,27 +1,27 @@
 import React from "react";
 import { StyleSheet, Text, View, TextInput } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import Screen from "./Screen";
 import colors from "../config/colors";
 
 function AppTextInput({
   icon,
   size = 25,
-  color = "grey",
-  style,
+  iconColor = "grey",
+  styleContainer,
+  styleTextInput,
   ...otherProps
 }) {
   return (
-    <View style={[styles.container, style]}>
+    <View style={[styles.container, styleContainer]}>
       {icon && (
         <MaterialCommunityIcons
           style={{ marginRight: 15 }}
-          color={color}
+          color={iconColor}
           size={size}
           name={icon}
         />
       )}
-      <TextInput {...otherProps} style={styles.textInput} />
+      <TextInput {...otherProps} style={[styles.textInput, styleTextInput]} />
     </View>
   );
 }

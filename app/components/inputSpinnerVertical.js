@@ -8,13 +8,13 @@ import {
 } from "react-native";
 import colors from "../config/colors";
 
-function InputSpinner() {
+function InputSpinnerVertical({ color = "blue" }) {
   const [quantity, setquantity] = useState(0);
   return (
     <View>
       <View style={styles.box}>
         <TouchableHighlight>
-          <View style={styles.button}>
+          <View style={[styles.button, { backgroundColor: colors[color] }]}>
             <Text
               style={{
                 fontSize: 35,
@@ -29,7 +29,7 @@ function InputSpinner() {
         <View style={styles.numberBox}>
           <Text style={{ fontWeight: "500", fontSize: 15 }}>{quantity}</Text>
         </View>
-        <View style={styles.button}>
+        <View style={[styles.button, { backgroundColor: colors[color] }]}>
           <Text
             style={{
               fontSize: 35,
@@ -45,7 +45,7 @@ function InputSpinner() {
   );
 }
 
-export default InputSpinner;
+export default InputSpinnerVertical;
 
 const styles = StyleSheet.create({
   container: {
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 50,
-    backgroundColor: colors.lightGreen,
+    backgroundColor: colors.blue,
     justifyContent: "center",
     alignItems: "center",
   },
