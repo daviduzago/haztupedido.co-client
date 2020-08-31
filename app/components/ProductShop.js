@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     width: 100,
     height: 90,
-    backgroundColor: colors.lightGray,
+    backgroundColor: colors.white,
     marginBottom: 10,
     marginTop: 10,
   },

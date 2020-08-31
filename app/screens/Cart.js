@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useRoute } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
 import {
@@ -9,6 +9,7 @@ import {
   TouchableWithoutFeedback,
   FlatList,
 } from "react-native";
+import AsyncStorage from "@react-native-community/async-storage";
 import colors from "../config/colors";
 import imageShop from "../assets/groceriesBag.png";
 import ProductCart from "../components/ProductCart";
@@ -21,6 +22,35 @@ const PRODUCTS = [
     id: 2,
   },
 ];
+
+/* const hasASYNCdata = () => {
+  const value = AsyncStorage.getItem("nombre");
+  if (value == null) {
+    console.log("hasSync");
+    console.log(value);
+    console.log("null");
+    return false;
+  }
+  console.log("hasSync");
+  console.log(value);
+  console.log("true");
+  return true;
+}; */
+
+const hasASYNCdata = () =>
+  AsyncStorage.getItem("nombre").then((value) => {
+    if (value !== null) {
+      console.log("value", value);
+      console.log("true");
+      console.log("---------");
+      return true;
+    } else {
+      console.log("false");
+      return false;
+    }
+  });
+
+const navigateTo = hasASYNCdata() ? "CacheInfo" : "CheckOutForm";
 
 function App({ route }) {
   useRoute();
@@ -80,7 +110,7 @@ function App({ route }) {
       >
         <TouchableWithoutFeedback
           onPress={() => {
-            navigation.navigate("CheckOutForm");
+            navigation.navigate(navigateTo);
           }}
         >
           <View style={styles.checkoutButton}>
@@ -96,7 +126,7 @@ function App({ route }) {
               </Text>
             </View>
             <Text style={{ fontSize: 28, color: "white", fontWeight: "600" }}>
-              Checkout
+              Tus datos
             </Text>
             <Text style={{ fontSize: 15, color: "white", fontWeight: "bold" }}>
               $100.000

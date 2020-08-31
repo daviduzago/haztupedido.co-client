@@ -12,6 +12,7 @@ import Carrito from "./app/components/carritoIcon";
 import Cart from "./app/screens/Cart";
 import HeaderMainMenu from "./app/assets/headerMainMenu_welcome.png";
 import CheckOutForm from "./app/screens/CheckOutForm";
+import CacheInfo from "./app/screens/CacheInfo";
 
 SplashScreen.preventAutoHide();
 setTimeout(SplashScreen.hide, 3000);
@@ -67,6 +68,7 @@ const StackNavigator = () => (
       component={CheckOutForm}
       options={{ headerTitle: "" }}
     ></Stack.Screen>
+    <Stack.Screen name="CacheInfo" component={CacheInfo}></Stack.Screen>
   </Stack.Navigator>
 );
 

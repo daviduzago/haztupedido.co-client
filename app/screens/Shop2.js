@@ -86,33 +86,31 @@ function Shop({ route }) {
   useRoute();
   const navigation = useNavigation();
   const scrollY = new Animated.Value(0);
-  const startHeaderHeight = 175 + useHeaderHeight();
-  const startSearchCategory = 130 + useHeaderHeight();
-  const startFlatListHeight = 270 + useHeaderHeight();
+  const HEADER_HEIGHT = 170;
+  const SEARCHandCATEGORY_HEIGHT = 120;
+  const PROMOS_HEIGHT = 120;
 
   const headerY = Animated.interpolate(scrollY, {
-    inputRange: [0, startHeaderHeight],
-    outputRange: [0, -startHeaderHeight],
+    inputRange: [0, HEADER_HEIGHT],
+    outputRange: [0, -HEADER_HEIGHT],
     extrapolate: "clamp",
   });
   const searchCategoryY = Animated.interpolate(scrollY, {
-    inputRange: [0, startSearchCategory],
-    outputRange: [0, -startSearchCategory],
+    inputRange: [0, SEARCHandCATEGORY_HEIGHT],
+    outputRange: [0, -SEARCHandCATEGORY_HEIGHT],
     extrapolate: "clamp",
   });
   const flatListY = Animated.interpolate(scrollY, {
-    inputRange: [0, startFlatListHeight],
+    inputRange: [0, PROMOS_HEIGHT],
     outputRange: [0, -useHeaderHeight() - 240],
     extrapolate: "clamp",
   });
-  // const promocionY = Animated.interpolate(scrollY, {
-  //   inputRange: [0, startHeaderHeight],
-  // });
+
   return (
     <Screen style={styles.container}>
+      {/* HEADER */}
       <Animated.View
         style={{
-          flex: 1,
           position: "absolute",
           top: 0,
           right: 0,
@@ -148,16 +146,16 @@ function Shop({ route }) {
           </LinearGradient>
         </ImageBackground>
       </Animated.View>
+      {/* END HEADER */}
+      {/* SEARCH & CATEGORY*/}
       <Animated.View
         style={{
-          flex: 1,
           position: "absolute",
-          top: 171,
+          top: HEADER_HEIGHT,
           left: 0,
           width: "100%",
-          height: "100%",
+          height: 70,
           backgroundColor: "white",
-          transform: [{ translateY: searchCategoryY }],
         }}
       >
         <AppTextInput
@@ -165,37 +163,33 @@ function Shop({ route }) {
           placeholder={"Buscar productos o categorias"}
           size={22}
         ></AppTextInput>
-        <View style={{ height: 50 }}>
+        <View style={{ height: 50, backgroundColor: "white" }}>
           <Categorias></Categorias>
         </View>
-        <Animated.View
-          style={{
-            height: 120,
-            position: "absolute",
-            zIndex: -1,
-            top: 120,
-            transform: [{ translateY: headerY }],
-          }}
-        >
-          <Promociones></Promociones>
-        </Animated.View>
       </Animated.View>
-      <Animated.ScrollView
-        scrollEventThrottle={16}
-        onScroll={Animated.event([
-          {
-            nativeEvent: { contentOffset: { y: scrollY } },
-          },
-        ])}
+      {/* END SEARCH & CATEGORY */}
+      {/* PROMO */}
+      <Animated.View
         style={{
-          flex: 1,
+          height: 120,
           position: "absolute",
-          top: 400,
+          backgroundColor: "white",
+          zIndex: -1,
+          top: HEADER_HEIGHT + SEARCHandCATEGORY_HEIGHT,
+        }}
+      >
+        <Promociones></Promociones>
+      </Animated.View>
+      {/* END PROMO */}
+      {/* FLATLIST */}
+      <Animated.View
+        style={{
+          position: "absolute",
+          top: HEADER_HEIGHT + SEARCHandCATEGORY_HEIGHT + PROMOS_HEIGHT,
           left: 0,
           width: "100%",
           height: "100%",
           backgroundColor: "white",
-          transform: [{ translateY: flatListY }],
         }}
       >
         <FlatList
@@ -203,6 +197,12 @@ function Shop({ route }) {
             margin: 5,
             paddingHorizontal: 5,
           }}
+          scrollEventThrottle={16}
+          onScroll={Animated.event([
+            {
+              nativeEvent: { contentOffset: { y: scrollY } },
+            },
+          ])}
           numColumns={2} // set number of columns
           columnWrapperStyle={styles.row} // space them out evenly
           data={PRODUCTS}
@@ -213,7 +213,8 @@ function Shop({ route }) {
             ></ProductShop>
           )}
         />
-      </Animated.ScrollView>
+      </Animated.View>
+      {/* END FLATLIST */}
     </Screen>
   );
 }

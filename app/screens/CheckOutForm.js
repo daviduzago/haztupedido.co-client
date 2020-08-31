@@ -8,13 +8,18 @@ import {
   Keyboard,
 } from "react-native";
 import * as Yup from "yup";
+import YupLocaleES from "../config/YupLocaleES";
+import AsyncStorage from "@react-native-community/async-storage";
 
 import { AppForm, AppFormField, SubmitButton } from "../components/forms";
 import colors from "../config/colors";
 
+//Errores en español
+YupLocaleES;
+
 const validationSchema = Yup.object().shape({
-  nombre: Yup.string().required().min(5).max(50).label("Nombre"),
-  apellido: Yup.string().required().min(5).max(50).label("Apellido"),
+  nombre: Yup.string().required().min(3).max(20).label("Nombre"),
+  apellido: Yup.string().required().min(5).max(20).label("Apellido"),
   cedula: Yup.number().required().integer().positive().min(10).label("Cédula"),
   direccion: Yup.string().required().min(10).max(50).label("Dirección"),
   email: Yup.string().required().email().label("Correo electrónico"),
@@ -46,11 +51,37 @@ function CheckOutForm() {
             email: "",
             numeroCelular: "",
           }}
-          onSubmit={(values) => console.log(values)}
+          onSubmit={(values) => {
+            const storeData = async (field, data) => {
+              try {
+                await AsyncStorage.setItem(field, data);
+              } catch (e) {
+                console.log(e);
+              }
+            };
+            const getData = async (field) => {
+              try {
+                const value = await AsyncStorage.getItem(field);
+                if (value !== null) {
+                  console.log(value);
+                }
+              } catch (e) {
+                console.log(e);
+              }
+            };
+            storeData("nombre", values.nombre);
+            storeData("apellido", values.apellido);
+            storeData("cedula", values.cedula);
+            storeData("direccion", values.direccion);
+            storeData("email", values.email);
+            storeData("numeroCelular", values.numeroCelular);
+            getData("name");
+          }}
           validationSchema={validationSchema}
         >
           <Text style={styles.inputTitle}>Nombre</Text>
           <AppFormField
+            maxLength={20}
             autoCapitalize="words"
             autoCorrect={false}
             onFocus={() => setKAVEnable(false)}
@@ -64,6 +95,7 @@ function CheckOutForm() {
           ></AppFormField>
           <Text style={styles.inputTitle}>Apellido</Text>
           <AppFormField
+            maxLength={20}
             autoCapitalize="words"
             autoCorrect={false}
             onFocus={() => setKAVEnable(false)}
@@ -76,6 +108,7 @@ function CheckOutForm() {
           ></AppFormField>
           <Text style={styles.inputTitle}>Cédula</Text>
           <AppFormField
+            maxLength={10}
             keyboardType={"number-pad"}
             onFocus={() => setKAVEnable(false)}
             name={"cedula"}
@@ -87,6 +120,7 @@ function CheckOutForm() {
           ></AppFormField>
           <Text style={styles.inputTitle}>Dirección</Text>
           <AppFormField
+            maxLength={40}
             autoCorrect={false}
             onFocus={() => setKAVEnable(false)}
             name={"direccion"}
@@ -98,6 +132,7 @@ function CheckOutForm() {
           ></AppFormField>
           <Text style={styles.inputTitle}>Correo electrónico</Text>
           <AppFormField
+            max={20}
             autoCapitalize="none"
             autoCorrect={false}
             keyboardType="email-address"
@@ -112,6 +147,7 @@ function CheckOutForm() {
           ></AppFormField>
           <Text style={styles.inputTitle}>Número celular</Text>
           <AppFormField
+            maxLength={10}
             keyboardType={"number-pad"}
             onFocus={() => setKAVEnable(true)}
             name={"numeroCelular"}

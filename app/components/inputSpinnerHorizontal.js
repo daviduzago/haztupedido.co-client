@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import colors from "../config/colors";
 
-function InputSpinnerHorizontal({ color = "lightGreen" }) {
+function InputSpinnerHorizontal({ color = "blue" }) {
   const [quantity, setquantity] = useState(0);
   return (
     <View>

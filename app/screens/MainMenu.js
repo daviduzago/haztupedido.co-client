@@ -35,6 +35,7 @@ function MainMenu() {
   return (
     <Screen style={styles.container}>
       <FlatList
+        scrollEnabled={false}
         style={{ paddingTop: 20, zIndex: 1000 }}
         data={MODULES}
         keyExtractor={(module) => module.id.toString()}

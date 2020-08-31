@@ -47,7 +47,7 @@ function Carrito({
               right: -3,
               top: -4,
               borderRadius: 20,
-              backgroundColor: "red",
+              backgroundColor: colors.red,
               justifyContent: "center",
               alignItems: "center",
             }}
