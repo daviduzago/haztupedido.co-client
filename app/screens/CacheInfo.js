@@ -17,7 +17,7 @@ function CacheInfo() {
   return (
     <View>
       <Text>¿Es esta su información?</Text>
-      <Text>{cacheName}</Text>
+      <Text></Text>
     </View>
   );
 }

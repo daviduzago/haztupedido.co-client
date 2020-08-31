@@ -110,7 +110,7 @@ function App({ route }) {
       >
         <TouchableWithoutFeedback
           onPress={() => {
-            navigation.navigate(navigateTo);
+            navigation.navigate("CheckOutForm");
           }}
         >
           <View style={styles.checkoutButton}>

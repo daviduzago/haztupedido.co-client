@@ -75,7 +75,8 @@ function CheckOutForm() {
             storeData("direccion", values.direccion);
             storeData("email", values.email);
             storeData("numeroCelular", values.numeroCelular);
-            getData("name");
+            getData("nombre");
+            getData("email");
           }}
           validationSchema={validationSchema}
         >
