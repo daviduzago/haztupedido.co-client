@@ -4,10 +4,12 @@ import {
   View,
   StyleSheet,
   Dimensions,
-  TouchableOpacity,
+  Image,
+  TouchableWithoutFeedback,
 } from "react-native";
 import colors from "../config/colors";
 import Carousel from "react-native-snap-carousel";
+import { useNavigation } from "@react-navigation/native";
 
 const SLIDER_WIDTH = Dimensions.get("window").width;
 
@@ -39,17 +41,14 @@ export default class Promociones extends React.Component {
 
   _renderItem({ item, index }) {
     return (
-      <TouchableOpacity>
+      <TouchableWithoutFeedback>
         <View style={styles.container}>
-          <Text
-            numberOfLines={2}
-            adjustsFontSizeToFit={true}
-            style={styles.title}
-          >
-            {item.title}
-          </Text>
+          <Image
+            style={{ borderRadius: 10, overflow: "hidden" }}
+            source={require("../assets/promo.png")}
+          />
         </View>
-      </TouchableOpacity>
+      </TouchableWithoutFeedback>
     );
   }
 
@@ -67,6 +66,7 @@ export default class Promociones extends React.Component {
     );
   }
 }
+
 const styles = StyleSheet.create({
   container: {
     height: 100,

@@ -1,21 +1,46 @@
 import React, { Component } from "react";
 import { SplashScreen } from "expo";
-import { StyleSheet, View, Image } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Image,
+  Text,
+  TouchableWithoutFeedback,
+} from "react-native";
+import {
+  createStackNavigator,
+  TransitionPresets,
+} from "@react-navigation/stack";
+import { NavigationContainer } from "@react-navigation/native";
+import { Entypo } from "@expo/vector-icons";
+import colors from "./app/config/colors";
+import Carrito from "./app/components/carritoIcon";
+import Cart from "./app/screens/Cart";
+import CheckOutForm from "./app/screens/CheckOutForm";
+import CacheInfo from "./app/screens/CacheInfo";
+import HeaderMainMenu from "./app/assets/headerMainMenu_welcome.png";
+import MainMenu from "./app/screens/MainMenu";
 import Screen from "./app/components/Screen";
 import Shop from "./app/screens/Shop";
 import Product from "./app/screens/Product";
-import MainMenu from "./app/screens/MainMenu";
-import colors from "./app/config/colors";
-import { createStackNavigator } from "@react-navigation/stack";
-import { NavigationContainer } from "@react-navigation/native";
-import Carrito from "./app/components/carritoIcon";
-import Cart from "./app/screens/Cart";
-import HeaderMainMenu from "./app/assets/headerMainMenu_welcome.png";
-import CheckOutForm from "./app/screens/CheckOutForm";
-import CacheInfo from "./app/screens/CacheInfo";
+import Promociones from "./app/screens/Promociones";
+import ModalTransition from "@react-navigation/stack";
+import GoBackModal from "./app/components/goBackModal";
 
 SplashScreen.preventAutoHide();
 setTimeout(SplashScreen.hide, 3000);
+
+const config = {
+  animation: "spring",
+  config: {
+    stiffness: 1000,
+    damping: 500,
+    mass: 3,
+    overshootClamping: true,
+    restDisplacementThreshold: 0.01,
+    restSpeedThreshold: 0.01,
+  },
+};
 
 const Stack = createStackNavigator();
 const StackNavigator = () => (
@@ -40,7 +65,7 @@ const StackNavigator = () => (
         headerTitleAlign: "center",
         headerTitle: "",
       }}
-    ></Stack.Screen>
+    />
     <Stack.Screen
       name="Shop"
       component={Shop}
@@ -48,27 +73,37 @@ const StackNavigator = () => (
         headerTitle: "",
         headerRight: () => (
           <View style={{ marginRight: 7, marginTop: 3 }}>
-            <Carrito cantidadItems={2} backgroundColor={colors.white}></Carrito>
+            <Carrito cantidadItems={1} backgroundColor={colors.white}></Carrito>
           </View>
         ),
       }}
-    ></Stack.Screen>
+    />
     <Stack.Screen
       options={{ headerTitle: "Producto" }}
       name="Product"
       component={Product}
-    ></Stack.Screen>
+    />
     <Stack.Screen
       name="Cart"
       component={Cart}
-      options={{ headerTitle: "Tu Pedido", headerTitleAlign: "center" }}
-    ></Stack.Screen>
+      options={{
+        headerTitle: "Tu Pedido",
+        headerTitleAlign: "center",
+        ...TransitionPresets.ModalTransition,
+        headerLeft: () => <GoBackModal></GoBackModal>,
+      }}
+    />
     <Stack.Screen
       name="CheckOutForm"
       component={CheckOutForm}
       options={{ headerTitle: "" }}
-    ></Stack.Screen>
-    <Stack.Screen name="CacheInfo" component={CacheInfo}></Stack.Screen>
+    />
+    <Stack.Screen
+      name="CacheInfo"
+      component={CacheInfo}
+      options={{ headerTitle: "Su información", headerTitleAlign: "center" }}
+    />
+    <Stack.Screen name="Promociones" component={Promociones}></Stack.Screen>
   </Stack.Navigator>
 );
 

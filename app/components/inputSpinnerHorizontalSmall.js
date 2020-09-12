@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import colors from "../config/colors";
 
-function InputSpinnerHorizontal({ color = "blue" }) {
+function InputSpinnerHorizontal({ color = "blue", onPress }) {
   const [quantity, setquantity] = useState(0);
   return (
     <View>
@@ -27,6 +27,7 @@ function InputSpinnerHorizontal({ color = "blue" }) {
                 fontSize: 35,
                 fontWeight: "bold",
                 color: "white",
+                position: "absolute",
               }}
             >
               -
@@ -39,6 +40,7 @@ function InputSpinnerHorizontal({ color = "blue" }) {
         <TouchableWithoutFeedback
           onPress={() => {
             setquantity(quantity + 1);
+            onPress;
           }}
         >
           <View style={[styles.button, { backgroundColor: colors[color] }]}>
@@ -47,6 +49,7 @@ function InputSpinnerHorizontal({ color = "blue" }) {
                 fontSize: 40,
                 fontWeight: "bold",
                 color: "white",
+                position: "absolute",
               }}
             >
               +
@@ -66,8 +69,8 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   box: {
-    height: 60,
-    width: 200,
+    height: 50,
+    width: "100%",
     flexDirection: "row",
     borderRadius: 50,
     backgroundColor: colors.white,
@@ -75,8 +78,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   numberBox: {
-    width: 45,
-    height: 40,
+    width: 35,
+    height: 30,
     borderRadius: 5,
     backgroundColor: colors.lightGray,
     margin: 2,
@@ -84,11 +87,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   button: {
-    width: 50,
-    height: 50,
+    width: 40,
+    height: 40,
     borderRadius: 50,
     backgroundColor: colors.lightGreen,
-    justifyContent: "center",
     alignItems: "center",
+    justifyContent: "center",
   },
 });

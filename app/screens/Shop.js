@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useHeaderHeight } from "@react-navigation/stack";
-import { LinearGradient } from "expo-linear-gradient";
 import colors from "../config/colors";
 import {
   StyleSheet,
@@ -11,7 +10,9 @@ import {
   Image,
   ImageBackground,
 } from "react-native";
+import productosApi from "../api/productos";
 import Screen from "../components/Screen";
+import ActivityIndicator from "../components/ActivityIndicator";
 import AppTextInput from "../components/AppTextInput";
 import Categorias from "../components/categorias";
 import ProductShop from "../components/ProductShop";
@@ -19,72 +20,26 @@ import Animated from "react-native-reanimated";
 import Street from "../assets/street.jpg";
 import Promociones from "../components/promociones";
 import LottieView from "lottie-react-native";
-
-const PRODUCTS = [
-  {
-    id: 1,
-  },
-  {
-    id: 2,
-  },
-  {
-    id: 3,
-  },
-  {
-    id: 4,
-  },
-  {
-    id: 5,
-  },
-  {
-    id: 6,
-  },
-  {
-    id: 7,
-  },
-  {
-    id: 8,
-  },
-  {
-    id: 9,
-  },
-  {
-    id: 10,
-  },
-  {
-    id: 11,
-  },
-  {
-    id: 12,
-  },
-  {
-    id: 13,
-  },
-  {
-    id: 14,
-  },
-  {
-    id: 15,
-  },
-  {
-    id: 16,
-  },
-  {
-    id: 17,
-  },
-  {
-    id: 18,
-  },
-  {
-    id: 19,
-  },
-  {
-    id: 20,
-  },
-];
+import { ScreenStackHeaderRightView } from "react-native-screens";
 
 function Shop({ route }) {
   useRoute();
+
+  const [productos, setProductos] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [totalCarrito, setTotalCarrito] = useState(0);
+
+  const loadProductos = async () => {
+    setLoading(true);
+    const response = await productosApi.getProductos();
+    setProductos(response);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    loadProductos();
+  }, []);
+
   const navigation = useNavigation();
   const scrollY = new Animated.Value(0);
   const startHeaderHeight = 175 + useHeaderHeight();
@@ -111,6 +66,7 @@ function Shop({ route }) {
   // });
   return (
     <Screen style={styles.container}>
+      <ActivityIndicator visible={loading}></ActivityIndicator>
       <Animated.View
         style={{
           flex: 1,
@@ -205,6 +161,10 @@ function Shop({ route }) {
           backgroundColor: "white",
           transform: [{ translateY: flatListY }],
         }}
+        contentContainerStyle={{
+          justifyContent: "center",
+          alignContent: "center",
+        }}
       >
         <FlatList
           style={{
@@ -213,11 +173,25 @@ function Shop({ route }) {
           }}
           numColumns={2} // set number of columns
           columnWrapperStyle={styles.row} // space them out evenly
-          data={PRODUCTS}
-          keyExtractor={(product) => product.id.toString()}
+          data={productos.data}
+          keyExtractor={(producto) => producto.id.toString()}
           renderItem={({ item }) => (
             <ProductShop
-              onPress={() => navigation.navigate("Product")}
+              onPress={() => {
+                navigation.navigate("Product", {
+                  producto: item.producto,
+                  referencia: item.referencia,
+                  precio: item.costo_venta,
+                  imageURL: item.imagen,
+                });
+              }}
+              title={item.producto}
+              subtitle={item.referencia}
+              precio={item.costo_venta}
+              imageURL={item.imagen}
+              onPressInputSpinner={() => {
+                setTotalCarrito(totalCarrito + 1);
+              }}
             ></ProductShop>
           )}
         />

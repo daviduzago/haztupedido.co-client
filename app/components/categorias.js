@@ -7,8 +7,10 @@ import {
   TouchableOpacity,
 } from "react-native";
 import categoryApi from "../api/categorias";
+import { LinearGradient } from "expo-linear-gradient";
 import colors from "../config/colors";
 import Carousel from "react-native-snap-carousel";
+import { useNavigation } from "@react-navigation/native";
 
 const SLIDER_WIDTH = Dimensions.get("window").width;
 
@@ -33,15 +35,20 @@ export default class Categorias extends React.Component {
   _renderItem({ item }) {
     return (
       <TouchableOpacity>
-        <View style={styles.container}>
+        <LinearGradient
+          style={styles.container}
+          colors={["#3E0991", "#8b00de"]}
+          start={[0.8, 0.2]}
+          end={[0.1, 0.8]}
+        >
           <Text
             numberOfLines={2}
             adjustsFontSizeToFit={true}
             style={styles.title}
           >
-            {item.descripcion}
+            {item.Categoria}
           </Text>
-        </View>
+        </LinearGradient>
       </TouchableOpacity>
     );
   }
@@ -75,5 +82,11 @@ const styles = StyleSheet.create({
     fontFamily: Platform.OS === "android" ? "Roboto" : "Avenir",
     color: "white",
     textTransform: "capitalize",
+  },
+  gradient: {
+    alignItems: "center",
+    justifyContent: "center",
+    height: 40,
+    width: "100%",
   },
 });

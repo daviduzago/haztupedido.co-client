@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useRoute } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
+import { LinearGradient } from "expo-linear-gradient";
 import {
   StyleSheet,
   Text,
@@ -23,37 +24,20 @@ const PRODUCTS = [
   },
 ];
 
-/* const hasASYNCdata = () => {
-  const value = AsyncStorage.getItem("nombre");
-  if (value == null) {
-    console.log("hasSync");
-    console.log(value);
-    console.log("null");
-    return false;
-  }
-  console.log("hasSync");
-  console.log(value);
-  console.log("true");
-  return true;
-}; */
-
-const hasASYNCdata = () =>
-  AsyncStorage.getItem("nombre").then((value) => {
-    if (value !== null) {
-      console.log("value", value);
-      console.log("true");
-      console.log("---------");
-      return true;
-    } else {
-      console.log("false");
-      return false;
-    }
-  });
-
-const navigateTo = hasASYNCdata() ? "CacheInfo" : "CheckOutForm";
-
 function App({ route }) {
   useRoute();
+  const [name, setName] = useState("");
+
+  const getValue = async () => {
+    try {
+      const item = await AsyncStorage.getItem("nombre");
+      setName(item);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  getValue();
+  const navigateTo = name != null || "" ? "CacheInfo" : "CheckOutForm";
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
@@ -65,13 +49,22 @@ function App({ route }) {
         }}
       >
         <Text style={styles.title}>Tu pedido</Text>
-        <View style={styles.iconContainer}>
+        <LinearGradient
+          style={styles.iconContainer}
+          colors={["#3E0991", "#8b00de"]}
+          start={[0.65, 0.7]}
+          end={[0.15, 0.3]}
+        >
           <Text
-            style={{ fontSize: 80, color: colors.white, fontWeight: "bold" }}
+            style={{
+              fontSize: 80,
+              color: colors.lightGray,
+              fontWeight: "bold",
+            }}
           >
             $
           </Text>
-        </View>
+        </LinearGradient>
       </View>
       <View
         style={{
@@ -110,15 +103,20 @@ function App({ route }) {
       >
         <TouchableWithoutFeedback
           onPress={() => {
-            navigation.navigate("CheckOutForm");
+            navigation.navigate(navigateTo);
           }}
         >
-          <View style={styles.checkoutButton}>
+          <LinearGradient
+            style={styles.checkoutButton}
+            colors={["#3E0991", "#8b00de"]}
+            start={[0.8, 0.2]}
+            end={[0.1, 0.8]}
+          >
             <View style={styles.numberItemsCircle}>
               <Text
                 style={{
                   fontSize: 25,
-                  color: colors.red,
+                  color: colors.logoPurple,
                   fontWeight: "bold",
                 }}
               >
@@ -131,7 +129,7 @@ function App({ route }) {
             <Text style={{ fontSize: 15, color: "white", fontWeight: "bold" }}>
               $100.000
             </Text>
-          </View>
+          </LinearGradient>
         </TouchableWithoutFeedback>
       </View>
       <View
@@ -171,7 +169,7 @@ const styles = StyleSheet.create({
     height: 100,
     width: 100,
     borderRadius: 50,
-    backgroundColor: colors.darkPurple,
+    backgroundColor: colors.logoPurple,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -186,7 +184,7 @@ const styles = StyleSheet.create({
   },
   backShop: {
     fontSize: 15,
-    color: "red",
+    color: colors.red,
     textDecorationLine: "underline",
     marginLeft: 5,
   },
@@ -196,7 +194,7 @@ const styles = StyleSheet.create({
     height: "100%",
     padding: 10,
     backgroundColor: colors.red,
-    borderRadius: 50,
+    borderRadius: 30,
     justifyContent: "space-between",
     alignItems: "center",
   },

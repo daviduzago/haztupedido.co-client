@@ -1,59 +1,50 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, TouchableWithoutFeedback } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableWithoutFeedback,
+  Image,
+} from "react-native";
 import InputSpinner from "react-native-input-spinner";
 import colors from "../config/colors";
+import InputSpinnerHorizontalSmall from "./inputSpinnerHorizontalSmall";
 
 function ProductShop({
-  image,
+  imageURL,
   title = "Title",
   subtitle = "Subtitle",
   precio = "$10.000",
   precioUnidad = "$1.000",
   onPress,
+  onPressInputSpinner,
 }) {
   const [cantidad, setCantidad] = useState(0);
   return (
     <View>
       <View style={styles.container}>
         <TouchableWithoutFeedback onPress={onPress}>
-          <View style={styles.imageContainer}></View>
+          <View style={styles.imageContainer}>
+            {imageURL != null ? (
+              <Image
+                style={{ flex: 1, width: "100%", height: "100%" }}
+                source={{ uri: imageURL }}
+              />
+            ) : null}
+          </View>
         </TouchableWithoutFeedback>
         <Text style={styles.productTitle}>{title}</Text>
         <Text style={styles.productSubtitle}>{subtitle}</Text>
-        <Text style={styles.price}>{precio}</Text>
+        <Text style={styles.price}>${precio}</Text>
         <Text style={styles.priceUnidad}>
           {precioUnidad}
           <Text style={{ fontSize: 8 }}> x Unidad</Text>
         </Text>
-        <InputSpinner
-          style={{
-            marginTop: 20,
-            position: "absolute",
-            justifyContent: "center",
-            bottom: 5,
-            left: 5,
-            width: 140,
-          }}
-          max={100}
-          min={0}
-          step={1}
-          colorMax={colors.lightGray}
-          colorMin={colors.lightGray}
-          textColor={colors.black}
-          value={cantidad}
-          buttonTextColor={colors.black}
-          editable={false}
-          inputStyle={{
-            borderWidth: 2,
-            borderColor: "black",
-            borderRadius: 5,
-            backgroundColor: colors.lightGray,
-          }}
-          background={colors.lightGray}
-          onChange={(num) => {
-            console.log(num);
-          }}
-        />
+        <View style={{ position: "absolute", bottom: 10 }}>
+          <InputSpinnerHorizontalSmall
+            onPress={onPressInputSpinner}
+          ></InputSpinnerHorizontalSmall>
+        </View>
       </View>
     </View>
   );
@@ -77,19 +68,22 @@ const styles = StyleSheet.create({
   imageContainer: {
     width: 100,
     height: 90,
-    backgroundColor: colors.white,
+    backgroundColor: colors.lightPurple,
     marginBottom: 10,
     marginTop: 10,
   },
   productTitle: {
-    fontSize: 15,
+    fontSize: 12,
     fontWeight: "500",
     marginTop: 5,
+    textAlign: "center",
+    textTransform: "capitalize",
   },
   productSubtitle: {
     fontSize: 10,
     fontWeight: "300",
     marginTop: 5,
+    textTransform: "capitalize",
   },
   price: {
     marginTop: 15,

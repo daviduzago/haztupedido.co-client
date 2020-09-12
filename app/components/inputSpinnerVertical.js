@@ -4,7 +4,7 @@ import {
   Text,
   View,
   SafeAreaView,
-  TouchableHighlight,
+  TouchableWithoutFeedback,
 } from "react-native";
 import colors from "../config/colors";
 
@@ -13,7 +13,11 @@ function InputSpinnerVertical({ color = "blue" }) {
   return (
     <View>
       <View style={styles.box}>
-        <TouchableHighlight>
+        <TouchableWithoutFeedback
+          onPress={() => {
+            setquantity(quantity + 1);
+          }}
+        >
           <View style={[styles.button, { backgroundColor: colors[color] }]}>
             <Text
               style={{
@@ -25,21 +29,29 @@ function InputSpinnerVertical({ color = "blue" }) {
               +
             </Text>
           </View>
-        </TouchableHighlight>
+        </TouchableWithoutFeedback>
         <View style={styles.numberBox}>
           <Text style={{ fontWeight: "500", fontSize: 15 }}>{quantity}</Text>
         </View>
-        <View style={[styles.button, { backgroundColor: colors[color] }]}>
-          <Text
-            style={{
-              fontSize: 35,
-              fontWeight: "bold",
-              color: "white",
-            }}
-          >
-            -
-          </Text>
-        </View>
+        <TouchableWithoutFeedback
+          onPress={() => {
+            if (quantity > 0) {
+              setquantity(quantity - 1);
+            }
+          }}
+        >
+          <View style={[styles.button, { backgroundColor: colors[color] }]}>
+            <Text
+              style={{
+                fontSize: 35,
+                fontWeight: "bold",
+                color: "white",
+              }}
+            >
+              -
+            </Text>
+          </View>
+        </TouchableWithoutFeedback>
       </View>
     </View>
   );

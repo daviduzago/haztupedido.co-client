@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  SafeAreaView,
-  TouchableWithoutFeedback,
-} from "react-native";
+import { StyleSheet, Text, View, TouchableWithoutFeedback } from "react-native";
 import colors from "../config/colors";
 import { Feather } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";

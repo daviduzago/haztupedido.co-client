@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import colors from "../config/colors";
+import { LinearGradient } from "expo-linear-gradient";
 
 function AppButton({ title, onPress, styleButton, styleText }) {
   return (
@@ -29,6 +30,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     justifyContent: "center",
     alignItems: "center",
+    marginVertical: 5,
   },
   text: {
     fontSize: 30,

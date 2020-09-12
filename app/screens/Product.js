@@ -1,16 +1,12 @@
 import React from "react";
-import { StyleSheet, Text, View, SafeAreaView } from "react-native";
+import { StyleSheet, Text, View, Image } from "react-native";
 import Screen from "../components/Screen";
 import colors from "../config/colors";
 import InputSpinnerHorizontal from "../components/inputSpinnerHorizontal";
+import { useRoute } from "@react-navigation/native";
 
-function App({
-  image,
-  title = "Title",
-  subtitle = "Subtitle",
-  precio = "10.000",
-  precioUnidad = "1.000",
-}) {
+function Product({ route }) {
+  useRoute();
   return (
     <Screen style={styles.container}>
       <View
@@ -24,13 +20,20 @@ function App({
         }}
       >
         <View style={styles.boxImage}>
-          <View style={styles.imageContainer}></View>
+          <Image
+            style={{
+              flex: 1,
+              width: "100%",
+              height: "100%",
+            }}
+            source={{ uri: route.params.imageURL }}
+          />
         </View>
-        <Text style={styles.productTitle}>{title}</Text>
-        <Text style={styles.productSubtitle}>{subtitle}</Text>
-        <Text style={styles.precio}>{precio}</Text>
+        <Text style={styles.productTitle}>{route.params.producto}</Text>
+        <Text style={styles.productSubtitle}>{route.params.referencia}</Text>
+        <Text style={styles.precio}>${route.params.precio}</Text>
         <Text style={styles.precioUnidad}>
-          {precioUnidad}
+          ${route.params.precio}
           <Text style={{ fontSize: 8 }}> x Unidad</Text>
         </Text>
         <InputSpinnerHorizontal></InputSpinnerHorizontal>
@@ -39,7 +42,7 @@ function App({
   );
 }
 
-export default App;
+export default Product;
 
 const styles = StyleSheet.create({
   container: {
@@ -49,14 +52,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   boxImage: {
-    padding: 10,
     width: 200,
     height: 200,
-    backgroundColor: "grey",
     borderRadius: 15,
     marginBottom: 10,
-    justifyContent: "space-between",
-    alignItems: "center",
+    overflow: "hidden",
   },
   productImage: {
     height: 110,
@@ -65,8 +65,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   productTitle: {
-    fontSize: 40,
+    fontSize: 20,
     fontWeight: "700",
+    textAlign: "center",
+    textTransform: "capitalize",
   },
   productSubtitle: {
     fontSize: 15,
@@ -74,7 +76,7 @@ const styles = StyleSheet.create({
     marginLeft: 2,
   },
   precio: {
-    fontSize: 23,
+    fontSize: 30,
     fontWeight: "700",
   },
   precioUnidad: {
