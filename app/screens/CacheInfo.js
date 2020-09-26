@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import AsyncStorage from "@react-native-community/async-storage";
 import { useNavigation } from "@react-navigation/native";
-import { StyleSheet, Text, View, SafeAreaView } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import colors from "../config/colors";
 import AppButton from "../components/AppButton";
 import AppButtonGradient from "../components/AppButtonGradient";
@@ -15,6 +15,7 @@ function CacheInfo() {
   const [direccionDescrip, setDireccionDescrip] = useState("");
   const [email, setEmail] = useState("");
   const [numeroCelular, setNumeroCelular] = useState("");
+  const [location, setLocation] = useState("");
 
   const getNombre = async () => {
     try {
@@ -64,12 +65,21 @@ function CacheInfo() {
       console.log(e);
     }
   };
+  const getLocation = async () => {
+    try {
+      const item = await AsyncStorage.getItem("location");
+      setLocation(item);
+    } catch (e) {
+      console.log(e);
+    }
+  };
   getNombre();
   getApellido();
   getDireccion();
   getDireccionDescrip();
   getEmail();
   getNumeroCelular();
+  getLocation();
 
   return (
     <View style={styles.container}>
@@ -104,7 +114,10 @@ function CacheInfo() {
           <Text style={styles.text}>{numeroCelular}</Text>
         </View>
       </View>
-      <AppButtonGradient title={"Si"} />
+      <AppButtonGradient
+        onPress={() => navigation.navigate("CheckOut")}
+        title={"Si"}
+      />
       <AppButton
         onPress={() => navigation.navigate("CheckOutForm")}
         styleButton={{

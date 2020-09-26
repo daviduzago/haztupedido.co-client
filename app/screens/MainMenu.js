@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, FlatList, Image } from "react-native";
+import { StyleSheet, FlatList, Image, Dimensions, View } from "react-native";
 import Screen from "../components/Screen";
 import ModuleCard from "../components/moduleCard";
 import colors from "../config/colors";
@@ -30,6 +30,8 @@ const MODULES = [
   },
 ];
 
+const WINDOW_HEIGHT = Dimensions.get("window").height;
+
 function MainMenu() {
   const navigation = useNavigation();
   return (
@@ -50,11 +52,9 @@ function MainMenu() {
       ></FlatList>
       <Image
         style={{
-          position: "absolute",
-          bottom: -200,
-          right: 0,
           width: "100%",
-          resizeMode: "contain",
+          height: 140,
+          resizeMode: "cover",
         }}
         source={City}
       ></Image>
@@ -67,7 +67,7 @@ export default MainMenu;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.lightGray,
+    justifyContent: "flex-end",
   },
   welcomeText: {
     width: "100%",

@@ -7,6 +7,10 @@ import { useRoute } from "@react-navigation/native";
 
 function Product({ route }) {
   useRoute();
+  const costoxunidad = Math.round(
+    route.params.precio / route.params.unidadMedida
+  );
+
   return (
     <Screen style={styles.container}>
       <View
@@ -30,11 +34,13 @@ function Product({ route }) {
           />
         </View>
         <Text style={styles.productTitle}>{route.params.producto}</Text>
-        <Text style={styles.productSubtitle}>{route.params.referencia}</Text>
+        <Text style={styles.productSubtitle}>
+          Cod. {route.params.referencia}
+        </Text>
         <Text style={styles.precio}>${route.params.precio}</Text>
         <Text style={styles.precioUnidad}>
-          ${route.params.precio}
-          <Text style={{ fontSize: 8 }}> x Unidad</Text>
+          ${costoxunidad}
+          <Text style={{ fontSize: 8 }}> x {route.params.tipoUnidad}</Text>
         </Text>
         <InputSpinnerHorizontal></InputSpinnerHorizontal>
       </View>

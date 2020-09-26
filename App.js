@@ -1,18 +1,11 @@
-import React, { Component } from "react";
+import React, { Component, useContext } from "react";
 import { SplashScreen } from "expo";
-import {
-  StyleSheet,
-  View,
-  Image,
-  Text,
-  TouchableWithoutFeedback,
-} from "react-native";
+import { StyleSheet, View, Image, Text } from "react-native";
 import {
   createStackNavigator,
   TransitionPresets,
 } from "@react-navigation/stack";
-import { NavigationContainer } from "@react-navigation/native";
-import { Entypo } from "@expo/vector-icons";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import colors from "./app/config/colors";
 import Carrito from "./app/components/carritoIcon";
 import Cart from "./app/screens/Cart";
@@ -24,23 +17,16 @@ import Screen from "./app/components/Screen";
 import Shop from "./app/screens/Shop";
 import Product from "./app/screens/Product";
 import Promociones from "./app/screens/Promociones";
-import ModalTransition from "@react-navigation/stack";
 import GoBackModal from "./app/components/goBackModal";
+import { GlobalState } from "./app/Context/GlobalState";
+import { Context } from "./app/Context/GlobalState";
+import CheckOut from "./app/screens/CheckOut";
+import PagoEfectivo from "./app/screens/pagoEfectivo";
+import PedidoRealizado from "./app/screens/PedidoRealizado";
+import DetallesPedido from "./app/screens/DetallesPedido";
 
 SplashScreen.preventAutoHide();
 setTimeout(SplashScreen.hide, 3000);
-
-const config = {
-  animation: "spring",
-  config: {
-    stiffness: 1000,
-    damping: 500,
-    mass: 3,
-    overshootClamping: true,
-    restDisplacementThreshold: 0.01,
-    restSpeedThreshold: 0.01,
-  },
-};
 
 const Stack = createStackNavigator();
 const StackNavigator = () => (
@@ -104,6 +90,35 @@ const StackNavigator = () => (
       options={{ headerTitle: "Su información", headerTitleAlign: "center" }}
     />
     <Stack.Screen name="Promociones" component={Promociones}></Stack.Screen>
+    <Stack.Screen
+      name="CheckOut"
+      component={CheckOut}
+      options={{ headerTitle: "" }}
+    ></Stack.Screen>
+    <Stack.Screen
+      name="PagoEfectivo"
+      component={PagoEfectivo}
+      options={{ headerTitle: "" }}
+    ></Stack.Screen>
+    <Stack.Screen
+      name="PedidoRealizado"
+      component={PedidoRealizado}
+      options={{ headerShown: false }}
+    ></Stack.Screen>
+    <Stack.Screen
+      name="DetallesPedido"
+      component={DetallesPedido}
+      options={{
+        headerLeft: () => (
+          <View>
+            <Text style={{ fontSize: 18, fontWeight: "bold", paddingLeft: 5 }}>
+              Volver Menu
+            </Text>
+          </View>
+        ),
+        headerTitle: "",
+      }}
+    ></Stack.Screen>
   </Stack.Navigator>
 );
 

@@ -16,10 +16,14 @@ function ProductShop({
   subtitle = "Subtitle",
   precio = "$10.000",
   precioUnidad = "$1.000",
+  unidadMedida,
+  tipoUnidad,
   onPress,
   onPressInputSpinner,
 }) {
   const [cantidad, setCantidad] = useState(0);
+  const costoxunidad = Math.round(precio / unidadMedida);
+
   return (
     <View>
       <View style={styles.container}>
@@ -34,11 +38,11 @@ function ProductShop({
           </View>
         </TouchableWithoutFeedback>
         <Text style={styles.productTitle}>{title}</Text>
-        <Text style={styles.productSubtitle}>{subtitle}</Text>
+        <Text style={styles.productSubtitle}>Cod. {subtitle}</Text>
         <Text style={styles.price}>${precio}</Text>
         <Text style={styles.priceUnidad}>
-          {precioUnidad}
-          <Text style={{ fontSize: 8 }}> x Unidad</Text>
+          ${costoxunidad}
+          <Text style={{ fontSize: 8 }}> x {tipoUnidad}</Text>
         </Text>
         <View style={{ position: "absolute", bottom: 10 }}>
           <InputSpinnerHorizontalSmall

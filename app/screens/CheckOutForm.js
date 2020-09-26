@@ -7,7 +7,6 @@ import {
   KeyboardAvoidingView,
   Keyboard,
 } from "react-native";
-import LottieView from "lottie-react-native";
 import * as Yup from "yup";
 import YupLocaleES from "../config/YupLocaleES";
 import AsyncStorage from "@react-native-community/async-storage";
@@ -15,6 +14,8 @@ import userInfoApi from "../api/userInfo";
 import { AppForm, AppFormField, SubmitButton } from "../components/forms";
 import ActivityIndicator from "../components/ActivityIndicator";
 import colors from "../config/colors";
+import useLocation from "../hooks/useLocation";
+import { useNavigation, useNavigationState } from "@react-navigation/native";
 
 //Errores en español
 YupLocaleES;
@@ -35,16 +36,17 @@ const validationSchema = Yup.object().shape({
 
 function CheckOutForm() {
   const [loading, setLoading] = useState(false);
+  const location = useLocation();
+  const navigation = useNavigation();
+
   const handleSubmit = async (user) => {
     setLoading(true);
-
     const result = await userInfoApi.addUserInfo(user);
     if (!result.ok) {
       setLoading(false);
       return alert("No se puedo enviar la informacion");
     }
     setLoading(false);
-    alert("Se ha guardado la informacion");
     const storeData = async (field, data) => {
       try {
         await AsyncStorage.setItem(field, data);
@@ -59,6 +61,9 @@ function CheckOutForm() {
     storeData("direccionDescrip", user.direccionDescrip);
     storeData("email", user.email);
     storeData("numeroCelular", user.numeroCelular);
+    storeData("location", JSON.stringify(location));
+    const navigate = () => navigation.navigate("CheckOut");
+    navigate();
   };
 
   //KAV KeyboardAvoidingView
@@ -142,7 +147,7 @@ function CheckOutForm() {
             ></AppFormField>
             <Text style={styles.inputTitle}>Correo electrónico</Text>
             <AppFormField
-              max={20}
+              maxLength={20}
               autoCapitalize="none"
               autoCorrect={false}
               keyboardType="email-address"

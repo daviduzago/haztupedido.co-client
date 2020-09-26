@@ -11,6 +11,8 @@ export const addUserInfo = (user) => {
   data.append("numero_celular", user.numeroCelular);
   data.append("correo", user.email);
 
+  //if (user.location) data.append("location", JSON.stringify(user.location));
+
   return client.post(endpoint, data);
 };
 
