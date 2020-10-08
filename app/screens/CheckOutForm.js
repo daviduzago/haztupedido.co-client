@@ -15,7 +15,7 @@ import { AppForm, AppFormField, SubmitButton } from "../components/forms";
 import ActivityIndicator from "../components/ActivityIndicator";
 import colors from "../config/colors";
 import useLocation from "../hooks/useLocation";
-import { useNavigation, useNavigationState } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 
 //Errores en español
 YupLocaleES;
@@ -218,6 +218,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 10,
     marginTop: 5,
+    marginHorizontal: 2,
     fontWeight: "bold",
   },
   inputTitle: {

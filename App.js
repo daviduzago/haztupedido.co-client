@@ -1,11 +1,11 @@
-import React, { Component, useContext } from "react";
+import React, { Component } from "react";
 import { SplashScreen } from "expo";
 import { StyleSheet, View, Image, Text } from "react-native";
 import {
   createStackNavigator,
   TransitionPresets,
 } from "@react-navigation/stack";
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
 import colors from "./app/config/colors";
 import Carrito from "./app/components/carritoIcon";
 import Cart from "./app/screens/Cart";
@@ -14,7 +14,7 @@ import CacheInfo from "./app/screens/CacheInfo";
 import HeaderMainMenu from "./app/assets/headerMainMenu_welcome.png";
 import MainMenu from "./app/screens/MainMenu";
 import Screen from "./app/components/Screen";
-import Shop from "./app/screens/Shop";
+import Shop from "./app/screens/Shop3";
 import Product from "./app/screens/Product";
 import Promociones from "./app/screens/Promociones";
 import GoBackModal from "./app/components/goBackModal";
@@ -24,6 +24,8 @@ import CheckOut from "./app/screens/CheckOut";
 import PagoEfectivo from "./app/screens/pagoEfectivo";
 import PedidoRealizado from "./app/screens/PedidoRealizado";
 import DetallesPedido from "./app/screens/DetallesPedido";
+import HistoryIcon from "./app/components/historyIcon";
+import HistorialPedidos from "./app/screens/historialPedidos";
 
 SplashScreen.preventAutoHide();
 setTimeout(SplashScreen.hide, 3000);
@@ -48,6 +50,9 @@ const StackNavigator = () => (
             ></Image>
           </View>
         ),
+        headerRight: () => (
+          <HistoryIcon color={colors.darkPurple}></HistoryIcon>
+        ),
         headerTitleAlign: "center",
         headerTitle: "",
       }}
@@ -56,9 +61,10 @@ const StackNavigator = () => (
       name="Shop"
       component={Shop}
       options={{
-        headerTitle: "",
+        headerTitle: "Tu Mercado",
         headerRight: () => (
-          <View style={{ marginRight: 7, marginTop: 3 }}>
+          <View style={{ marginRight: 7, marginTop: 3, flexDirection: "row" }}>
+            <HistoryIcon></HistoryIcon>
             <Carrito cantidadItems={1} backgroundColor={colors.white}></Carrito>
           </View>
         ),
@@ -109,14 +115,15 @@ const StackNavigator = () => (
       name="DetallesPedido"
       component={DetallesPedido}
       options={{
-        headerLeft: () => (
-          <View>
-            <Text style={{ fontSize: 18, fontWeight: "bold", paddingLeft: 5 }}>
-              Volver Menu
-            </Text>
-          </View>
-        ),
-        headerTitle: "",
+        headerLeft: () => <></>,
+        headerTitle: "Detalles del pedido",
+      }}
+    ></Stack.Screen>
+    <Stack.Screen
+      name="HistorialPedidos"
+      component={HistorialPedidos}
+      options={{
+        headerTitle: "Historial Pedidos",
       }}
     ></Stack.Screen>
   </Stack.Navigator>

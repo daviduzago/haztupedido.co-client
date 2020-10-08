@@ -8,7 +8,7 @@ import { useNavigation } from "@react-navigation/native";
 
 const SLIDER_WIDTH = Dimensions.get("window").width;
 
-function Categorias2() {
+function Categorias2({ onPress }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [categorias, setCategorias] = useState([]);
 
@@ -26,7 +26,7 @@ function Categorias2() {
   return (
     <Carousel
       layout={"default"}
-      ref={(ref) => (this.carousel = ref)}
+      ref={(ref) => (carousel = ref)}
       data={categorias}
       sliderWidth={SLIDER_WIDTH}
       itemWidth={150}
@@ -56,7 +56,7 @@ function Categorias2() {
 export default Categorias2;
 
 const styles = StyleSheet.create({
-  container: {
+  containerCategorias: {
     height: 40,
     borderRadius: 10,
     backgroundColor: colors.darkPurple,
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 2,
   },
-  title: {
+  titleCategorias: {
     fontSize: 22,
     textAlign: "center",
     fontFamily: Platform.OS === "android" ? "Roboto" : "Avenir",

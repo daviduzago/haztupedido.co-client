@@ -1,55 +1,42 @@
 import React, { Component } from "react";
-import { StyleSheet, FlatList, Image, Dimensions, View } from "react-native";
+import { StyleSheet, Image, View, Alert } from "react-native";
 import Screen from "../components/Screen";
 import ModuleCard from "../components/moduleCard";
 import colors from "../config/colors";
 import { useNavigation } from "@react-navigation/native";
 import City from "../assets/city_background.png";
 
-const MODULES = [
-  {
-    id: 1,
-    title: "Tu Mercado",
-    txtColor: "white",
-    bgColor: "darkPurple",
-    image: require("../assets/moduleTuMercado.png"),
-  },
-  {
-    id: 2,
-    title: "Tu Restaurante",
-    txtColor: "white",
-    bgColor: "wine",
-    image: require("../assets/moduleTuRestaurante.png"),
-  },
-  {
-    id: 3,
-    title: "Tu Diligencia",
-    txtColor: "white",
-    bgColor: "gradientDarkPurple",
-    image: require("../assets/moduleTuDiligencia.png"),
-  },
-];
-
-const WINDOW_HEIGHT = Dimensions.get("window").height;
-
 function MainMenu() {
   const navigation = useNavigation();
   return (
     <Screen style={styles.container}>
-      <FlatList
-        scrollEnabled={false}
-        style={{ paddingTop: 20, zIndex: 1000 }}
-        data={MODULES}
-        keyExtractor={(module) => module.id.toString()}
-        renderItem={({ item }) => (
-          <ModuleCard
-            image={item.image}
-            onPress={() => {
-              navigation.navigate("Shop", { title: item.title });
-            }}
-          ></ModuleCard>
-        )}
-      ></FlatList>
+      <View style={{ flex: 1 }}>
+        <ModuleCard
+          image={require("../assets/moduleTuMercado.png")}
+          onPress={() => {
+            navigation.navigate("Shop");
+          }}
+        ></ModuleCard>
+        <ModuleCard
+          onPress={() =>
+            Alert.alert(
+              "Ups, aun no esta listo :(",
+              "Estamos trabajando fuertemente para pronto tener este modulo listo para ti. "
+            )
+          }
+          image={require("../assets/moduleTuRestaurante_construccion.png")}
+        ></ModuleCard>
+        <ModuleCard
+          onPress={() =>
+            Alert.alert(
+              "Ups, aun no esta listo :(",
+              "Estamos trabajando fuertemente para pronto tener este modulo listo para ti. "
+            )
+          }
+          image={require("../assets/moduleTuDiligencia_construccion.png")}
+        ></ModuleCard>
+      </View>
+
       <Image
         style={{
           width: "100%",

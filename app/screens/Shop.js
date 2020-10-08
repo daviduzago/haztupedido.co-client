@@ -21,7 +21,6 @@ import Animated from "react-native-reanimated";
 import Street from "../assets/street.jpg";
 import Promociones from "../components/promociones";
 import LottieView from "lottie-react-native";
-import { ScreenStackHeaderRightView } from "react-native-screens";
 
 function Shop({ route }) {
   useRoute();
@@ -143,6 +142,8 @@ function Shop({ route }) {
     },
   ];
 
+  //const [DATA2, setDATA] = useState(DATA);
+
   const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [totalCarrito, setTotalCarrito] = useState(0);
@@ -153,6 +154,16 @@ function Shop({ route }) {
     setProductos(response);
     setLoading(false);
   };
+
+  /* const search = (text) => {
+    const newData = DATA2.filter((item) => {
+      const itemData = "" + item.data.producto.toUpperCase();
+      const textData = text.toUpperCase();
+
+      return itemData.indexOf(textData) > -1;
+    });
+    setDATA(newData);
+  }; */
 
   useEffect(() => {
     //loadProductos();
@@ -169,19 +180,19 @@ function Shop({ route }) {
     outputRange: [0, -startHeaderHeight],
     extrapolate: "clamp",
   });
+
   const searchCategoryY = Animated.interpolate(scrollY, {
     inputRange: [0, startSearchCategory],
     outputRange: [0, -startSearchCategory],
     extrapolate: "clamp",
   });
+
   const flatListY = Animated.interpolate(scrollY, {
     inputRange: [0, startFlatListHeight],
     outputRange: [0, -useHeaderHeight() - 240],
     extrapolate: "clamp",
   });
-  // const promocionY = Animated.interpolate(scrollY, {
-  //   inputRange: [0, startHeaderHeight],
-  // });
+
   return (
     <Screen style={styles.container}>
       <ActivityIndicator visible={loading}></ActivityIndicator>
@@ -228,7 +239,7 @@ function Shop({ route }) {
               />
             </View>
 
-            <Text style={styles.shopTitle}>{route.params.title}</Text>
+            <Text style={styles.shopTitle}>Tu Mercado</Text>
             <Text style={styles.shopSubtitle}>Horario de atención</Text>
           </Animated.View>
 
@@ -245,6 +256,7 @@ function Shop({ route }) {
             }}
           >
             <AppTextInput
+              //onChange={(text) => search(text)}
               icon={"shopping-search"}
               placeholder={"Buscar productos o categorias"}
               size={22}

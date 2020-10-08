@@ -31,13 +31,14 @@ export default AppTextInput;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.lightGray,
-    borderRadius: 20,
+    borderRadius: 10,
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "center",
     width: "90%",
     height: 50,
-    padding: 15,
+    paddingHorizontal: 15,
+    paddingVertical: 5,
     marginLeft: 20,
     marginRight: 10,
     marginBottom: 10,

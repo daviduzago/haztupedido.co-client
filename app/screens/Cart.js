@@ -24,7 +24,7 @@ const PRODUCTS = [
   },
 ];
 
-function App({ route }) {
+function App() {
   useRoute();
   const [name, setName] = useState("");
 

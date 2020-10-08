@@ -10,7 +10,6 @@ function Carrito({
   color = "black",
   backgroundColor,
   onPress,
-  route,
 }) {
   const navigation = useNavigation();
   useRoute();

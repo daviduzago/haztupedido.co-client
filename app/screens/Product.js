@@ -40,7 +40,7 @@ function Product({ route }) {
         <Text style={styles.precio}>${route.params.precio}</Text>
         <Text style={styles.precioUnidad}>
           ${costoxunidad}
-          <Text style={{ fontSize: 8 }}> x {route.params.tipoUnidad}</Text>
+          <Text style={{ fontSize: 13 }}> x {route.params.tipoUnidad}.</Text>
         </Text>
         <InputSpinnerHorizontal></InputSpinnerHorizontal>
       </View>
