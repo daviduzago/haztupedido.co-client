@@ -6,48 +6,45 @@ import {
   TouchableWithoutFeedback,
   Image,
 } from "react-native";
-import InputSpinner from "react-native-input-spinner";
 import colors from "../config/colors";
 import InputSpinnerHorizontalSmall from "./inputSpinnerHorizontalSmall";
 
 function ProductShop({
-  imageURL,
-  title = "Title",
-  subtitle = "Subtitle",
-  precio = "$10.000",
-  precioUnidad = "$1.000",
-  unidadMedida,
-  tipoUnidad,
-  onPress,
-  onPressInputSpinner,
+  item,
+  onPressProducto,
+  onPressAgregar,
+  onPressEliminar,
+  carrito,
 }) {
   const [cantidad, setCantidad] = useState(0);
-  const costoxunidad = Math.round(precio / unidadMedida);
+  const costoxunidad = Math.round(item.costo_venta / item.unidad_medida);
 
   return (
     <View>
       <View style={styles.container}>
-        <TouchableWithoutFeedback onPress={onPress}>
+        <TouchableWithoutFeedback onPress={onPressProducto}>
           <View style={styles.imageContainer}>
-            {imageURL != null ? (
+            {item.imagen != null ? (
               <Image
                 style={{ flex: 1, width: "100%", height: "100%" }}
-                source={{ uri: imageURL }}
+                source={{ uri: item.imagen }}
               />
             ) : null}
           </View>
         </TouchableWithoutFeedback>
-        <Text style={styles.productTitle}>{title}</Text>
-        <Text style={styles.productSubtitle}>Cod. {subtitle}</Text>
-        <Text style={styles.price}>${precio}</Text>
+        <Text style={styles.productTitle}>{item.producto}</Text>
+        <Text style={styles.productSubtitle}>Cod. {item.referencia}</Text>
+        <Text style={styles.price}>${item.costo_venta}</Text>
         <Text style={styles.priceUnidad}>
           ${costoxunidad}
-          <Text style={{ fontSize: 8 }}> x {tipoUnidad}</Text>
+          <Text style={{ fontSize: 8 }}> x {item.tipo_unidad}</Text>
         </Text>
         <View style={{ position: "absolute", bottom: 10 }}>
           <InputSpinnerHorizontalSmall
-            onPress={onPressInputSpinner}
-          ></InputSpinnerHorizontalSmall>
+            onPressAgregar={onPressAgregar}
+            onPressEliminar={onPressEliminar}
+            quantity={carrito.filter((c) => c.id === item.id).length}
+          />
         </View>
       </View>
     </View>

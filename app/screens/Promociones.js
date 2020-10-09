@@ -81,7 +81,8 @@ function Promociones() {
 
   return (
     <View style={styles.container}>
-      <ActivityIndicator visible={loading}></ActivityIndicator>
+      {/*       <ActivityIndicator visible={loading}></ActivityIndicator>
+       */}
       {!loading && (
         <>
           <View
@@ -93,7 +94,7 @@ function Promociones() {
               marginLeft: 40,
             }}
           >
-            <LottieView
+            {/* <LottieView
               style={{
                 width: 100,
                 height: 100,
@@ -104,7 +105,7 @@ function Promociones() {
               source={require("../assets/lottie/discount.json")}
               autoPlay
               loop
-            />
+            /> */}
             <Text style={styles.title}>Promociones</Text>
           </View>
           <View>

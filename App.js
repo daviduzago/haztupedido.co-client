@@ -132,11 +132,13 @@ const StackNavigator = () => (
 class App extends Component {
   render() {
     return (
-      <Screen style={styles.container}>
-        <NavigationContainer>
-          <StackNavigator />
-        </NavigationContainer>
-      </Screen>
+      <GlobalState>
+        <Screen style={styles.container}>
+          <NavigationContainer>
+            <StackNavigator />
+          </NavigationContainer>
+        </Screen>
+      </GlobalState>
     );
   }
 }

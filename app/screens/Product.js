@@ -42,7 +42,7 @@ function Product({ route }) {
           ${costoxunidad}
           <Text style={{ fontSize: 13 }}> x {route.params.tipoUnidad}.</Text>
         </Text>
-        <InputSpinnerHorizontal></InputSpinnerHorizontal>
+        <InputSpinnerHorizontal />
       </View>
     </Screen>
   );
