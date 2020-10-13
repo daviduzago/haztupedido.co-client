@@ -1,26 +1,18 @@
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  SafeAreaView,
-  TouchableHighlight,
-  TouchableWithoutFeedback,
-} from "react-native";
+import { StyleSheet, Text, View, TouchableWithoutFeedback } from "react-native";
 import colors from "../config/colors";
+import Context from "../Context/context";
 
-function InputSpinnerHorizontal({ color = "blue", onPress }) {
-  const [quantity, setquantity] = useState(0);
+function InputSpinnerHorizontal({
+  color = "blue",
+  onPressAgregar,
+  onPressEliminar,
+  quantity,
+}) {
   return (
     <View>
       <View style={styles.box}>
-        <TouchableWithoutFeedback
-          onPress={() => {
-            if (quantity > 0) {
-              setquantity(quantity - 1);
-            }
-          }}
-        >
+        <TouchableWithoutFeedback onPress={onPressEliminar}>
           <View style={[styles.button, { backgroundColor: colors[color] }]}>
             <Text
               style={{
@@ -37,12 +29,7 @@ function InputSpinnerHorizontal({ color = "blue", onPress }) {
         <View style={styles.numberBox}>
           <Text style={{ fontWeight: "500", fontSize: 15 }}>{quantity}</Text>
         </View>
-        <TouchableWithoutFeedback
-          onPress={() => {
-            setquantity(quantity + 1);
-            onPress;
-          }}
-        >
+        <TouchableWithoutFeedback onPress={onPressAgregar}>
           <View style={[styles.button, { backgroundColor: colors[color] }]}>
             <Text
               style={{

@@ -20,7 +20,7 @@ function App() {
           justifyContent: "flex-end",
         }}
       >
-        <LottieView
+        {/* <LottieView
           style={{
             width: 300,
             height: 300,
@@ -31,7 +31,7 @@ function App() {
           source={require("../assets/lottie/done.json")}
           autoPlay
           loop={false}
-        />
+        /> */}
       </View>
       <View
         style={{

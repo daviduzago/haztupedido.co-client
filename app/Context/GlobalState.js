@@ -1,11 +1,5 @@
-import React, { useState, createContext } from "react";
-//import Context from "./context";
-
-export const Context = createContext({
-  carrito: [],
-  agregarProducto: (product) => {},
-  eliminarProducto: (productId) => {},
-});
+import React, { useState } from "react";
+import Context from "./context";
 
 export const GlobalState = ({ children }) => {
   const [carrito, setCarrito] = useState([]);
@@ -15,15 +9,25 @@ export const GlobalState = ({ children }) => {
     setCarrito(item);
   };
 
-  const eliminarProducto = (productId) => {
-    setCarrito(carrito.splice(productId, 1));
+  const eliminarProducto = (product) => {
+    let sw = false;
+    const newCarrito = carrito.filter((c) => {
+      const isProduct = c.id === product.id;
+      if (!sw && isProduct) {
+        sw = true;
+        return false;
+      }
+      return true;
+    });
+    setCarrito(newCarrito);
   };
+
   return (
     <Context.Provider
       value={{
         carrito: carrito,
-        agregarProducto: agregarProducto(),
-        eliminarProducto: eliminarProducto(),
+        agregarProducto: agregarProducto,
+        eliminarProducto: eliminarProducto,
       }}
     >
       {children}

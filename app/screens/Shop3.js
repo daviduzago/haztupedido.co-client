@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import categoryApi from "../api/categorias";
 import { LinearGradient } from "expo-linear-gradient";
+import categoryApi from "../api/categorias";
 import colors from "../config/colors";
 import {
   StyleSheet,
@@ -20,6 +20,7 @@ import AppTextInput from "../components/AppTextInput";
 import Carousel from "react-native-snap-carousel";
 import ProductShop from "../components/ProductShop";
 import Promociones from "../components/promociones-function";
+import Context from "../Context/context";
 
 const SLIDER_WIDTH = Dimensions.get("window").width;
 
@@ -150,15 +151,6 @@ function Shop() {
   const [categorias, setCategorias] = useState([]);
   const [DATA2, setDATA2] = useState(DATA);
 
-  const scrollToSection = (sectionID) => {
-    this.sectionListRef.scrollToLocation({
-      animated: true,
-      sectionIndex: sectionID,
-      itemIndex: 0,
-      viewPosition: 0,
-    });
-  };
-
   const loadProductos = async () => {
     setLoading(true);
     const response = await productosApi.getProductos();
@@ -189,122 +181,121 @@ function Shop() {
   }, []);
 
   return (
-    <Screen style={styles.container}>
-      <ActivityIndicator visible={loading}></ActivityIndicator>
-
-      {!loading && (
-        <>
-          <SectionList
-            ListHeaderComponent={() => (
-              <View style={{ flex: 1, flexDirection: "column" }}>
-                <View
-                  style={{
-                    flex: 1,
-                    flexDirection: "row",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <Image
+    <Context.Consumer>
+      {({ agregarProducto, eliminarProducto, carrito }) => (
+        <Screen style={styles.container}>
+          {/*       <ActivityIndicator visible={loading}></ActivityIndicator>
+           */}
+          {!loading && (
+            <>
+              <SectionList
+                ListHeaderComponent={() => (
+                  <View style={{ flex: 1, flexDirection: "column" }}>
+                    <View
+                      style={{
+                        flex: 1,
+                        flexDirection: "row",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Image
+                        style={{
+                          width: 50,
+                          height: 50,
+                          resizeMode: "cover",
+                          marginLeft: 10,
+                        }}
+                        source={require("../assets/groceriesBag.png")}
+                      />
+                      <AppTextInput
+                        icon={"shopping-search"}
+                        placeholder={"Buscar productos o categorias"}
+                        size={18}
+                        styleContainer={{
+                          width: "80%",
+                          marginLeft: 8,
+                          height: 40,
+                          backgroundColor: "white",
+                        }}
+                        styleTextInput={{ fontSize: 15 }}
+                      />
+                    </View>
+                    <View style={{ height: 50 }}>
+                      <Carousel
+                        layout={"default"}
+                        ref={(ref) => (carousel = ref)}
+                        data={categorias}
+                        sliderWidth={SLIDER_WIDTH}
+                        itemWidth={150}
+                        renderItem={({ item }) => (
+                          <TouchableOpacity>
+                            <LinearGradient
+                              style={styles.containerCategorias}
+                              colors={["#3E0991", "#8b00de"]}
+                              start={[0.8, 0.2]}
+                              end={[0.1, 0.8]}
+                            >
+                              <Text
+                                numberOfLines={2}
+                                adjustsFontSizeToFit={true}
+                                style={styles.titleCategorias}
+                              >
+                                {item.Categoria}
+                              </Text>
+                            </LinearGradient>
+                          </TouchableOpacity>
+                        )}
+                        onSnapToItem={(index) => setActiveIndex(index)}
+                      />
+                    </View>
+                    <Promociones></Promociones>
+                  </View>
+                )}
+                sections={DATA}
+                style={{ width: "100%" }}
+                keyExtractor={(item, index) => item + index}
+                renderItem={({ section: { data } }) => (
+                  <FlatList
                     style={{
-                      width: 50,
-                      height: 50,
-                      resizeMode: "cover",
-                      marginLeft: 10,
+                      margin: 5,
+                      paddingHorizontal: 5,
                     }}
-                    source={require("../assets/groceriesBag.png")}
-                  />
-                  <AppTextInput
-                    icon={"shopping-search"}
-                    placeholder={"Buscar productos o categorias"}
-                    size={18}
-                    styleContainer={{
-                      width: "80%",
-                      marginLeft: 8,
-                      height: 40,
-                      backgroundColor: "white",
-                    }}
-                    styleTextInput={{ fontSize: 15 }}
-                  />
-                </View>
-                <View style={{ height: 50 }}>
-                  <Carousel
-                    layout={"default"}
-                    ref={(ref) => (carousel = ref)}
-                    data={categorias}
-                    sliderWidth={SLIDER_WIDTH}
-                    itemWidth={150}
+                    numColumns={2} // set number of columns
+                    columnWrapperStyle={styles.row} // space them out evenly
+                    data={data}
+                    keyExtractor={(producto) => producto.id}
                     renderItem={({ item }) => (
-                      <TouchableOpacity>
-                        <LinearGradient
-                          style={styles.containerCategorias}
-                          colors={["#3E0991", "#8b00de"]}
-                          start={[0.8, 0.2]}
-                          end={[0.1, 0.8]}
-                        >
-                          <Text
-                            numberOfLines={2}
-                            adjustsFontSizeToFit={true}
-                            style={styles.titleCategorias}
-                          >
-                            {item.Categoria}
-                          </Text>
-                        </LinearGradient>
-                      </TouchableOpacity>
+                      <ProductShop
+                        item={item}
+                        onPressProducto={() => {
+                          navigation.navigate("Product", {
+                            producto: item.producto,
+                            referencia: item.referencia,
+                            precio: item.costo_venta,
+                            imageURL: item.imagen,
+                            unidadMedida: item.unidad_medida,
+                            tipoUnidad: item.tipo_unidad,
+                          });
+                        }}
+                        onPressAgregar={() => agregarProducto(item)}
+                        onPressEliminar={() => eliminarProducto(item)}
+                        carrito={carrito}
+                      ></ProductShop>
                     )}
-                    onSnapToItem={(index) => setActiveIndex(index)}
                   />
-                </View>
-                <Promociones></Promociones>
-              </View>
-            )}
-            sections={DATA}
-            style={{ width: "100%" }}
-            keyExtractor={(item, index) => item + index}
-            renderItem={({ section: { data } }) => (
-              <FlatList
-                style={{
-                  margin: 5,
-                  paddingHorizontal: 5,
-                }}
-                numColumns={2} // set number of columns
-                columnWrapperStyle={styles.row} // space them out evenly
-                data={data}
-                keyExtractor={(producto) => producto.id}
-                renderItem={({ item }) => (
-                  <ProductShop
-                    onPress={() => {
-                      navigation.navigate("Product", {
-                        producto: item.producto,
-                        referencia: item.referencia,
-                        precio: item.costo_venta,
-                        imageURL: item.imagen,
-                        unidadMedida: item.unidad_medida,
-                        tipoUnidad: item.tipo_unidad,
-                      });
-                    }}
-                    title={item.producto}
-                    subtitle={item.referencia}
-                    precio={item.costo_venta}
-                    unidadMedida={item.unidad_medida}
-                    tipoUnidad={item.tipo_unidad}
-                    imageURL={item.imagen}
-                    onPressInputSpinner={() => {
-                      setTotalCarrito(totalCarrito + 1);
-                    }}
-                  ></ProductShop>
+                )}
+                renderSectionHeader={({ section: { categoria } }) => (
+                  <View style={{ flex: 1, backgroundColor: colors.lightGray }}>
+                    <Text style={styles.sectionHeader}>{categoria}</Text>
+                  </View>
                 )}
               />
-            )}
-            renderSectionHeader={({ section: { categoria } }) => (
-              <View style={{ flex: 1, backgroundColor: colors.lightGray }}>
-                <Text style={styles.sectionHeader}>{categoria}</Text>
-              </View>
-            )}
-          />
-        </>
+            </>
+          )}
+        </Screen>
       )}
-    </Screen>
+    </Context.Consumer>
   );
 }
 

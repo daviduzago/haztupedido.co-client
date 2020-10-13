@@ -8,16 +8,16 @@ import {
 } from "react-native";
 import colors from "../config/colors";
 
-function InputSpinnerVertical({ color = "blue" }) {
+function InputSpinnerVertical({
+  color = "blue",
+  onPressAgregar,
+  onPressEliminar,
+}) {
   const [quantity, setquantity] = useState(0);
   return (
     <View>
       <View style={styles.box}>
-        <TouchableWithoutFeedback
-          onPress={() => {
-            setquantity(quantity + 1);
-          }}
-        >
+        <TouchableWithoutFeedback onPress={onPressAgregar}>
           <View style={[styles.button, { backgroundColor: colors[color] }]}>
             <Text
               style={{
@@ -33,13 +33,7 @@ function InputSpinnerVertical({ color = "blue" }) {
         <View style={styles.numberBox}>
           <Text style={{ fontWeight: "500", fontSize: 12 }}>{quantity}</Text>
         </View>
-        <TouchableWithoutFeedback
-          onPress={() => {
-            if (quantity > 0) {
-              setquantity(quantity - 1);
-            }
-          }}
-        >
+        <TouchableWithoutFeedback onPress={onPressEliminar}>
           <View style={[styles.button, { backgroundColor: colors[color] }]}>
             <Text
               style={{
