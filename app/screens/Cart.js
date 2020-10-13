@@ -24,7 +24,7 @@ const PRODUCTS = [
   },
 ];
 
-function App() {
+function Carrito() {
   useRoute();
   const [name, setName] = useState("");
 
@@ -153,7 +153,7 @@ function App() {
   );
 }
 
-export default App;
+export default Carrito;
 
 const styles = StyleSheet.create({
   container: {

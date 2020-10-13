@@ -191,6 +191,7 @@ function Shop() {
   return (
     <Screen style={styles.container}>
       <ActivityIndicator visible={loading}></ActivityIndicator>
+
       {!loading && (
         <>
           <SectionList

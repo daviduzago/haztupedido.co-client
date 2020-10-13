@@ -8,15 +8,28 @@ import {
   Image,
   TouchableWithoutFeedback,
   ScrollView,
+  Linking,
 } from "react-native";
 import Collapsible from "react-native-collapsible";
+import AsyncStorage from "@react-native-community/async-storage";
 import { Entypo } from "@expo/vector-icons";
 import colors from "../config/colors";
 import imageShop from "../assets/groceriesBag.png";
 import BillIcon from "../assets/bill.png";
 import AppButtonGradient from "../components/AppButtonGradient";
 
-function App() {
+function DetallesPedido() {
+  const [name, setName] = useState("");
+
+  const getValue = async () => {
+    try {
+      const item = await AsyncStorage.getItem("nombre");
+      setName(item);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  getValue();
   const navigation = useNavigation();
   const [collapsibleListado, setCollapsibleListado] = useState(true);
   const [collapsibleCargos, setCollapsibleCargos] = useState(true);
@@ -95,7 +108,6 @@ function App() {
             onPress={() => {
               if (collapsibleListado === false) setCollapsibleListado(true);
               else setCollapsibleListado(false);
-              console.log(collapsibleListado);
             }}
           >
             <Entypo name="chevron-thin-down" size={24} color="black" />
@@ -137,7 +149,6 @@ function App() {
               onPress={() => {
                 if (collapsibleCargos === false) setCollapsibleCargos(true);
                 else setCollapsibleCargos(false);
-                console.log(collapsibleCargos);
               }}
             >
               <Entypo name="chevron-thin-down" size={24} color="black" />
@@ -198,7 +209,6 @@ function App() {
             onPress={() => {
               if (collapsibleTrans === false) setCollapsibleTrans(true);
               else setCollapsibleTrans(false);
-              console.log(collapsibleTrans);
             }}
           >
             <Entypo name="chevron-thin-down" size={24} color="black" />
@@ -239,19 +249,29 @@ function App() {
           onPress={() => navigation.navigate("Menu")}
           title={"Volver Menu"}
         ></AppButtonGradient>
-        <View style={[styles.botonCalificar, { backgroundColor: colors.blue }]}>
-          <Text
-            style={{ color: colors.white, fontSize: 15, fontWeight: "bold" }}
+        <TouchableWithoutFeedback
+          onPress={() =>
+            Linking.openURL(
+              `https://wa.me/+573232258306?text=Hola, soy ${name} y necesito ayuda con mi pedido en hazTuPedido.co`
+            )
+          }
+        >
+          <View
+            style={[styles.botonCalificar, { backgroundColor: colors.blue }]}
           >
-            Necesito Ayuda
-          </Text>
-        </View>
+            <Text
+              style={{ color: colors.white, fontSize: 15, fontWeight: "bold" }}
+            >
+              Necesito Ayuda
+            </Text>
+          </View>
+        </TouchableWithoutFeedback>
       </View>
     </ScrollView>
   );
 }
 
-export default App;
+export default DetallesPedido;
 
 const styles = StyleSheet.create({
   container: {

@@ -17,7 +17,7 @@ function Promociones() {
       unidad_medida: 500,
       tipo_unidad: "Gr",
       oferta: 1,
-      descuento: 10,
+      descuento: 20,
       producto: "Arroz doÑa pepa parbolizado",
       Subcategoria: "ARROZ",
       Categoria: "ABARROTES",
