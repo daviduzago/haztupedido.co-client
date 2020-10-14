@@ -2,12 +2,10 @@ import React from "react";
 import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import colors from "../config/colors";
-import { useNavigation } from "@react-navigation/native";
 
 const imageIcon = <Feather name="image" size={50} color="grey" />;
 
 function ModuleCard({ image, onPress }) {
-  const navigation = useNavigation();
   return (
     <TouchableOpacity
       style={{

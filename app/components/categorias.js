@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Text, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
-import categoryApi from "../api/categorias";
 import { LinearGradient } from "expo-linear-gradient";
+import categoryApi from "../api/categorias";
 import colors from "../config/colors";
 import Carousel from "react-native-snap-carousel";
 

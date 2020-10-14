@@ -184,11 +184,12 @@ function Shop() {
     <Context.Consumer>
       {({ agregarProducto, eliminarProducto, carrito }) => (
         <Screen style={styles.container}>
-          {/*       <ActivityIndicator visible={loading}></ActivityIndicator>
+          {/*           <ActivityIndicator visible={loading}></ActivityIndicator>
            */}
           {!loading && (
             <>
               <SectionList
+                stickySectionHeadersEnabled={true}
                 ListHeaderComponent={() => (
                   <View style={{ flex: 1, flexDirection: "column" }}>
                     <View
@@ -270,12 +271,7 @@ function Shop() {
                         item={item}
                         onPressProducto={() => {
                           navigation.navigate("Product", {
-                            producto: item.producto,
-                            referencia: item.referencia,
-                            precio: item.costo_venta,
-                            imageURL: item.imagen,
-                            unidadMedida: item.unidad_medida,
-                            tipoUnidad: item.tipo_unidad,
+                            item: item,
                           });
                         }}
                         onPressAgregar={() => agregarProducto(item)}

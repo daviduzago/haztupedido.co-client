@@ -4,14 +4,11 @@ import colors from "../config/colors";
 import InputSpinnerVerticalSmall from "./inputSpinnerVerticalSmall";
 
 function ProductPromo({
-  imageURL,
-  title = "Title",
-  subtitle = "Subtitle",
-  precio = "10.000",
-  precioSinDescuento = "1.000",
-  descuento,
+  item,
   styleLabel,
-  onPress,
+  quantity,
+  agregarProducto,
+  eliminarProducto,
 }) {
   return (
     <View sytle={styles.container}>
@@ -19,7 +16,7 @@ function ProductPromo({
         <View style={styles.productImage}>
           <Image
             style={{ flex: 1, width: "100%", height: "100%" }}
-            source={{ uri: imageURL }}
+            source={{ uri: item.imagen }}
           />
         </View>
         <View
@@ -31,20 +28,26 @@ function ProductPromo({
             padding: 10,
           }}
         >
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.subtitle}>Ref {subtitle}</Text>
-          <Text style={styles.precio}>${precio}</Text>
+          <Text style={styles.title}>{item.producto}</Text>
+          <Text style={styles.subtitle}>Ref {item.referencia}</Text>
+          <Text style={styles.precio}>
+            ${item.costo_venta - item.costo_venta * (item.descuento / 100)}
+          </Text>
           <Text style={{ color: "gray", fontSize: 12 }}>
-            Antes $<Text style={styles.precioAntes}>{precioSinDescuento}</Text>
+            Antes $<Text style={styles.precioAntes}>{item.costo_venta}</Text>
           </Text>
         </View>
         <View style={[styles.discountLabel, styleLabel]}>
           <Text style={{ fontSize: 23, color: "white", fontWeight: "bold" }}>
-            -{descuento}%
+            -{item.descuento}%
           </Text>
         </View>
         <View>
-          <InputSpinnerVerticalSmall></InputSpinnerVerticalSmall>
+          <InputSpinnerVerticalSmall
+            quantity={quantity}
+            agregarProducto={agregarProducto}
+            eliminarProducto={eliminarProducto}
+          ></InputSpinnerVerticalSmall>
         </View>
       </View>
     </View>

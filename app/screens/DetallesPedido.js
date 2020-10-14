@@ -237,9 +237,7 @@ function DetallesPedido() {
       </View>
       <View
         style={{
-          height: "100%",
           paddingTop: 20,
-          backgroundColor: colors.lightGray,
           justifyContent: "flex-start",
           alignItems: "center",
         }}

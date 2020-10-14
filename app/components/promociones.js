@@ -1,6 +1,5 @@
 import * as React from "react";
 import {
-  Text,
   View,
   StyleSheet,
   Dimensions,
@@ -9,7 +8,6 @@ import {
 } from "react-native";
 import colors from "../config/colors";
 import Carousel from "react-native-snap-carousel";
-import { useNavigation } from "@react-navigation/native";
 
 const SLIDER_WIDTH = Dimensions.get("window").width;
 

@@ -6,6 +6,7 @@ import {
   TouchableWithoutFeedback,
   Image,
 } from "react-native";
+import numeroMilesimas from "../hooks/numeroMilesimas";
 import colors from "../config/colors";
 import InputSpinnerHorizontalSmall from "./inputSpinnerHorizontalSmall";
 
@@ -16,7 +17,6 @@ function ProductShop({
   onPressEliminar,
   carrito,
 }) {
-  const [cantidad, setCantidad] = useState(0);
   const costoxunidad = Math.round(item.costo_venta / item.unidad_medida);
 
   return (
@@ -34,9 +34,9 @@ function ProductShop({
         </TouchableWithoutFeedback>
         <Text style={styles.productTitle}>{item.producto}</Text>
         <Text style={styles.productSubtitle}>Cod. {item.referencia}</Text>
-        <Text style={styles.price}>${item.costo_venta}</Text>
+        <Text style={styles.price}>${numeroMilesimas(item.costo_venta)}</Text>
         <Text style={styles.priceUnidad}>
-          ${costoxunidad}
+          ${numeroMilesimas(costoxunidad)}
           <Text style={{ fontSize: 8 }}> x {item.tipo_unidad}</Text>
         </Text>
         <View style={{ position: "absolute", bottom: 10 }}>

@@ -1,50 +1,67 @@
 import React from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import Screen from "../components/Screen";
-import colors from "../config/colors";
+import Context from "../Context/context";
+import numeroMilesimas from "../hooks/numeroMilesimas";
 import InputSpinnerHorizontal from "../components/inputSpinnerHorizontal";
 import { useRoute } from "@react-navigation/native";
 
 function Product({ route }) {
   useRoute();
   const costoxunidad = Math.round(
-    route.params.precio / route.params.unidadMedida
+    route.params.item.costo_venta / route.params.item.unidad_medida
   );
 
   return (
-    <Screen style={styles.container}>
-      <View
-        style={{
-          width: 250,
-          height: 500,
-          justifyContent: "center",
-          alignItems: "center",
-          position: "absolute",
-          top: 1,
-        }}
-      >
-        <View style={styles.boxImage}>
-          <Image
+    <Context.Consumer>
+      {({ carrito, agregarProducto, eliminarProducto }) => (
+        <Screen style={styles.container}>
+          <View
             style={{
-              flex: 1,
-              width: "100%",
-              height: "100%",
+              width: 250,
+              height: 500,
+              justifyContent: "center",
+              alignItems: "center",
+              position: "absolute",
+              top: 1,
             }}
-            source={{ uri: route.params.imageURL }}
-          />
-        </View>
-        <Text style={styles.productTitle}>{route.params.producto}</Text>
-        <Text style={styles.productSubtitle}>
-          Cod. {route.params.referencia}
-        </Text>
-        <Text style={styles.precio}>${route.params.precio}</Text>
-        <Text style={styles.precioUnidad}>
-          ${costoxunidad}
-          <Text style={{ fontSize: 13 }}> x {route.params.tipoUnidad}.</Text>
-        </Text>
-        <InputSpinnerHorizontal />
-      </View>
-    </Screen>
+          >
+            <View style={styles.boxImage}>
+              <Image
+                style={{
+                  flex: 1,
+                  width: "100%",
+                  height: "100%",
+                }}
+                source={{ uri: route.params.item.imagen }}
+              />
+            </View>
+            <Text style={styles.productTitle}>
+              {route.params.item.producto}
+            </Text>
+            <Text style={styles.productSubtitle}>
+              Cod. {route.params.item.referencia}
+            </Text>
+            <Text style={styles.precio}>
+              ${numeroMilesimas(route.params.item.costo_venta)}
+            </Text>
+            <Text style={styles.precioUnidad}>
+              ${numeroMilesimas(costoxunidad)}
+              <Text style={{ fontSize: 13 }}>
+                x {route.params.item.tipo_unidad}.
+              </Text>
+            </Text>
+            <InputSpinnerHorizontal
+              quantity={
+                carrito.filter((c) => c.id === route.params.item.id).length
+              }
+              agregarProducto={() => agregarProducto(route.params.item)}
+              eliminarProducto={() => eliminarProducto(route.params.item)}
+            />
+          </View>
+        </Screen>
+      )}
+    </Context.Consumer>
   );
 }
 

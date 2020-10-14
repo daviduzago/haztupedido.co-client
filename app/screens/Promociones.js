@@ -5,6 +5,7 @@ import ActivityIndicator from "../components/ActivityIndicator";
 import colors from "../config/colors";
 import ProductPromo from "../components/ProductPromo";
 import { FlatList } from "react-native-gesture-handler";
+import Context from "../Context/context";
 
 function Promociones() {
   const DATA = [
@@ -80,68 +81,68 @@ function Promociones() {
   };
 
   return (
-    <View style={styles.container}>
-      {/*       <ActivityIndicator visible={loading}></ActivityIndicator>
-       */}
-      {!loading && (
-        <>
-          <View
-            style={{
-              height: 90,
-              flexDirection: "row",
-              justifyContent: "flex-start",
-              alignItems: "center",
-              marginLeft: 40,
-            }}
-          >
-            {/* <LottieView
-              style={{
-                width: 100,
-                height: 100,
-              }}
-              ref={(animation) => {
-                animation = animation;
-              }}
-              source={require("../assets/lottie/discount.json")}
-              autoPlay
-              loop
-            /> */}
-            <Text style={styles.title}>Promociones</Text>
-          </View>
-          <View>
-            <FlatList
-              data={DATA}
-              keyExtractor={(product) => product.id.toString()}
-              ItemSeparatorComponent={() => (
-                <View
+    <Context.Consumer>
+      {({ carrito, agregarProducto, eliminarProducto }) => (
+        <View style={styles.container}>
+          {/*           <ActivityIndicator visible={loading}></ActivityIndicator>
+           */}
+          {!loading && (
+            <>
+              <View
+                style={{
+                  height: 90,
+                  flexDirection: "row",
+                  justifyContent: "flex-start",
+                  alignItems: "center",
+                  marginLeft: 40,
+                }}
+              >
+                {/* <LottieView
                   style={{
-                    flex: 1,
-                    height: 1,
-                    width: "100%",
-                    backgroundColor: colors.gray,
+                    width: 100,
+                    height: 100,
                   }}
-                ></View>
-              )}
-              renderItem={({ item }) => (
-                <ProductPromo
-                  imageURL={item.imagen}
-                  title={item.producto}
-                  subtitle={item.referencia}
-                  precio={
-                    item.costo_venta - item.costo_venta * (item.descuento / 100)
-                  }
-                  precioSinDescuento={item.costo_venta}
-                  descuento={item.descuento}
-                  styleLabel={{
-                    backgroundColor: colors[colorDescuento(item.descuento)],
+                  ref={(animation) => {
+                    animation = animation;
                   }}
-                ></ProductPromo>
-              )}
-            />
-          </View>
-        </>
+                  source={require("../assets/lottie/discount.json")}
+                  autoPlay
+                  loop
+                /> */}
+                <Text style={styles.title}>Promociones</Text>
+              </View>
+              <View>
+                <FlatList
+                  data={DATA}
+                  keyExtractor={(product) => product.id.toString()}
+                  ItemSeparatorComponent={() => (
+                    <View
+                      style={{
+                        flex: 1,
+                        height: 1,
+                        width: "100%",
+                        backgroundColor: colors.gray,
+                      }}
+                    ></View>
+                  )}
+                  renderItem={({ item }) => (
+                    <ProductPromo
+                      item={item}
+                      styleLabel={{
+                        backgroundColor: colors[colorDescuento(item.descuento)],
+                      }}
+                      quantity={carrito.filter((c) => c.id === item.id).length}
+                      agregarProducto={() => agregarProducto(item)}
+                      eliminarProducto={() => eliminarProducto(item)}
+                    ></ProductPromo>
+                  )}
+                />
+              </View>
+            </>
+          )}
+        </View>
       )}
-    </View>
+    </Context.Consumer>
   );
 }
 

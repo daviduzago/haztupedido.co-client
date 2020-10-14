@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Text, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
-import categoryApi from "../api/categorias";
 import { LinearGradient } from "expo-linear-gradient";
+import { useNavigation } from "@react-navigation/native";
+import categoryApi from "../api/categorias";
 import colors from "../config/colors";
 import Carousel from "react-native-snap-carousel";
-import { useNavigation } from "@react-navigation/native";
 
 const SLIDER_WIDTH = Dimensions.get("window").width;
 

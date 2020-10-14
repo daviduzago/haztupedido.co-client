@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   View,
   StyleSheet,
@@ -19,21 +19,56 @@ function Promociones2() {
   const DATA = [
     {
       id: 1,
-      title: "Promocion 1",
+      image: require("../assets/promos/promo_1.png"),
     },
     {
       id: 2,
-      title: "Promocion 2",
+      image: require("../assets/promos/promo_2.png"),
     },
     {
       id: 3,
-      title: "Promocion 3",
+      image: require("../assets/promos/promo_3.png"),
     },
     {
       id: 4,
-      title: "Promocion 4",
+      image: require("../assets/promos/promo_4.png"),
+    },
+    {
+      id: 5,
+      image: require("../assets/promos/promo_5.png"),
+    },
+    {
+      id: 6,
+      image: require("../assets/promos/promo_6.png"),
+    },
+    {
+      id: 7,
+      image: require("../assets/promos/promo_7.png"),
+    },
+    {
+      id: 8,
+      image: require("../assets/promos/promo_8.png"),
     },
   ];
+
+  const renderItem = ({ item }) => (
+    <TouchableWithoutFeedback
+      onPress={() => navigation.navigate("Promociones")}
+    >
+      <View style={styles.container}>
+        <Image
+          style={{
+            borderRadius: 10,
+            overflow: "hidden",
+            resizeMode: "contain",
+            width: "100%",
+            height: "100%",
+          }}
+          source={item.image}
+        />
+      </View>
+    </TouchableWithoutFeedback>
+  );
 
   return (
     <Carousel
@@ -42,18 +77,7 @@ function Promociones2() {
       data={DATA}
       sliderWidth={SLIDER_WIDTH}
       itemWidth={320}
-      renderItem={() => (
-        <TouchableWithoutFeedback
-          onPress={() => navigation.navigate("Promociones")}
-        >
-          <View style={styles.container}>
-            <Image
-              style={{ borderRadius: 10, overflow: "hidden" }}
-              source={require("../assets/promo.png")}
-            />
-          </View>
-        </TouchableWithoutFeedback>
-      )}
+      renderItem={(item) => renderItem(item)}
       onSnapToItem={(index) => setActiveIndex(index)}
     />
   );

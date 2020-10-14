@@ -1,13 +1,6 @@
 import React from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  SafeAreaView,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import colors from "../config/colors";
-import { LinearGradient } from "expo-linear-gradient";
 
 function AppButton({ title, onPress, styleButton, styleText }) {
   return (

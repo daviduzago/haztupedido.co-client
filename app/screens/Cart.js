@@ -9,11 +9,15 @@ import {
   Image,
   TouchableWithoutFeedback,
   FlatList,
+  Alert,
 } from "react-native";
 import AsyncStorage from "@react-native-community/async-storage";
 import colors from "../config/colors";
+import numeroMilesimas from "../hooks/numeroMilesimas";
+import LottieView from "lottie-react-native";
 import imageShop from "../assets/groceriesBag.png";
 import ProductCart from "../components/ProductCart";
+import Context from "../Context/context";
 
 const PRODUCTS = [
   {
@@ -40,116 +44,201 @@ function Carrito() {
   const navigateTo = name != null || "" ? "CacheInfo" : "CheckOutForm";
   const navigation = useNavigation();
   return (
-    <View style={styles.container}>
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <Text style={styles.title}>Tu pedido</Text>
-        <LinearGradient
-          style={styles.iconContainer}
-          colors={["#3E0991", "#8b00de"]}
-          start={[0.65, 0.7]}
-          end={[0.15, 0.3]}
-        >
-          <Text
+    <Context.Consumer>
+      {({ carrito, total, setCarrito, agregarProducto, eliminarProducto }) => (
+        <View style={styles.container}>
+          <View
             style={{
-              fontSize: 80,
-              color: colors.lightGray,
-              fontWeight: "bold",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
             }}
           >
-            $
-          </Text>
-        </LinearGradient>
-      </View>
-      <View
-        style={{
-          flexDirection: "row",
-          borderBottomColor: "grey",
-          borderBottomWidth: 1,
-          padding: 5,
-        }}
-      >
-        <Image style={styles.imageShop} source={imageShop}></Image>
-        <View style={{ flexDirection: "column", padding: 10 }}>
-          <Text style={styles.subtitle}>TuMercado</Text>
-          <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
-            <Text style={styles.backShop}>Volver a la tienda</Text>
-          </TouchableWithoutFeedback>
-        </View>
-      </View>
-      <View
-        style={{
-          flex: 1,
-          paddingVertical: 10,
-        }}
-      >
-        <FlatList
-          data={PRODUCTS}
-          keyExtractor={(product) => product.id.toString()}
-          renderItem={({ item }) => <ProductCart></ProductCart>}
-        ></FlatList>
-      </View>
-      <View
-        style={{
-          height: 60,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <TouchableWithoutFeedback
-          onPress={() => {
-            navigation.navigate(navigateTo);
-          }}
-        >
-          <LinearGradient
-            style={styles.checkoutButton}
-            colors={["#3E0991", "#8b00de"]}
-            start={[0.8, 0.2]}
-            end={[0.1, 0.8]}
-          >
-            <View style={styles.numberItemsCircle}>
+            <Text style={styles.title}>Tu pedido</Text>
+            <LinearGradient
+              style={styles.iconContainer}
+              colors={["#3E0991", "#8b00de"]}
+              start={[0.65, 0.7]}
+              end={[0.15, 0.3]}
+            >
               <Text
                 style={{
-                  fontSize: 25,
-                  color: colors.logoPurple,
+                  fontSize: 80,
+                  color: colors.lightGray,
                   fontWeight: "bold",
                 }}
               >
-                2
+                $
               </Text>
+            </LinearGradient>
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+              borderBottomColor: "grey",
+              borderBottomWidth: 1,
+              padding: 5,
+            }}
+          >
+            <Image style={styles.imageShop} source={imageShop}></Image>
+            <View style={{ flexDirection: "column", padding: 10 }}>
+              <Text style={styles.subtitle}>TuMercado</Text>
+              <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
+                <Text style={styles.backShop}>Volver a la tienda</Text>
+              </TouchableWithoutFeedback>
             </View>
-            <Text style={{ fontSize: 28, color: "white", fontWeight: "600" }}>
-              Tus datos
-            </Text>
-            <Text style={{ fontSize: 15, color: "white", fontWeight: "bold" }}>
-              $100.000
-            </Text>
-          </LinearGradient>
-        </TouchableWithoutFeedback>
-      </View>
-      <View
-        style={{
-          justifyContent: "center",
-          alignItems: "center",
-          marginTop: 10,
-        }}
-      >
-        <Text
-          style={{
-            fontSize: 14,
-            color: "grey",
-            textDecorationLine: "underline",
-          }}
-        >
-          Vaciar el carrito
-        </Text>
-      </View>
-    </View>
+          </View>
+          <View
+            style={{
+              flex: 1,
+              paddingVertical: 10,
+            }}
+          >
+            {carrito.length === 0 && (
+              <View
+                style={{
+                  height: "100%",
+                  padding: 20,
+                  justifyContent: "flex-start",
+                  alignItems: "center",
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 30,
+                    fontWeight: "500",
+                    marginTop: 10,
+                    zIndex: 1,
+                  }}
+                >
+                  El carrito esta vacio
+                </Text>
+                {/* <LottieView
+                  style={{
+                    width: 300,
+                    height: 300,
+                    position: "absolute",
+                    zIndex: 0,
+                  }}
+                  ref={(animation) => {
+                    animation = animation;
+                  }}
+                  source={require("../assets/lottie/watermelon.json")}
+                  autoPlay
+                  loop={false}
+                /> */}
+              </View>
+            )}
+            <FlatList
+              data={carrito}
+              keyExtractor={(product) => product.id.toString()}
+              renderItem={({ item }) => (
+                <ProductCart
+                  item={item}
+                  quantity={carrito.filter((c) => c.id === item.id).length}
+                  agregarProducto={() => agregarProducto(item)}
+                  eliminarProducto={() => eliminarProducto(item)}
+                />
+              )}
+            ></FlatList>
+          </View>
+          <View
+            style={{
+              height: 60,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <TouchableWithoutFeedback
+              disabled={carrito.length === 0}
+              onPress={() => {
+                if (total(carrito) < 19900) {
+                  Alert.alert(
+                    "Lo sentimos",
+                    "Debe realizar pedidos mayores a $20.000",
+                    [
+                      {
+                        text: "Ok",
+                        onPress: () => navigation.navigate("Shop"),
+                        style: "cancel",
+                      },
+                    ]
+                  );
+                } else navigation.navigate(navigateTo);
+              }}
+            >
+              <LinearGradient
+                style={styles.checkoutButton}
+                colors={["#3E0991", "#8b00de"]}
+                start={[0.8, 0.2]}
+                end={[0.1, 0.8]}
+              >
+                <View style={styles.numberItemsCircle}>
+                  <Text
+                    style={{
+                      fontSize: 25,
+                      color: colors.logoPurple,
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {carrito.length}
+                  </Text>
+                </View>
+                <Text
+                  style={{ fontSize: 28, color: "white", fontWeight: "600" }}
+                >
+                  Tus datos
+                </Text>
+                <Text
+                  style={{ fontSize: 15, color: "white", fontWeight: "bold" }}
+                >
+                  ${numeroMilesimas(total(carrito))}
+                </Text>
+              </LinearGradient>
+            </TouchableWithoutFeedback>
+          </View>
+          {carrito.length > 0 && (
+            <TouchableWithoutFeedback
+              onPress={() =>
+                Alert.alert(
+                  "Vaciar Carrito",
+                  "¿Esta seguro que desea vaciar el carrito?",
+                  [
+                    {
+                      text: "Si",
+                      onPress: () => {
+                        navigation.navigate("Shop");
+                        setCarrito([]);
+                      },
+                      style: "cancel",
+                    },
+                    { text: "No", onPress: () => {} },
+                  ]
+                )
+              }
+            >
+              <View
+                style={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginTop: 10,
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 14,
+                    color: "grey",
+                    textDecorationLine: "underline",
+                  }}
+                >
+                  Vaciar el carrito
+                </Text>
+              </View>
+            </TouchableWithoutFeedback>
+          )}
+        </View>
+      )}
+    </Context.Consumer>
   );
 }
 

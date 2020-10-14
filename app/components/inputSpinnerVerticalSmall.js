@@ -1,23 +1,17 @@
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  SafeAreaView,
-  TouchableWithoutFeedback,
-} from "react-native";
+import { StyleSheet, Text, View, TouchableWithoutFeedback } from "react-native";
 import colors from "../config/colors";
 
 function InputSpinnerVertical({
   color = "blue",
-  onPressAgregar,
-  onPressEliminar,
+  quantity,
+  agregarProducto,
+  eliminarProducto,
 }) {
-  const [quantity, setquantity] = useState(0);
   return (
     <View>
       <View style={styles.box}>
-        <TouchableWithoutFeedback onPress={onPressAgregar}>
+        <TouchableWithoutFeedback onPress={agregarProducto}>
           <View style={[styles.button, { backgroundColor: colors[color] }]}>
             <Text
               style={{
@@ -33,7 +27,7 @@ function InputSpinnerVertical({
         <View style={styles.numberBox}>
           <Text style={{ fontWeight: "500", fontSize: 12 }}>{quantity}</Text>
         </View>
-        <TouchableWithoutFeedback onPress={onPressEliminar}>
+        <TouchableWithoutFeedback onPress={eliminarProducto}>
           <View style={[styles.button, { backgroundColor: colors[color] }]}>
             <Text
               style={{

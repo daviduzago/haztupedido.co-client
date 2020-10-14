@@ -1,20 +1,19 @@
 import React from "react";
-import { StyleSheet, Text, View, SafeAreaView } from "react-native";
+import { StyleSheet, Text, View, Image } from "react-native";
 import colors from "../config/colors";
+import numeroMilesimas from "../hooks/numeroMilesimas";
 import InputSpinnerVertical from "./inputSpinnerVertical";
 
-function ProductCart({
-  image,
-  title = "Title",
-  subtitle = "Subtitle",
-  precio = "10.000",
-  precioUnidad = "1.000",
-  onPress,
-}) {
+function ProductCart({ item, quantity, agregarProducto, eliminarProducto }) {
   return (
     <View sytle={styles.container}>
       <View style={styles.box}>
-        <View style={styles.productImage}></View>
+        <View style={styles.productImage}>
+          <Image
+            style={{ flex: 1, width: "100%", height: "100%" }}
+            source={{ uri: item.imagen }}
+          />
+        </View>
         <View
           style={{
             flex: 1,
@@ -24,13 +23,18 @@ function ProductCart({
             padding: 10,
           }}
         >
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.subtitle}>{subtitle}</Text>
-          <Text style={styles.precio}>${precio}</Text>
-          <Text style={styles.precioUnidad}>${precioUnidad}</Text>
+          <Text style={styles.title}>{item.producto}</Text>
+          <Text style={styles.subtitle}>Ref {item.referencia}</Text>
+          <Text style={styles.precio}>
+            ${numeroMilesimas(item.costo_venta)}
+          </Text>
         </View>
         <View>
-          <InputSpinnerVertical></InputSpinnerVertical>
+          <InputSpinnerVertical
+            agregarProducto={agregarProducto}
+            eliminarProducto={eliminarProducto}
+            quantity={quantity}
+          ></InputSpinnerVertical>
         </View>
       </View>
     </View>
@@ -60,11 +64,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   title: {
-    fontSize: 20,
+    fontSize: 13,
     fontWeight: "700",
   },
   subtitle: {
-    fontSize: 15,
+    fontSize: 10,
     marginBottom: 15,
     marginLeft: 2,
   },

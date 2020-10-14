@@ -70,10 +70,10 @@ function CheckOutForm() {
   const [isKAVEnabled, setKAVEnable] = useState(false);
   return (
     <>
-      <ActivityIndicator
+      {/*       <ActivityIndicator
         style={{ backgroundColor: "transparent", position: "absolute" }}
         visible={loading}
-      ></ActivityIndicator>
+      ></ActivityIndicator> */}
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <KeyboardAvoidingView
           enabled={isKAVEnabled}
