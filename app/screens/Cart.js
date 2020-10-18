@@ -10,6 +10,7 @@ import {
   TouchableWithoutFeedback,
   FlatList,
   Alert,
+  Platform,
 } from "react-native";
 import AsyncStorage from "@react-native-community/async-storage";
 import colors from "../config/colors";
@@ -84,7 +85,7 @@ function Carrito() {
             <View style={{ flexDirection: "column", padding: 10 }}>
               <Text style={styles.subtitle}>TuMercado</Text>
               <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
-                <Text style={styles.backShop}>Volver a la tienda</Text>
+                <Text style={styles.backShop}>Seguir Comprando</Text>
               </TouchableWithoutFeedback>
             </View>
           </View>
@@ -113,20 +114,22 @@ function Carrito() {
                 >
                   El carrito esta vacio
                 </Text>
-                {/* <LottieView
-                  style={{
-                    width: 300,
-                    height: 300,
-                    position: "absolute",
-                    zIndex: 0,
-                  }}
-                  ref={(animation) => {
-                    animation = animation;
-                  }}
-                  source={require("../assets/lottie/watermelon.json")}
-                  autoPlay
-                  loop={false}
-                /> */}
+                {Platform.OS != "android" && (
+                  <LottieView
+                    style={{
+                      width: 300,
+                      height: 300,
+                      position: "absolute",
+                      zIndex: 0,
+                    }}
+                    ref={(animation) => {
+                      animation = animation;
+                    }}
+                    source={require("../assets/lottie/watermelon.json")}
+                    autoPlay
+                    loop={false}
+                  />
+                )}
               </View>
             )}
             <FlatList
@@ -152,7 +155,7 @@ function Carrito() {
             <TouchableWithoutFeedback
               disabled={carrito.length === 0}
               onPress={() => {
-                if (total(carrito) < 19900) {
+                if (total(carrito) < 20000) {
                   Alert.alert(
                     "Lo sentimos",
                     "Debe realizar pedidos mayores a $20.000",

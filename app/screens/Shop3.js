@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { LinearGradient } from "expo-linear-gradient";
-import categoryApi from "../api/categorias";
 import colors from "../config/colors";
 import {
   StyleSheet,
@@ -9,20 +7,17 @@ import {
   FlatList,
   Text,
   Image,
-  Dimensions,
   SectionList,
-  TouchableOpacity,
+  Platform,
 } from "react-native";
 import productosApi from "../api/productos";
 import Screen from "../components/Screen";
 import ActivityIndicator from "../components/ActivityIndicator";
 import AppTextInput from "../components/AppTextInput";
-import Carousel from "react-native-snap-carousel";
 import ProductShop from "../components/ProductShop";
 import Promociones from "../components/promociones-function";
 import Context from "../Context/context";
-
-const SLIDER_WIDTH = Dimensions.get("window").width;
+import Categorias2 from "../components/categorias-function";
 
 function Shop() {
   useRoute();
@@ -147,45 +142,25 @@ function Shop() {
 
   const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [totalCarrito, setTotalCarrito] = useState(0);
-  const [categorias, setCategorias] = useState([]);
-  const [DATA2, setDATA2] = useState(DATA);
 
   const loadProductos = async () => {
     setLoading(true);
     const response = await productosApi.getProductos();
-    setProductos(response);
+    setProductos(response.data);
     setLoading(false);
-  };
-
-  const getCategorias = async () => {
-    setLoading(true);
-    const response = await categoryApi.getCategorias();
-    setCategorias(response.data);
-    setLoading(false);
-  };
-
-  const search = (text) => {
-    const newData = DATA2.filter((item) => {
-      const itemData = "" + item.data.producto.toUpperCase();
-      const textData = text.toUpperCase();
-
-      return itemData.indexOf(textData) > -1;
-    });
-    setDATA(newData);
   };
 
   useEffect(() => {
-    //loadProductos();
-    getCategorias();
+    loadProductos();
   }, []);
 
   return (
     <Context.Consumer>
       {({ agregarProducto, eliminarProducto, carrito }) => (
         <Screen style={styles.container}>
-          {/*           <ActivityIndicator visible={loading}></ActivityIndicator>
-           */}
+          {Platform.OS != "android" && (
+            <ActivityIndicator visible={loading}></ActivityIndicator>
+          )}
           {!loading && (
             <>
               <SectionList
@@ -223,37 +198,12 @@ function Shop() {
                       />
                     </View>
                     <View style={{ height: 50 }}>
-                      <Carousel
-                        layout={"default"}
-                        ref={(ref) => (carousel = ref)}
-                        data={categorias}
-                        sliderWidth={SLIDER_WIDTH}
-                        itemWidth={150}
-                        renderItem={({ item }) => (
-                          <TouchableOpacity>
-                            <LinearGradient
-                              style={styles.containerCategorias}
-                              colors={["#3E0991", "#8b00de"]}
-                              start={[0.8, 0.2]}
-                              end={[0.1, 0.8]}
-                            >
-                              <Text
-                                numberOfLines={2}
-                                adjustsFontSizeToFit={true}
-                                style={styles.titleCategorias}
-                              >
-                                {item.Categoria}
-                              </Text>
-                            </LinearGradient>
-                          </TouchableOpacity>
-                        )}
-                        onSnapToItem={(index) => setActiveIndex(index)}
-                      />
+                      <Categorias2></Categorias2>
                     </View>
                     <Promociones></Promociones>
                   </View>
                 )}
-                sections={DATA}
+                sections={productos}
                 style={{ width: "100%" }}
                 keyExtractor={(item, index) => item + index}
                 renderItem={({ section: { data } }) => (
@@ -265,7 +215,7 @@ function Shop() {
                     numColumns={2} // set number of columns
                     columnWrapperStyle={styles.row} // space them out evenly
                     data={data}
-                    keyExtractor={(producto) => producto.id}
+                    keyExtractor={(producto) => producto.id.toString()}
                     renderItem={({ item }) => (
                       <ProductShop
                         item={item}
@@ -286,6 +236,7 @@ function Shop() {
                     <Text style={styles.sectionHeader}>{categoria}</Text>
                   </View>
                 )}
+                extraData={() => {}}
               />
             </>
           )}
@@ -344,6 +295,7 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     marginVertical: 5,
     paddingLeft: 20,
+    textTransform: "capitalize",
   },
   carrito: {
     position: "absolute",

@@ -6,6 +6,7 @@ import {
   TouchableWithoutFeedback,
   KeyboardAvoidingView,
   Keyboard,
+  Platform,
 } from "react-native";
 import * as Yup from "yup";
 import YupLocaleES from "../config/YupLocaleES";
@@ -70,10 +71,13 @@ function CheckOutForm() {
   const [isKAVEnabled, setKAVEnable] = useState(false);
   return (
     <>
-      {/*       <ActivityIndicator
-        style={{ backgroundColor: "transparent", position: "absolute" }}
-        visible={loading}
-      ></ActivityIndicator> */}
+      {Platform.OS != "android" && (
+        <ActivityIndicator
+          style={{ backgroundColor: "transparent", position: "absolute" }}
+          visible={loading}
+        ></ActivityIndicator>
+      )}
+
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <KeyboardAvoidingView
           enabled={isKAVEnabled}

@@ -1,7 +1,6 @@
 import React from "react";
-import { StyleSheet, Text, View, SafeAreaView } from "react-native";
+import { StyleSheet, Text, View, Platform } from "react-native";
 import LottieView from "lottie-react-native";
-import colors from "../config/colors";
 import { useNavigation } from "@react-navigation/native";
 
 function App() {
@@ -20,18 +19,20 @@ function App() {
           justifyContent: "flex-end",
         }}
       >
-        {/* <LottieView
-          style={{
-            width: 300,
-            height: 300,
-          }}
-          ref={(animation) => {
-            animation = animation;
-          }}
-          source={require("../assets/lottie/done.json")}
-          autoPlay
-          loop={false}
-        /> */}
+        {Platform.OS != "android" && (
+          <LottieView
+            style={{
+              width: 300,
+              height: 300,
+            }}
+            ref={(animation) => {
+              animation = animation;
+            }}
+            source={require("../assets/lottie/done.json")}
+            autoPlay
+            loop={false}
+          />
+        )}
       </View>
       <View
         style={{

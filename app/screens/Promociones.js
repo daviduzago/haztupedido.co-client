@@ -1,10 +1,17 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Platform,
+  FlatList,
+  TouchableWithoutFeedback,
+} from "react-native";
 import LottieView from "lottie-react-native";
 import ActivityIndicator from "../components/ActivityIndicator";
 import colors from "../config/colors";
 import ProductPromo from "../components/ProductPromo";
-import { FlatList } from "react-native-gesture-handler";
+import promocionesApi from "../api/promociones";
 import Context from "../Context/context";
 
 function Promociones() {
@@ -66,7 +73,19 @@ function Promociones() {
     },
   ];
 
+  const [promociones, setPromociones] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const loadPromos = async () => {
+    setLoading(true);
+    const response = await promocionesApi.getPromociones();
+    setPromociones(response.data);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    loadPromos();
+  }, []);
 
   const colorDescuento = (item) => {
     if (item <= 10) {
@@ -84,8 +103,10 @@ function Promociones() {
     <Context.Consumer>
       {({ carrito, agregarProducto, eliminarProducto }) => (
         <View style={styles.container}>
-          {/*           <ActivityIndicator visible={loading}></ActivityIndicator>
-           */}
+          {Platform.OS != "android" && (
+            <ActivityIndicator visible={loading}></ActivityIndicator>
+          )}
+
           {!loading && (
             <>
               <View
@@ -97,23 +118,29 @@ function Promociones() {
                   marginLeft: 40,
                 }}
               >
-                {/* <LottieView
-                  style={{
-                    width: 100,
-                    height: 100,
-                  }}
-                  ref={(animation) => {
-                    animation = animation;
-                  }}
-                  source={require("../assets/lottie/discount.json")}
-                  autoPlay
-                  loop
-                /> */}
-                <Text style={styles.title}>Promociones</Text>
+                {Platform.OS != "android" && (
+                  <LottieView
+                    style={{
+                      width: 100,
+                      height: 100,
+                    }}
+                    ref={(animation) => {
+                      animation = animation;
+                    }}
+                    source={require("../assets/lottie/discount.json")}
+                    autoPlay
+                    loop
+                  />
+                )}
+                <TouchableWithoutFeedback
+                  onPress={() => console.log(promociones)}
+                >
+                  <Text style={styles.title}>Promociones</Text>
+                </TouchableWithoutFeedback>
               </View>
               <View>
                 <FlatList
-                  data={DATA}
+                  data={promociones}
                   keyExtractor={(product) => product.id.toString()}
                   ItemSeparatorComponent={() => (
                     <View
@@ -129,12 +156,13 @@ function Promociones() {
                     <ProductPromo
                       item={item}
                       styleLabel={{
-                        backgroundColor: colors[colorDescuento(item.descuento)],
+                        backgroundColor:
+                          colors[colorDescuento(item.valorDescuento)],
                       }}
                       quantity={carrito.filter((c) => c.id === item.id).length}
                       agregarProducto={() => agregarProducto(item)}
                       eliminarProducto={() => eliminarProducto(item)}
-                    ></ProductPromo>
+                    />
                   )}
                 />
               </View>

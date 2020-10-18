@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
   },
   productSubtitle: {
     fontSize: 15,
-    marginBottom: 60,
+    marginBottom: 30,
     marginLeft: 2,
   },
   precio: {

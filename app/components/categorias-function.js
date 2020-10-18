@@ -1,39 +1,74 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Text, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { useNavigation } from "@react-navigation/native";
 import categoryApi from "../api/categorias";
 import colors from "../config/colors";
 import Carousel from "react-native-snap-carousel";
 
 const SLIDER_WIDTH = Dimensions.get("window").width;
 
-function Categorias2({ onPress }) {
+function Categorias2() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [categorias, setCategorias] = useState([]);
-
-  const navigation = useNavigation();
 
   const getCategorias = async () => {
     const response = await categoryApi.getCategorias();
     setCategorias(response.data);
   };
 
-  useEffect(() => {
-    getCategorias();
-  }, []);
+  const DATA = [
+    {
+      id: 1,
+      categoria: "ABARROTES",
+    },
+    {
+      id: 2,
+      categoria: "LACTEOS Y HUEVOS",
+    },
+    {
+      id: 3,
+      categoria: "DESPENSA",
+    },
+    {
+      id: 4,
+      categoria: "ASEO DEL HOGAR",
+    },
+    {
+      id: 5,
+      categoria: "CUIDADO DE LA ROPA",
+    },
+    {
+      id: 6,
+      categoria: "CUIDADO PERSONAL",
+    },
+    {
+      id: 7,
+      categoria: "CARNES FRÍAS Y EMBUTIDOS",
+    },
+    {
+      id: 8,
+      categoria: "PANADERÍA Y AREPAS",
+    },
+    {
+      id: 9,
+      categoria: "FRUTAS Y VEGETALES",
+    },
+    {
+      id: 10,
+      categoria: "DULCES Y PASABOCAS",
+    },
+  ];
 
   return (
     <Carousel
       layout={"default"}
       ref={(ref) => (carousel = ref)}
-      data={categorias}
+      data={DATA}
       sliderWidth={SLIDER_WIDTH}
       itemWidth={150}
       renderItem={({ item }) => (
         <TouchableOpacity>
           <LinearGradient
-            style={styles.container}
+            style={styles.containerCategorias}
             colors={["#3E0991", "#8b00de"]}
             start={[0.8, 0.2]}
             end={[0.1, 0.8]}
@@ -41,9 +76,9 @@ function Categorias2({ onPress }) {
             <Text
               numberOfLines={2}
               adjustsFontSizeToFit={true}
-              style={styles.title}
+              style={styles.titleCategorias}
             >
-              {item.Categoria}
+              {item.categoria}
             </Text>
           </LinearGradient>
         </TouchableOpacity>

@@ -28,10 +28,10 @@ function ProductPromo({
             padding: 10,
           }}
         >
-          <Text style={styles.title}>{item.producto}</Text>
+          <Text style={styles.title}>{item.nombreProducto}</Text>
           <Text style={styles.subtitle}>Ref {item.referencia}</Text>
           <Text style={styles.precio}>
-            ${item.costo_venta - item.costo_venta * (item.descuento / 100)}
+            ${item.costo_venta - item.costo_venta * (item.valorDescuento / 100)}
           </Text>
           <Text style={{ color: "gray", fontSize: 12 }}>
             Antes $<Text style={styles.precioAntes}>{item.costo_venta}</Text>
@@ -39,7 +39,7 @@ function ProductPromo({
         </View>
         <View style={[styles.discountLabel, styleLabel]}>
           <Text style={{ fontSize: 23, color: "white", fontWeight: "bold" }}>
-            -{item.descuento}%
+            -{item.valorDescuento}%
           </Text>
         </View>
         <View>
