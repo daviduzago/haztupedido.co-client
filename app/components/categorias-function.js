@@ -7,7 +7,7 @@ import Carousel from "react-native-snap-carousel";
 
 const SLIDER_WIDTH = Dimensions.get("window").width;
 
-function Categorias2() {
+function Categorias2({ onPress }) {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const getCategorias = async () => {
@@ -66,7 +66,7 @@ function Categorias2() {
       sliderWidth={SLIDER_WIDTH}
       itemWidth={150}
       renderItem={({ item }) => (
-        <TouchableOpacity>
+        <TouchableOpacity onPress={onPress}>
           <LinearGradient
             style={styles.containerCategorias}
             colors={["#3E0991", "#8b00de"]}

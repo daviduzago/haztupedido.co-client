@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, createRef } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import colors from "../config/colors";
 import {
@@ -154,6 +154,8 @@ function Shop() {
     loadProductos();
   }, []);
 
+  let flatList = createRef();
+
   return (
     <Context.Consumer>
       {({ agregarProducto, eliminarProducto, carrito }) => (
@@ -203,9 +205,12 @@ function Shop() {
                     <Promociones></Promociones>
                   </View>
                 )}
-                sections={productos}
+                sections={DATA}
+                initialNumToRender={6}
+                maxToRenderPerBatch={6}
+                scrollto
                 style={{ width: "100%" }}
-                keyExtractor={(item, index) => item + index}
+                keyExtractor={(item, index) => (item + index).toString()}
                 renderItem={({ section: { data } }) => (
                   <FlatList
                     style={{

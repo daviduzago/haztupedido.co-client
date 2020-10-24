@@ -12,10 +12,14 @@
     },
     "updates": {
       "fallbackToCacheTimeout": 0
-    },
+    },  
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
+    },
+    "android": {
+      "package": "co.haztupedido",
+      "versionCode": 1
     },
     "web": {
       "favicon": "./app/assets/favicon.png"

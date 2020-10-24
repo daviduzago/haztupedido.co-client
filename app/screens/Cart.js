@@ -12,6 +12,7 @@ import {
   Alert,
   Platform,
 } from "react-native";
+import AppButtonGradient from "../components/AppButtonGradient";
 import AsyncStorage from "@react-native-community/async-storage";
 import colors from "../config/colors";
 import numeroMilesimas from "../hooks/numeroMilesimas";
@@ -83,9 +84,21 @@ function Carrito() {
           >
             <Image style={styles.imageShop} source={imageShop}></Image>
             <View style={{ flexDirection: "column", padding: 10 }}>
-              <Text style={styles.subtitle}>TuMercado</Text>
+              <Text style={styles.subtitle}>Tu Mercado</Text>
               <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
-                <Text style={styles.backShop}>Seguir Comprando</Text>
+                <View
+                  style={{
+                    backgroundColor: colors.red,
+                    height: 25,
+                    width: 145,
+                    borderRadius: 5,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginLeft: 3,
+                  }}
+                >
+                  <Text style={styles.backShop}>Seguir Comprando</Text>
+                </View>
               </TouchableWithoutFeedback>
             </View>
           </View>
@@ -152,53 +165,61 @@ function Carrito() {
               alignItems: "center",
             }}
           >
-            <TouchableWithoutFeedback
-              disabled={carrito.length === 0}
-              onPress={() => {
-                if (total(carrito) < 20000) {
-                  Alert.alert(
-                    "Lo sentimos",
-                    "Debe realizar pedidos mayores a $20.000",
-                    [
-                      {
-                        text: "Ok",
-                        onPress: () => navigation.navigate("Shop"),
-                        style: "cancel",
-                      },
-                    ]
-                  );
-                } else navigation.navigate(navigateTo);
-              }}
-            >
-              <LinearGradient
-                style={styles.checkoutButton}
-                colors={["#3E0991", "#8b00de"]}
-                start={[0.8, 0.2]}
-                end={[0.1, 0.8]}
+            {carrito.length === 0 && (
+              <AppButtonGradient
+                title={"Volver a la tienda"}
+                onPress={() => navigation.navigate("Shop")}
+              ></AppButtonGradient>
+            )}
+            {carrito.length != 0 && (
+              <TouchableWithoutFeedback
+                disabled={carrito.length === 0}
+                onPress={() => {
+                  if (total(carrito) < 20000) {
+                    Alert.alert(
+                      "Lo sentimos",
+                      "Debe realizar pedidos mayores a $20.000",
+                      [
+                        {
+                          text: "Ok",
+                          onPress: () => navigation.navigate("Shop"),
+                          style: "cancel",
+                        },
+                      ]
+                    );
+                  } else navigation.navigate(navigateTo);
+                }}
               >
-                <View style={styles.numberItemsCircle}>
+                <LinearGradient
+                  style={styles.checkoutButton}
+                  colors={["#3E0991", "#8b00de"]}
+                  start={[0.8, 0.2]}
+                  end={[0.1, 0.8]}
+                >
+                  <View style={styles.numberItemsCircle}>
+                    <Text
+                      style={{
+                        fontSize: 25,
+                        color: colors.logoPurple,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {carrito.length}
+                    </Text>
+                  </View>
                   <Text
-                    style={{
-                      fontSize: 25,
-                      color: colors.logoPurple,
-                      fontWeight: "bold",
-                    }}
+                    style={{ fontSize: 28, color: "white", fontWeight: "600" }}
                   >
-                    {carrito.length}
+                    Tus datos
                   </Text>
-                </View>
-                <Text
-                  style={{ fontSize: 28, color: "white", fontWeight: "600" }}
-                >
-                  Tus datos
-                </Text>
-                <Text
-                  style={{ fontSize: 15, color: "white", fontWeight: "bold" }}
-                >
-                  ${numeroMilesimas(total(carrito))}
-                </Text>
-              </LinearGradient>
-            </TouchableWithoutFeedback>
+                  <Text
+                    style={{ fontSize: 15, color: "white", fontWeight: "bold" }}
+                  >
+                    ${numeroMilesimas(total(carrito))}
+                  </Text>
+                </LinearGradient>
+              </TouchableWithoutFeedback>
+            )}
           </View>
           {carrito.length > 0 && (
             <TouchableWithoutFeedback
@@ -276,8 +297,8 @@ const styles = StyleSheet.create({
   },
   backShop: {
     fontSize: 15,
-    color: colors.red,
-    textDecorationLine: "underline",
+    color: colors.white,
+    fontWeight: "bold",
     marginLeft: 5,
   },
   checkoutButton: {

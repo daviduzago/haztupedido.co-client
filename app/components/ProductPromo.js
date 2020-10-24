@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import colors from "../config/colors";
 import InputSpinnerVerticalSmall from "./inputSpinnerVerticalSmall";
+import numeroMilesimas from "../hooks/numeroMilesimas";
 
 function ProductPromo({
   item,
@@ -31,10 +32,16 @@ function ProductPromo({
           <Text style={styles.title}>{item.nombreProducto}</Text>
           <Text style={styles.subtitle}>Ref {item.referencia}</Text>
           <Text style={styles.precio}>
-            ${item.costo_venta - item.costo_venta * (item.valorDescuento / 100)}
+            $
+            {numeroMilesimas(
+              item.costo_venta - item.costo_venta * (item.valorDescuento / 100)
+            )}
           </Text>
           <Text style={{ color: "gray", fontSize: 12 }}>
-            Antes $<Text style={styles.precioAntes}>{item.costo_venta}</Text>
+            Antes $
+            <Text style={styles.precioAntes}>
+              {numeroMilesimas(item.costo_venta)}
+            </Text>
           </Text>
         </View>
         <View style={[styles.discountLabel, styleLabel]}>
