@@ -32,7 +32,15 @@ function ProductShop({
             ) : null}
           </View>
         </TouchableWithoutFeedback>
-        <Text style={styles.productTitle}>{item.producto}</Text>
+        <Text style={styles.productTitle}>
+          {item.nombreProducto}
+          <Text style={styles.cantidadUnidad}>
+            {" "}
+            {item.unidad_medida}
+            {item.tipo_unidad}
+          </Text>
+        </Text>
+
         <Text style={styles.productSubtitle}>Cod. {item.referencia}</Text>
         <Text style={styles.price}>${numeroMilesimas(item.costo_venta)}</Text>
         <Text style={styles.priceUnidad}>
@@ -85,6 +93,12 @@ const styles = StyleSheet.create({
     fontWeight: "300",
     marginTop: 5,
     textTransform: "capitalize",
+  },
+  cantidadUnidad: {
+    fontSize: 10,
+    fontWeight: "300",
+    marginTop: 5,
+    textTransform: "lowercase",
   },
   price: {
     marginTop: 15,

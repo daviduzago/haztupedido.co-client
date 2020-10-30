@@ -6,7 +6,17 @@ export const GlobalState = ({ children }) => {
 
   const [pagoTotalEfectivo, setPagoTotalEfectivo] = useState(false);
 
+  const [pagoMixto, setPagoMixto] = useState(false);
+
+  const [pagoTotalTransf, setPagoTotalTrasf] = useState(false);
+
   const [pagoParcial, setPagoParcial] = useState(0);
+
+  const [horarioEntrega, setHorarioEntrega] = useState("");
+
+  const [codHorarioEntrega, setCodHorarioEntrega] = useState(0);
+
+  const [totalCompra, setTotalCompra] = useState(0);
 
   const agregarProducto = (product) => {
     const item = [...carrito, product];
@@ -31,6 +41,7 @@ export const GlobalState = ({ children }) => {
     product.forEach((element) => {
       total += element.costo_venta;
     });
+    setTotalCompra(total);
     return total;
   };
 
@@ -42,10 +53,19 @@ export const GlobalState = ({ children }) => {
         agregarProducto: agregarProducto,
         eliminarProducto: eliminarProducto,
         total: total,
+        totalCompra: totalCompra,
         pagoTotalEfectivo: pagoTotalEfectivo,
         setPagoTotalEfectivo: setPagoTotalEfectivo,
+        pagoTotalTransf: pagoTotalTransf,
+        setPagoTotalTransf: setPagoTotalTrasf,
+        pagoMixto: pagoMixto,
+        setPagoMixto: setPagoMixto,
         pagoParcial: pagoParcial,
         setPagoParcial: setPagoParcial,
+        horarioEntrega: horarioEntrega,
+        setHorarioEntrega: setHorarioEntrega,
+        codHorarioEntrega: codHorarioEntrega,
+        setCodHorarioEntrega: setCodHorarioEntrega,
       }}
     >
       {children}

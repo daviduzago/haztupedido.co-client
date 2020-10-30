@@ -14,12 +14,12 @@ import {
 } from "react-native";
 import AppButtonGradient from "../components/AppButtonGradient";
 import AsyncStorage from "@react-native-community/async-storage";
+import Context from "../Context/context";
 import colors from "../config/colors";
 import numeroMilesimas from "../hooks/numeroMilesimas";
-import LottieView from "lottie-react-native";
 import imageShop from "../assets/groceriesBag.png";
+import LottieView from "lottie-react-native";
 import ProductCart from "../components/ProductCart";
-import Context from "../Context/context";
 
 const PRODUCTS = [
   {
@@ -56,7 +56,7 @@ function Carrito() {
               alignItems: "center",
             }}
           >
-            <Text style={styles.title}>Tu pedido</Text>
+            <Text style={styles.title}>Tu Pedido</Text>
             <LinearGradient
               style={styles.iconContainer}
               colors={["#3E0991", "#8b00de"]}
@@ -146,7 +146,7 @@ function Carrito() {
               </View>
             )}
             <FlatList
-              data={carrito}
+              data={carrito.filter((c, index) => carrito.indexOf(c) === index)}
               keyExtractor={(product) => product.id.toString()}
               renderItem={({ item }) => (
                 <ProductCart
@@ -210,7 +210,7 @@ function Carrito() {
                   <Text
                     style={{ fontSize: 28, color: "white", fontWeight: "600" }}
                   >
-                    Tus datos
+                    Tus Datos
                   </Text>
                   <Text
                     style={{ fontSize: 15, color: "white", fontWeight: "bold" }}

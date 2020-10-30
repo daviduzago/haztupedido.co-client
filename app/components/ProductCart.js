@@ -23,7 +23,11 @@ function ProductCart({ item, quantity, agregarProducto, eliminarProducto }) {
             padding: 10,
           }}
         >
-          <Text style={styles.title}>{item.producto}</Text>
+          <Text style={styles.title}>{item.nombreProducto}</Text>
+          <Text style={styles.cantidadUnidades}>
+            {item.unidad_medida}
+            {item.tipo_unidad}
+          </Text>
           <Text style={styles.subtitle}>Ref {item.referencia}</Text>
           <Text style={styles.precio}>
             ${numeroMilesimas(item.costo_venta)}
@@ -69,8 +73,16 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: 10,
-    marginBottom: 15,
+    marginBottom: 10,
     marginLeft: 2,
+  },
+  cantidadUnidades: {
+    fontSize: 13,
+    marginBottom: 10,
+    marginTop: 2,
+    marginLeft: 2,
+    textTransform: "lowercase",
+    fontWeight: "500",
   },
   precio: {
     fontSize: 23,

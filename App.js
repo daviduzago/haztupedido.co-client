@@ -26,6 +26,7 @@ import PedidoRealizado from "./app/screens/PedidoRealizado";
 import DetallesPedido from "./app/screens/DetallesPedido";
 import HistoryIcon from "./app/components/historyIcon";
 import HistorialPedidos from "./app/screens/historialPedidos";
+import CarritoCheckOut from "./app/screens/CarritoCheckOut";
 
 SplashScreen.preventAutoHide();
 setTimeout(SplashScreen.hide, 3000);
@@ -124,6 +125,13 @@ const StackNavigator = () => (
       component={HistorialPedidos}
       options={{
         headerTitle: "Historial Pedidos",
+      }}
+    ></Stack.Screen>
+    <Stack.Screen
+      name="CarritoCheckOut"
+      component={CarritoCheckOut}
+      options={{
+        headerTitle: "Carrito",
       }}
     ></Stack.Screen>
   </Stack.Navigator>

@@ -56,6 +56,10 @@ function Categorias2({ onPress }) {
       id: 10,
       categoria: "DULCES Y PASABOCAS",
     },
+    {
+      id: 11,
+      categoria: "TRAGOS",
+    },
   ];
 
   return (

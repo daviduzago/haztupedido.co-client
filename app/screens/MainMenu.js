@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { StyleSheet, Image, View, Alert } from "react-native";
 import Screen from "../components/Screen";
+import AsyncStorage from "@react-native-community/async-storage";
 import ModuleCard from "../components/moduleCard";
 import colors from "../config/colors";
 import { useNavigation } from "@react-navigation/native";
@@ -33,7 +34,7 @@ function MainMenu() {
               "Estamos trabajando fuertemente para pronto tener este modulo listo para ti. "
             )
           }
-          image={require("../assets/moduleTuDiligencia_construccion.png")}
+          image={require("../assets/tuRepuesto2.png")}
         ></ModuleCard>
       </View>
 

@@ -1,10 +1,10 @@
 import React from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
-import Screen from "../components/Screen";
+import { useRoute } from "@react-navigation/native";
 import Context from "../Context/context";
 import numeroMilesimas from "../hooks/numeroMilesimas";
 import InputSpinnerHorizontal from "../components/inputSpinnerHorizontal";
-import { useRoute } from "@react-navigation/native";
+import Screen from "../components/Screen";
 
 function Product({ route }) {
   useRoute();
@@ -37,7 +37,12 @@ function Product({ route }) {
               />
             </View>
             <Text style={styles.productTitle}>
-              {route.params.item.producto}
+              {route.params.item.nombreProducto}
+              <Text style={styles.cantidadUnidad}>
+                {" "}
+                {route.params.item.unidad_medida}
+                {route.params.item.tipo_unidad}
+              </Text>
             </Text>
             <Text style={styles.productSubtitle}>
               Cod. {route.params.item.referencia}
@@ -96,6 +101,7 @@ const styles = StyleSheet.create({
   productSubtitle: {
     fontSize: 15,
     marginBottom: 30,
+    marginTop: 5,
     marginLeft: 2,
   },
   precio: {
@@ -106,5 +112,11 @@ const styles = StyleSheet.create({
     fontSize: 15,
     marginLeft: 2,
     marginBottom: 20,
+  },
+  cantidadUnidad: {
+    fontSize: 16,
+    fontWeight: "400",
+    marginTop: 5,
+    textTransform: "lowercase",
   },
 });

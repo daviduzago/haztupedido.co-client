@@ -1,18 +1,11 @@
 import React, { useState, useEffect } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Platform,
-  FlatList,
-  TouchableWithoutFeedback,
-} from "react-native";
-import LottieView from "lottie-react-native";
+import { StyleSheet, Text, View, Platform, FlatList } from "react-native";
 import ActivityIndicator from "../components/ActivityIndicator";
+import Context from "../Context/context";
 import colors from "../config/colors";
+import LottieView from "lottie-react-native";
 import ProductPromo from "../components/ProductPromo";
 import promocionesApi from "../api/promociones";
-import Context from "../Context/context";
 
 function Promociones() {
   const DATA = [
@@ -109,38 +102,36 @@ function Promociones() {
 
           {!loading && (
             <>
-              <View
-                style={{
-                  height: 90,
-                  flexDirection: "row",
-                  justifyContent: "flex-start",
-                  alignItems: "center",
-                  marginLeft: 40,
-                }}
-              >
-                {Platform.OS != "android" && (
-                  <LottieView
-                    style={{
-                      width: 100,
-                      height: 100,
-                    }}
-                    ref={(animation) => {
-                      animation = animation;
-                    }}
-                    source={require("../assets/lottie/discount.json")}
-                    autoPlay
-                    loop
-                  />
-                )}
-                <TouchableWithoutFeedback
-                  onPress={() => console.log(promociones)}
-                >
-                  <Text style={styles.title}>Promociones</Text>
-                </TouchableWithoutFeedback>
-              </View>
               <View>
                 <FlatList
                   data={promociones}
+                  ListHeaderComponent={() => (
+                    <View
+                      style={{
+                        height: 90,
+                        flexDirection: "row",
+                        justifyContent: "flex-start",
+                        alignItems: "center",
+                        marginLeft: 40,
+                      }}
+                    >
+                      {Platform.OS != "android" && (
+                        <LottieView
+                          style={{
+                            width: 100,
+                            height: 100,
+                          }}
+                          ref={(animation) => {
+                            animation = animation;
+                          }}
+                          source={require("../assets/lottie/discount.json")}
+                          autoPlay
+                          loop
+                        />
+                      )}
+                      <Text style={styles.title}>Promociones</Text>
+                    </View>
+                  )}
                   keyExtractor={(product) => product.id.toString()}
                   ItemSeparatorComponent={() => (
                     <View

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, createRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import colors from "../config/colors";
 import {
@@ -17,131 +17,204 @@ import AppTextInput from "../components/AppTextInput";
 import ProductShop from "../components/ProductShop";
 import Promociones from "../components/promociones-function";
 import Context from "../Context/context";
-import Categorias2 from "../components/categorias-function";
 
 function Shop() {
   useRoute();
+  let timerWrite = undefined;
   const navigation = useNavigation();
 
   const DATA = [
     {
-      categoria: "Lacteos y huevos",
+      Categoria: "Abarrotes",
       data: [
-        {
-          id: 528,
-          referencia: "3377",
-          imagen:
-            "http://haztupedido.co/modulo/images/HUEVOS DE CAMPO A X 30 UNID.PNG.PNG",
-          costo_venta: 13450,
-          unidad_medida: 30,
-          tipo_unidad: "Und",
-          oferta: 0,
-          producto: "Huevos de campo a",
-          Subcategoria: "HUEVOS",
-          Categoria: "LACTEOS Y HUEVOS",
-        },
-        {
-          id: 529,
-          referencia: "4116",
-          imagen:
-            "http://haztupedido.co/modulo/images/HUEVOS DE CAMPO B X 30 UNID.PNG.PNG",
-          costo_venta: 11900,
-          unidad_medida: 30,
-          tipo_unidad: "Und",
-          oferta: 0,
-          producto: "Huevos de campo b",
-          Subcategoria: "HUEVOS",
-          Categoria: "LACTEOS Y HUEVOS",
-        },
-        {
-          id: 530,
-          referencia: "2995",
-          imagen:
-            "http://haztupedido.co/modulo/images/HUEVOS AAA X 15 UNID.PNG.PNG",
-          costo_venta: 5600,
-          unidad_medida: 15,
-          tipo_unidad: "Und",
-          oferta: 0,
-          producto: "Huevos aaa",
-          Subcategoria: "HUEVOS",
-          Categoria: "LACTEOS Y HUEVOS",
-        },
-        {
-          id: 531,
-          referencia: "2367",
-          imagen:
-            "http://haztupedido.co/modulo/images/HUEVOS DE CAMPO AA X 15 UNID.PNG.PNG",
-          costo_venta: 4550,
-          unidad_medida: 15,
-          tipo_unidad: "Und",
-          oferta: 0,
-          producto: "Huevos de campo aa",
-          Subcategoria: "HUEVOS",
-          Categoria: "LACTEOS Y HUEVOS",
-        },
+        [
+          {
+            id: 421,
+            referencia: "1047",
+            nombreProducto: "Colada maizena la original",
+            imagen:
+              "http://haztupedido.co/moduloapi/categoria/COLADA MAIZENA LA ORIGINAL X 380 GR.PNG",
+            costo_venta: 8800,
+            unidad_medida: 380,
+            tipo_unidad: "GR",
+            tieneDescuento: 0,
+            descuentoD: 0,
+            subcategoria: "Harinas y mezclas listas",
+            categoria: "Abarrotes",
+          },
+          {
+            id: 422,
+            referencia: "1051",
+            nombreProducto: "Colada toning 7 cereales surtida",
+            imagen:
+              "http://haztupedido.co/moduloapi/categoria/COLADA TONING 7 CEREALES SURTIDA.PNG",
+            costo_venta: 2850,
+            unidad_medida: 200,
+            tipo_unidad: "GR",
+            tieneDescuento: 0,
+            descuentoD: 0,
+            subcategoria: "Harinas y mezclas listas",
+            categoria: "Abarrotes",
+          },
+        ],
       ],
     },
     {
-      categoria: "Abarrotes",
+      Categoria: "Lacteos y huevos",
       data: [
-        {
-          id: 577,
-          referencia: "1783",
-          imagen:
-            "http://haztupedido.co/modulo/images/ARROZ DOÑA PEPA PARBOLIZADO X 500 GR.PNG.jpg",
-          costo_venta: 2700,
-          unidad_medida: 500,
-          tipo_unidad: "Gr",
-          oferta: 0,
-          producto: "Arroz doÑa pepa parbolizado",
-          Subcategoria: "ARROZ",
-          Categoria: "ABARROTES",
-        },
-        {
-          id: 578,
-          referencia: "1785",
-          imagen:
-            "http://haztupedido.co/modulo/images/ARROZ ROA MEXICANO X 300 GR.PNG.png",
-          costo_venta: 5100,
-          unidad_medida: 300,
-          tipo_unidad: "Gr",
-          oferta: 0,
-          producto: "Arroz roa mexicano",
-          Subcategoria: "ARROZ",
-          Categoria: "ABARROTES",
-        },
-        {
-          id: 579,
-          referencia: "1786",
-          imagen:
-            "http://haztupedido.co/modulo/images/ARROZ CON LECHE ROA X 150 GR.PNG.jpg",
-          costo_venta: 3150,
-          unidad_medida: 150,
-          tipo_unidad: "Gr",
-          oferta: 0,
-          producto: "Arroz con leche roa",
-          Subcategoria: "ARROZ",
-          Categoria: "ABARROTES",
-        },
-        {
-          id: 580,
-          referencia: "1767",
-          imagen:
-            "http://haztupedido.co/modulo/images/ARROZ ROA X 500 GR.PNG.PNG",
-          costo_venta: 1750,
-          unidad_medida: 500,
-          tipo_unidad: "Gr",
-          oferta: 0,
-          producto: "Arroz roa",
-          Subcategoria: "ARROZ",
-          Categoria: "ABARROTES",
-        },
+        [
+          {
+            id: 380,
+            referencia: "964",
+            nombreProducto: "Baby klim 2 lata",
+            imagen:
+              "http://haztupedido.co/moduloapi/categoria/BABY KLIM 2 LATA.PNG",
+            costo_venta: 21150,
+            unidad_medida: 400,
+            tipo_unidad: "GR",
+            tieneDescuento: 0,
+            descuentoD: 0,
+            subcategoria: "Leche en polvo",
+            categoria: "Lacteos y huevos",
+          },
+          {
+            id: 381,
+            referencia: "965",
+            nombreProducto: "Baby klim 1 lata",
+            imagen:
+              "http://haztupedido.co/moduloapi/categoria/BABY KLIM 1 LATA.PNG",
+            costo_venta: 23800,
+            unidad_medida: 400,
+            tipo_unidad: "GR",
+            tieneDescuento: 0,
+            descuentoD: 0,
+            subcategoria: "Leche en polvo",
+            categoria: "Lacteos y huevos",
+          },
+          {
+            id: 578,
+            referencia: "1393",
+            nombreProducto: "Queso crema alpina cremosino",
+            imagen:
+              "http://haztupedido.co/moduloapi/categoria/QUESO CREMA ALPINA CREMOSINO.PNG",
+            costo_venta: 6400,
+            unidad_medida: 380,
+            tipo_unidad: "GR",
+            tieneDescuento: 0,
+            descuentoD: 0,
+            subcategoria: "Cremas",
+            categoria: "Lacteos y huevos",
+          },
+          {
+            id: 404,
+            referencia: "1007",
+            nombreProducto: "Klim 1+",
+            imagen: "http://haztupedido.co/moduloapi/categoria/KLIM 1+.PNG",
+            costo_venta: 17200,
+            unidad_medida: 500,
+            tipo_unidad: "GR",
+            tieneDescuento: 0,
+            descuentoD: 0,
+            subcategoria: "Leche en polvo",
+            categoria: "Lacteos y huevos",
+          },
+          {
+            id: 405,
+            referencia: "1009",
+            nombreProducto: "Klim 3+",
+            imagen: "http://haztupedido.co/moduloapi/categoria/KLIM 3+.PNG",
+            costo_venta: 16050,
+            unidad_medida: 500,
+            tipo_unidad: "GR",
+            tieneDescuento: 0,
+            descuentoD: 0,
+            subcategoria: "Leche en polvo",
+            categoria: "Lacteos y huevos",
+          },
+          {
+            id: 406,
+            referencia: "1011",
+            nombreProducto: "Klim deslactosado",
+            imagen:
+              "http://haztupedido.co/moduloapi/categoria/KLIM DESLACTOSADO.PNG",
+            costo_venta: 12450,
+            unidad_medida: 360,
+            tipo_unidad: "GR",
+            tieneDescuento: 0,
+            descuentoD: 0,
+            subcategoria: "Leche en polvo",
+            categoria: "Lacteos y huevos",
+          },
+        ],
+      ],
+    },
+    {
+      Categoria: "Despensa",
+      data: [
+        [
+          {
+            id: 435,
+            referencia: "1078",
+            nombreProducto: "Choco krispis",
+            imagen:
+              "http://haztupedido.co/moduloapi/categoria/CHOCO KRISPIS.PNG",
+            costo_venta: 20400,
+            unidad_medida: 700,
+            tipo_unidad: "GR",
+            tieneDescuento: 0,
+            descuentoD: 0,
+            subcategoria: "Cereales",
+            categoria: "Despensa",
+          },
+          {
+            id: 436,
+            referencia: "1079",
+            nombreProducto: "Zucaritas",
+            imagen:
+              "http://haztupedido.co/moduloapi/categoria/ZUCARITAS 300 GR.PNG",
+            costo_venta: 8500,
+            unidad_medida: 300,
+            tipo_unidad: "GR",
+            tieneDescuento: 0,
+            descuentoD: 0,
+            subcategoria: "Cereales",
+            categoria: "Despensa",
+          },
+          {
+            id: 437,
+            referencia: "1080",
+            nombreProducto: "Zukcaritas",
+            imagen: "http://haztupedido.co/moduloapi/categoria/ZUCARITAS.PNG",
+            costo_venta: 12250,
+            unidad_medida: 450,
+            tipo_unidad: "GR",
+            tieneDescuento: 0,
+            descuentoD: 0,
+            subcategoria: "Cereales",
+            categoria: "Despensa",
+          },
+          {
+            id: 438,
+            referencia: "1081",
+            nombreProducto: "Choc okrispis pops",
+            imagen:
+              "http://haztupedido.co/moduloapi/categoria/CHOCO KRISPIS POPS.PNG",
+            costo_venta: 8500,
+            unidad_medida: 230,
+            tipo_unidad: "GR",
+            tieneDescuento: 0,
+            descuentoD: 0,
+            subcategoria: "Cereales",
+            categoria: "Despensa",
+          },
+        ],
       ],
     },
   ];
 
   const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [dataRender, setDataRender] = useState([]);
 
   const loadProductos = async () => {
     setLoading(true);
@@ -150,11 +223,32 @@ function Shop() {
     setLoading(false);
   };
 
-  useEffect(() => {
-    loadProductos();
-  }, []);
+  const handleSearch = (value) => {
+    window.clearInterval(timerWrite);
+    timerWrite = setTimeout(() => {
+      if (value && value.length) {
+        const minValue = value.toLowerCase();
+        const result = DATA.map((d) => ({
+          categoria: d.Categoria,
+          data: [
+            d.data[0].filter(
+              (item) =>
+                item.nombreProducto.toLowerCase().indexOf(minValue) > -1 ||
+                item.categoria.toLowerCase().indexOf(minValue) > -1
+            ),
+          ],
+        }));
+        setDataRender(result.filter((r) => r.data[0].length));
+      } else {
+        setDataRender(DATA);
+      }
+    }, 1000);
+  };
 
-  let flatList = createRef();
+  useEffect(() => {
+    //loadProductos();
+    setDataRender(DATA);
+  }, []);
 
   return (
     <Context.Consumer>
@@ -164,54 +258,50 @@ function Shop() {
             <ActivityIndicator visible={loading}></ActivityIndicator>
           )}
           {!loading && (
-            <>
+            <View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Image
+                  style={{
+                    width: 50,
+                    height: 50,
+                    resizeMode: "cover",
+                    marginLeft: 10,
+                  }}
+                  source={require("../assets/groceriesBag.png")}
+                />
+                <AppTextInput
+                  onChangeText={handleSearch}
+                  icon={"shopping-search"}
+                  placeholder={"Buscar productos o categorias"}
+                  size={18}
+                  styleContainer={{
+                    width: "80%",
+                    marginLeft: 8,
+                    height: 40,
+                    backgroundColor: "white",
+                  }}
+                  styleTextInput={{ fontSize: 15 }}
+                />
+              </View>
               <SectionList
                 stickySectionHeadersEnabled={true}
                 ListHeaderComponent={() => (
                   <View style={{ flex: 1, flexDirection: "column" }}>
-                    <View
-                      style={{
-                        flex: 1,
-                        flexDirection: "row",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      <Image
-                        style={{
-                          width: 50,
-                          height: 50,
-                          resizeMode: "cover",
-                          marginLeft: 10,
-                        }}
-                        source={require("../assets/groceriesBag.png")}
-                      />
-                      <AppTextInput
-                        icon={"shopping-search"}
-                        placeholder={"Buscar productos o categorias"}
-                        size={18}
-                        styleContainer={{
-                          width: "80%",
-                          marginLeft: 8,
-                          height: 40,
-                          backgroundColor: "white",
-                        }}
-                        styleTextInput={{ fontSize: 15 }}
-                      />
-                    </View>
-                    <View style={{ height: 50 }}>
-                      <Categorias2></Categorias2>
-                    </View>
                     <Promociones></Promociones>
                   </View>
                 )}
-                sections={DATA}
-                initialNumToRender={6}
+                sections={dataRender}
+                initialNumToRender={30}
                 maxToRenderPerBatch={6}
-                scrollto
                 style={{ width: "100%" }}
                 keyExtractor={(item, index) => (item + index).toString()}
-                renderItem={({ section: { data } }) => (
+                renderItem={({ item }) => (
                   <FlatList
                     style={{
                       margin: 5,
@@ -219,7 +309,7 @@ function Shop() {
                     }}
                     numColumns={2} // set number of columns
                     columnWrapperStyle={styles.row} // space them out evenly
-                    data={data}
+                    data={item}
                     keyExtractor={(producto) => producto.id.toString()}
                     renderItem={({ item }) => (
                       <ProductShop
@@ -236,14 +326,13 @@ function Shop() {
                     )}
                   />
                 )}
-                renderSectionHeader={({ section: { categoria } }) => (
+                renderSectionHeader={({ section: { Categoria } }) => (
                   <View style={{ flex: 1, backgroundColor: colors.lightGray }}>
-                    <Text style={styles.sectionHeader}>{categoria}</Text>
+                    <Text style={styles.sectionHeader}>{Categoria}</Text>
                   </View>
                 )}
-                extraData={() => {}}
               />
-            </>
+            </View>
           )}
         </Screen>
       )}
@@ -298,7 +387,6 @@ const styles = StyleSheet.create({
   sectionHeader: {
     fontSize: 30,
     fontWeight: "500",
-    marginVertical: 5,
     paddingLeft: 20,
     textTransform: "capitalize",
   },

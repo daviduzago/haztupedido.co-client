@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import * as Yup from "yup";
 import {
   StyleSheet,
   Text,
@@ -7,16 +8,16 @@ import {
   KeyboardAvoidingView,
   Keyboard,
   Platform,
+  Linking,
 } from "react-native";
-import * as Yup from "yup";
-import YupLocaleES from "../config/YupLocaleES";
-import AsyncStorage from "@react-native-community/async-storage";
-import userInfoApi from "../api/userInfo";
+import { useNavigation } from "@react-navigation/native";
 import { AppForm, AppFormField, SubmitButton } from "../components/forms";
 import ActivityIndicator from "../components/ActivityIndicator";
+import AsyncStorage from "@react-native-community/async-storage";
 import colors from "../config/colors";
+import userInfoApi from "../api/userInfo";
 import useLocation from "../hooks/useLocation";
-import { useNavigation } from "@react-navigation/native";
+import YupLocaleES from "../config/YupLocaleES";
 
 //Errores en español
 YupLocaleES;
@@ -42,7 +43,7 @@ function CheckOutForm() {
 
   const handleSubmit = async (user) => {
     setLoading(true);
-    const result = await userInfoApi.addUserInfo(user);
+    const result = await userInfoApi.addUserInfo(user, location);
     if (!result.ok) {
       setLoading(false);
       return alert("No se puedo enviar la informacion");
@@ -53,7 +54,6 @@ function CheckOutForm() {
         await AsyncStorage.setItem(field, data);
       } catch (e) {
         console.log(e);
-        s;
       }
     };
     storeData("nombre", user.nombre);
@@ -186,6 +186,43 @@ function CheckOutForm() {
               }}
             >
               <SubmitButton title={"Ir a pagar"} />
+            </View>
+            <View
+              style={{
+                marginLeft: 30,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Text style={{ fontSize: 10, color: "gray" }}>
+                Al hacer click en IR A PAGAR, acepta nuestros
+              </Text>
+              <Text
+                style={{
+                  fontSize: 10,
+                  textDecorationLine: "underline",
+                  color: "gray",
+                }}
+              >
+                TERMINOS Y CONDICIONES
+              </Text>
+              <TouchableWithoutFeedback
+                onPress={() =>
+                  Linking.openURL(
+                    `https://haztupedido.co/politica-de-tratamiento-de-datos/`
+                  )
+                }
+              >
+                <Text
+                  style={{
+                    fontSize: 10,
+                    textDecorationLine: "underline",
+                    color: "gray",
+                  }}
+                >
+                  POLITICA DE TRATAMIENTO DE DATOS
+                </Text>
+              </TouchableWithoutFeedback>
             </View>
           </AppForm>
         </KeyboardAvoidingView>

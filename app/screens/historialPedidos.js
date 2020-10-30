@@ -1,14 +1,7 @@
 import React from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  SafeAreaView,
-  TouchableWithoutFeedback,
-} from "react-native";
-import AppButtonGradient from "../components/AppButtonGradient";
+import { StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import colors from "../config/colors";
+import AppButtonGradient from "../components/AppButtonGradient";
 
 function HistorialPedidos() {
   const navigation = useNavigation();

@@ -1,8 +1,8 @@
-import client from "./client";
+import client from "./client2";
 
-const endpoint = "/client";
+const endpoint = "/usuarioCompra";
 
-export const addUserInfo = (user) => {
+export const addUserInfo = (user, location) => {
   const data = new FormData();
   data.append("nombre", user.nombre);
   data.append("apellido", user.apellido);
@@ -11,7 +11,7 @@ export const addUserInfo = (user) => {
   data.append("numero_celular", user.numeroCelular);
   data.append("correo", user.email);
 
-  //if (user.location) data.append("location", JSON.stringify(user.location));
+  if (location) data.append("localizacion", JSON.stringify(location));
 
   return client.post(endpoint, data);
 };

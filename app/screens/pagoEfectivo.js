@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   StyleSheet,
   Text,
@@ -11,23 +11,27 @@ import {
   Alert,
   KeyboardAvoidingView,
 } from "react-native";
-import Cash from "../assets/cash.png";
 import { useNavigation } from "@react-navigation/native";
-import colors from "../config/colors";
-import numeroMilesimas from "../hooks/numeroMilesimas";
+import { useClipboard } from "@react-native-community/hooks";
 import AppButtonGradient from "../components/AppButtonGradient";
 import AppTextInput from "../components/AppTextInput";
 import Context from "../Context/context";
+import Cash from "../assets/cash.png";
+import colors from "../config/colors";
+import numeroMilesimas from "../hooks/numeroMilesimas";
 
 function PagoEfectivo() {
   const navigation = useNavigation();
+  const [data, setClipboard] = useClipboard();
+
   return (
     <Context.Consumer>
       {({
         pagoTotalEfectivo,
         setPagoTotalEfectivo,
+        pagoTotalTransf,
+        setPagoTotalTransf,
         setPagoParcial,
-        pagoParcial,
         total,
         carrito,
       }) => (
@@ -46,7 +50,7 @@ function PagoEfectivo() {
                 }}
               >
                 <View style={{ flexDirection: "column" }}>
-                  <Text style={styles.title}>Metodos de Pago</Text>
+                  <Text style={styles.title}>Método de pago</Text>
                   <Text style={{ fontSize: 20, marginTop: 5 }}>
                     Total:
                     <Text
@@ -95,28 +99,54 @@ function PagoEfectivo() {
                     } else setPagoParcial(value);
                   }}
                   keyboardType={"number-pad"}
-                  editable={!pagoTotalEfectivo}
+                  editable={!pagoTotalEfectivo && !pagoTotalTransf}
                 ></AppTextInput>
                 <View
                   style={{
                     flexDirection: "row",
                     marginLeft: 15,
-                    marginTop: 20,
-                    marginBottom: 15,
+                    marginTop: 10,
+                    marginBottom: 5,
                     alignItems: "center",
                   }}
                 >
                   <Switch
                     value={pagoTotalEfectivo}
-                    onValueChange={() =>
-                      setPagoTotalEfectivo((previousState) => !previousState)
-                    }
+                    onValueChange={() => {
+                      setPagoTotalEfectivo((previousState) => !previousState);
+                      if (pagoTotalTransf) setPagoTotalTransf(false);
+                      if (pagoTotalTransf) setPagoParcial(0);
+                    }}
                     trackColor={{ false: colors.gray, true: colors.logoPurple }}
                   ></Switch>
                   <Text
                     style={{ marginLeft: 10, fontSize: 15, fontWeight: "500" }}
                   >
                     Pagar el monto total en efectivo.
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    marginLeft: 15,
+                    marginTop: 10,
+                    marginBottom: 5,
+                    alignItems: "center",
+                  }}
+                >
+                  <Switch
+                    value={pagoTotalTransf}
+                    onValueChange={() => {
+                      setPagoTotalTransf((previousState) => !previousState);
+                      if (pagoTotalEfectivo) setPagoTotalEfectivo(false);
+                      if (pagoTotalTransf) setPagoParcial(0);
+                    }}
+                    trackColor={{ false: colors.gray, true: colors.logoPurple }}
+                  ></Switch>
+                  <Text
+                    style={{ marginLeft: 10, fontSize: 13, fontWeight: "500" }}
+                  >
+                    Pagar el monto total con transferencia.
                   </Text>
                 </View>
               </View>
@@ -128,9 +158,14 @@ function PagoEfectivo() {
                 }}
               >
                 <Text
-                  style={{ fontSize: 15, fontWeight: "500", marginBottom: 3 }}
+                  style={{
+                    fontSize: 15,
+                    fontWeight: "500",
+                    marginBottom: 3,
+                    marginLeft: 4,
+                  }}
                 >
-                  Tambien puede pagar con transferencia
+                  Tambien puedes pagar con transferencia:
                 </Text>
                 {/* Bancolombia */}
                 <View
@@ -149,7 +184,10 @@ function PagoEfectivo() {
                     />
                   </View>
                   <TouchableOpacity
-                    onPress={() => Alert.alert("Numero copiado")}
+                    onPress={() => {
+                      setClipboard("0101122020");
+                      Alert.alert("Número copiado");
+                    }}
                     style={{
                       flex: 3 / 4,
                       justifyContent: "center",
@@ -168,7 +206,7 @@ function PagoEfectivo() {
                       </Text>
 
                       <Text style={{ fontSize: 10, color: "gray" }}>
-                        Haga click para copiar el numero
+                        Haga click para copiar el número
                       </Text>
                     </View>
                   </TouchableOpacity>
@@ -190,7 +228,10 @@ function PagoEfectivo() {
                     />
                   </View>
                   <TouchableOpacity
-                    onPress={() => Alert.alert("Numero copiado")}
+                    onPress={() => {
+                      setClipboard("076300119120");
+                      Alert.alert("Número copiado");
+                    }}
                     style={{
                       flex: 3 / 4,
                       justifyContent: "center",
@@ -205,11 +246,11 @@ function PagoEfectivo() {
                       }}
                     >
                       <Text style={{ fontSize: 30, fontWeight: "500" }}>
-                        01-011220-20
+                        076300119120
                       </Text>
 
                       <Text style={{ fontSize: 10, color: "gray" }}>
-                        Haga click para copiar el numero
+                        Haga click para copiar el número
                       </Text>
                     </View>
                   </TouchableOpacity>
@@ -231,7 +272,10 @@ function PagoEfectivo() {
                     />
                   </View>
                   <TouchableOpacity
-                    onPress={() => Alert.alert("Numero copiado")}
+                    onPress={() => {
+                      setClipboard("3232258306‬");
+                      Alert.alert("Número copiado");
+                    }}
                     style={{
                       flex: 3 / 4,
                       justifyContent: "center",
@@ -249,7 +293,7 @@ function PagoEfectivo() {
                         ‭(323) 225-8306‬
                       </Text>
                       <Text style={{ fontSize: 10, color: "gray" }}>
-                        Haga click para copiar el numero
+                        Haga click para copiar el número
                       </Text>
                     </View>
                   </TouchableOpacity>
@@ -276,10 +320,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-    padding: 15,
+    paddingHorizontal: 15,
+    paddingBottom: 10,
+    justifyContent: "flex-start",
   },
   title: {
-    fontSize: 30,
+    fontSize: 29,
     fontWeight: "700",
   },
   iconContainer: {

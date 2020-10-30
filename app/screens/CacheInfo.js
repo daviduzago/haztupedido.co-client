@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import AsyncStorage from "@react-native-community/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { StyleSheet, Text, View } from "react-native";
-import colors from "../config/colors";
 import AppButton from "../components/AppButton";
 import AppButtonGradient from "../components/AppButtonGradient";
+import AsyncStorage from "@react-native-community/async-storage";
+import colors from "../config/colors";
 
 function CacheInfo() {
   const navigation = useNavigation();
@@ -98,7 +98,7 @@ function CacheInfo() {
         {direccionDescrip != null || "" ? (
           <View style={[styles.row, { flexDirection: "column" }]}>
             <Text style={[styles.text, { color: "grey", marginBottom: 5 }]}>
-              Descripción de dirección:{" "}
+              Descripción de dirección:
             </Text>
             <Text style={[styles.text, { marginBottom: 3 }]}>
               {direccionDescrip}
