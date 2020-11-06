@@ -59,14 +59,29 @@ function CheckOut() {
   getDireccion();
   getDireccionDescrip();
 
-  const cancelar = () =>
+  const cancelar = (
+    setCarrito,
+    setPagoTotalEfectivo,
+    setPagoTotalTransf,
+    setPagoParcial,
+    setHorarioEntrega,
+    setCodHorarioEntrega
+  ) =>
     Alert.alert(
       "Cancelar pedido",
       "¿Esta seguro que desea cancelar el pedido?",
       [
         {
           text: "Si",
-          onPress: () => navigation.navigate("Menu"),
+          onPress: () => {
+            navigation.navigate("Menu");
+            setCarrito([]);
+            setPagoTotalEfectivo(false);
+            setPagoTotalTransf(false);
+            setPagoParcial(0);
+            setHorarioEntrega("");
+            setCodHorarioEntrega(0);
+          },
           style: "cancel",
         },
         { text: "No", onPress: () => {} },
@@ -151,19 +166,25 @@ function CheckOut() {
                 pagoTotalTransf
               );
               if (!result.ok) {
-                console.log(result.problem);
+                console.log("Error de envio compra: ", result.originalError);
+                Alert.alert(
+                  "Ups, algo salio mal",
+                  "No se ha podido realizar la compra. " + result.originalError
+                );
                 setLoading(false);
               }
+              if (result.ok) {
+                navigation.navigate("PedidoRealizado");
+                setCarrito([]);
+                setPagoTotalEfectivo(false);
+                setPagoTotalTransf(false);
+                setPagoParcial(0);
+                setHorarioEntrega("");
+                setCodHorarioEntrega(0);
+              }
               setLoading(false);
-              navigation.navigate("PedidoRealizado");
             };
             enviarCompra();
-            setCarrito([]);
-            setPagoTotalEfectivo(false);
-            setPagoTotalTransf(false);
-            setPagoParcial(0);
-            setHorarioEntrega("");
-            setCodHorarioEntrega(0);
           },
         },
       ]);
@@ -339,6 +360,7 @@ function CheckOut() {
                   flexDirection: "row",
                   justifyContent: "space-between",
                   alignItems: "center",
+                  marginLeft: 10,
                 }}
               >
                 <Text style={styles.title}>CheckOut</Text>
@@ -348,6 +370,7 @@ function CheckOut() {
                       width: "80%",
                       height: "80%",
                       resizeMode: "contain",
+                      marginRight: 10,
                     }}
                     source={Moto}
                   />
@@ -364,7 +387,7 @@ function CheckOut() {
               >
                 <View>
                   <Image
-                    style={{ width: 100, height: 100, resizeMode: "contain" }}
+                    style={{ width: 90, height: 90, resizeMode: "contain" }}
                     source={Location}
                   />
                 </View>
@@ -372,7 +395,7 @@ function CheckOut() {
                   <Text
                     style={{ fontSize: 18, color: "gray", marginVertical: 3 }}
                   >
-                    Direccion de entrega:
+                    Dirección de entrega:
                   </Text>
                   <Text
                     style={{
@@ -395,16 +418,27 @@ function CheckOut() {
                   <TouchableWithoutFeedback
                     onPress={() => navigation.navigate("CheckOutForm")}
                   >
-                    <Text
+                    <View
                       style={{
-                        fontWeight: "500",
-                        color: colors.red,
-                        textDecorationLine: "underline",
-                        marginVertical: 3,
+                        backgroundColor: colors.red,
+                        height: 25,
+                        width: 210,
+                        borderRadius: 5,
+                        justifyContent: "center",
+                        alignItems: "center",
+                        marginTop: 4,
                       }}
                     >
-                      ¿Esta equivocada esta dirección?
-                    </Text>
+                      <Text
+                        style={{
+                          fontWeight: "bold",
+                          marginVertical: 3,
+                          color: "white",
+                        }}
+                      >
+                        ¿Esta equivocada esta dirección?
+                      </Text>
+                    </View>
                   </TouchableWithoutFeedback>
                 </View>
               </View>
@@ -468,7 +502,18 @@ function CheckOut() {
                   title={"Pagar"}
                   styleText={{ fontSize: 40 }}
                 />
-                <TouchableWithoutFeedback onPress={cancelar}>
+                <TouchableWithoutFeedback
+                  onPress={() =>
+                    cancelar(
+                      setCarrito,
+                      setPagoTotalEfectivo,
+                      setPagoTotalTransf,
+                      setPagoParcial,
+                      setHorarioEntrega,
+                      setCodHorarioEntrega
+                    )
+                  }
+                >
                   <Text
                     style={{ color: "gray", textDecorationLine: "underline" }}
                   >
@@ -491,6 +536,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     padding: 15,
+    paddingTop: 5,
     justifyContent: "center",
     alignContent: "center",
   },

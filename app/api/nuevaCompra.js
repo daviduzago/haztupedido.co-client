@@ -14,7 +14,7 @@ export const nuevaCompra = (
   const data = new FormData();
 
   data.append("numeroCelular", idUsuario);
-  data.append("listadoProductos", carrito);
+  data.append("carrito", JSON.stringify(carrito));
   data.append("subTotalCompra", subTotal);
   data.append("valorDomicilio", 3000);
   data.append("horarioEntrega", horario);

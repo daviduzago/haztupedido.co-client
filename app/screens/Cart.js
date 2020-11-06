@@ -21,15 +21,6 @@ import imageShop from "../assets/groceriesBag.png";
 import LottieView from "lottie-react-native";
 import ProductCart from "../components/ProductCart";
 
-const PRODUCTS = [
-  {
-    id: 1,
-  },
-  {
-    id: 2,
-  },
-];
-
 function Carrito() {
   useRoute();
   const [name, setName] = useState("");

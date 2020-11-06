@@ -61,7 +61,6 @@ function DetallesPedido() {
 
   useEffect(() => {
     getNumeroCelular();
-    loadDetallesPedido(numeroCelular);
   }, []);
 
   return (
