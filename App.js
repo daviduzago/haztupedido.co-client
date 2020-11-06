@@ -25,6 +25,7 @@ import PagoEfectivo from "./app/screens/pagoEfectivo";
 import PedidoRealizado from "./app/screens/PedidoRealizado";
 import DetallesPedido from "./app/screens/DetallesPedido";
 import HistoryIcon from "./app/components/historyIcon";
+import Help from "./app/components/HelpIcon";
 import HistorialPedidos from "./app/screens/historialPedidos";
 import CarritoCheckOut from "./app/screens/CarritoCheckOut";
 
@@ -51,9 +52,6 @@ const StackNavigator = () => (
             ></Image>
           </View>
         ),
-        headerRight: () => (
-          <HistoryIcon color={colors.darkPurple}></HistoryIcon>
-        ),
         headerTitleAlign: "center",
         headerTitle: "",
       }}
@@ -65,7 +63,7 @@ const StackNavigator = () => (
         headerTitle: "Tu Mercado",
         headerRight: () => (
           <View style={{ marginRight: 7, marginTop: 3, flexDirection: "row" }}>
-            <HistoryIcon></HistoryIcon>
+            <Help></Help>
             <Carrito cantidadItems={1} backgroundColor={colors.white}></Carrito>
           </View>
         ),

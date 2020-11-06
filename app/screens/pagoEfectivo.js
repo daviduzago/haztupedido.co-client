@@ -212,7 +212,7 @@ function PagoEfectivo() {
                   </TouchableOpacity>
                 </View>
                 {/* Davivienda */}
-                <View
+                {/* <View
                   style={{
                     flex: 1 / 3,
                     backgroundColor: "white",
@@ -254,7 +254,7 @@ function PagoEfectivo() {
                       </Text>
                     </View>
                   </TouchableOpacity>
-                </View>
+                </View> */}
                 {/* Nequi */}
                 <View
                   style={{

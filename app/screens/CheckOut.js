@@ -80,6 +80,7 @@ function CheckOut() {
     pagoParcial,
     total,
     numeroCelular,
+    carrito,
     setCarrito,
     setPagoTotalEfectivo,
     setPagoTotalTransf,
@@ -142,6 +143,7 @@ function CheckOut() {
               setLoading(true);
               const result = await compraApi.nuevaCompra(
                 numeroCelular,
+                carrito,
                 total,
                 codHorarioEntrega,
                 pagoParcial,
@@ -149,6 +151,7 @@ function CheckOut() {
                 pagoTotalTransf
               );
               if (!result.ok) {
+                console.log(result.problem);
                 setLoading(false);
               }
               setLoading(false);
@@ -446,6 +449,7 @@ function CheckOut() {
                       pagoParcial,
                       totalCompra,
                       numeroCelular,
+                      carrito,
                       setCarrito,
                       setPagoTotalEfectivo,
                       setPagoTotalTransf,
@@ -453,6 +457,13 @@ function CheckOut() {
                       setHorarioEntrega,
                       setCodHorarioEntrega
                     );
+                    console.log("numero celular: ", numeroCelular);
+                    console.log("carrito :", carrito);
+                    console.log("pago parcial: ", pagoParcial);
+                    console.log("horario : ", codHorarioEntrega);
+                    console.log("total compra : ", totalCompra);
+                    console.log("pago total efectivo : ", pagoTotalEfectivo);
+                    console.log("pago total transferencia :", pagoTotalTransf);
                   }}
                   title={"Pagar"}
                   styleText={{ fontSize: 40 }}

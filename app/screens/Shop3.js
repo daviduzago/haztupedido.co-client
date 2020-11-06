@@ -9,6 +9,7 @@ import {
   Image,
   SectionList,
   Platform,
+  Modal,
 } from "react-native";
 import productosApi from "../api/productos";
 import Screen from "../components/Screen";
@@ -17,6 +18,7 @@ import AppTextInput from "../components/AppTextInput";
 import ProductShop from "../components/ProductShop";
 import Promociones from "../components/promociones-function";
 import Context from "../Context/context";
+import Tutorial from "./tutorial";
 
 function Shop() {
   useRoute();
@@ -212,8 +214,8 @@ function Shop() {
     },
   ];
 
-  const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [productos, setProductos] = useState([]);
   const [dataRender, setDataRender] = useState([]);
 
   const loadProductos = async () => {
@@ -228,7 +230,7 @@ function Shop() {
     timerWrite = setTimeout(() => {
       if (value && value.length) {
         const minValue = value.toLowerCase();
-        const result = DATA.map((d) => ({
+        const result = productos.map((d) => ({
           categoria: d.Categoria,
           data: [
             d.data[0].filter(
@@ -240,25 +242,38 @@ function Shop() {
         }));
         setDataRender(result.filter((r) => r.data[0].length));
       } else {
-        setDataRender(DATA);
+        setDataRender(productos);
       }
     }, 1000);
   };
 
   useEffect(() => {
-    //loadProductos();
-    setDataRender(DATA);
+    loadProductos();
+    setDataRender(productos);
   }, []);
 
   return (
     <Context.Consumer>
-      {({ agregarProducto, eliminarProducto, carrito }) => (
+      {({
+        agregarProducto,
+        eliminarProducto,
+        carrito,
+        modalAyuda,
+        setModalAyuda,
+      }) => (
         <Screen style={styles.container}>
           {Platform.OS != "android" && (
             <ActivityIndicator visible={loading}></ActivityIndicator>
           )}
           {!loading && (
             <View>
+              <Modal
+                animationType={"slide"}
+                transparent={true}
+                visible={modalAyuda}
+              >
+                <Tutorial onPressListo={() => setModalAyuda(false)} />
+              </Modal>
               <View
                 style={{
                   flexDirection: "row",

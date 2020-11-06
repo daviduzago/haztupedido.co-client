@@ -18,6 +18,8 @@ export const GlobalState = ({ children }) => {
 
   const [totalCompra, setTotalCompra] = useState(0);
 
+  const [modalAyuda, setModalAyuda] = useState(false);
+
   const agregarProducto = (product) => {
     const item = [...carrito, product];
     setCarrito(item);
@@ -39,7 +41,13 @@ export const GlobalState = ({ children }) => {
   const total = (product) => {
     let total = 0;
     product.forEach((element) => {
-      total += element.costo_venta;
+      if (element.tieneDescuento === 0) {
+        total += element.costo_venta;
+      } else {
+        total +=
+          element.costo_venta -
+          element.costo_venta * (element.valorDescuento / 100);
+      }
     });
     setTotalCompra(total);
     return total;
@@ -66,6 +74,8 @@ export const GlobalState = ({ children }) => {
         setHorarioEntrega: setHorarioEntrega,
         codHorarioEntrega: codHorarioEntrega,
         setCodHorarioEntrega: setCodHorarioEntrega,
+        modalAyuda: modalAyuda,
+        setModalAyuda: setModalAyuda,
       }}
     >
       {children}
