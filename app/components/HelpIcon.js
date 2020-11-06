@@ -3,7 +3,7 @@ import { View, TouchableWithoutFeedback, Text } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Context from "../Context/context";
 
-function Help({ size = 50, color = "black", backgroundColor }) {
+function Help({ size = 45, color = "black", backgroundColor }) {
   return (
     <Context.Consumer>
       {({ setModalAyuda }) => (
