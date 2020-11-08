@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import Context from "../Context/context";
+import colors from "../config/colors";
 import numeroMilesimas from "../hooks/numeroMilesimas";
 import InputSpinnerHorizontal from "../components/inputSpinnerHorizontal";
 import Screen from "../components/Screen";
@@ -20,10 +21,11 @@ function Product({ route }) {
             style={{
               width: 250,
               height: 500,
+              marginTop: 20,
+              borderRadius: 20,
+              backgroundColor: colors.lightPurple,
               justifyContent: "center",
               alignItems: "center",
-              position: "absolute",
-              top: 1,
             }}
           >
             <View style={styles.boxImage}>
@@ -76,7 +78,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     margin: 10,
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
   },
   boxImage: {

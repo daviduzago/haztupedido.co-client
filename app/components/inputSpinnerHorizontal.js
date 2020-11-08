@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
   },
   box: {
     height: 60,
-    width: 200,
+    width: 180,
     flexDirection: "row",
     borderRadius: 50,
     backgroundColor: colors.white,

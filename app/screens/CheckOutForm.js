@@ -151,7 +151,7 @@ function CheckOutForm() {
             ></AppFormField>
             <Text style={styles.inputTitle}>Correo electrónico</Text>
             <AppFormField
-              maxLength={20}
+              maxLength={30}
               autoCapitalize="none"
               autoCorrect={false}
               keyboardType="email-address"

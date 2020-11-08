@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import {
@@ -9,14 +9,17 @@ import {
   TouchableWithoutFeedback,
   ScrollView,
   Linking,
+  FlatList,
 } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import AppButtonGradient from "../components/AppButtonGradient";
 import AsyncStorage from "@react-native-community/async-storage";
+import ActivityIndicator from "../components/ActivityIndicator";
 import detallesApi from "../api/detallesPedido";
 import BillIcon from "../assets/bill.png";
 import Collapsible from "react-native-collapsible";
 import colors from "../config/colors";
+import numeroMilesimas from "../hooks/numeroMilesimas";
 import imageShop from "../assets/groceriesBag.png";
 
 function DetallesPedido() {
@@ -31,14 +34,6 @@ function DetallesPedido() {
   const [collapsibleCargos, setCollapsibleCargos] = useState(true);
   const [collapsibleTrans, setCollapsibleTrans] = useState(true);
 
-  const loadDetallesPedido = async () => {
-    setLoading(true);
-    const response = await detallesApi.getDetallesPedido();
-    setDetallesPedido(response.data);
-    console.log(response.data);
-    setLoading(false);
-  };
-
   const getValue = async () => {
     try {
       const item = await AsyncStorage.getItem("nombre");
@@ -48,23 +43,30 @@ function DetallesPedido() {
     }
   };
 
-  const getNumeroCelular = async () => {
+  const getDetallesPedido = async () => {
+    setLoading(true);
     try {
       const item = await AsyncStorage.getItem("numeroCelular");
-      setNumeroCelular(item);
+      const response = await detallesApi.getDetallesPedido(item);
+      setDetallesPedido(response.data);
     } catch (e) {
       console.log(e);
     }
+
+    setLoading(false);
   };
 
-  getValue();
-
   useEffect(() => {
-    getNumeroCelular();
+    getValue();
+    getDetallesPedido();
   }, []);
 
   return (
     <ScrollView style={styles.container}>
+      <ActivityIndicator
+        style={{ position: "absolute" }}
+        visible={loading}
+      ></ActivityIndicator>
       <View
         style={{
           padding: 15,
@@ -99,7 +101,7 @@ function DetallesPedido() {
             borderBottomWidth: 1,
             padding: 5,
             marginBottom: 10,
-            justifyContent: "space-evenly",
+            justifyContent: "flex-start",
             alignItems: "center",
           }}
         >
@@ -108,27 +110,17 @@ function DetallesPedido() {
             style={{
               flexDirection: "column",
               padding: 10,
+              paddingTop: 15,
               justifyContent: "flex-end",
             }}
           >
             <Text style={styles.subtitle}>TuMercado</Text>
           </View>
-          <View style={styles.botonCalificar}>
-            <Text
-              style={{
-                color: colors.white,
-                fontSize: 15,
-                fontWeight: "bold",
-              }}
-            >
-              {detallesPedido.estado}
-            </Text>
-          </View>
         </View>
         <Text style={styles.textoTitulos}>
           Pedido #: {detallesPedido.codigoCompra}
         </Text>
-        <Text style={styles.textoTitulos}>
+        <Text style={[styles.textoTitulos]}>
           Horario de entrega: {detallesPedido.horarioEntrega}
         </Text>
       </View>
@@ -160,12 +152,100 @@ function DetallesPedido() {
                 flexDirection: "row",
                 justifyContent: "space-between",
                 paddingHorizontal: 5,
+                paddingBottom: 5,
+                marginVertical: 2,
+                borderBottomColor: colors.gray,
+                borderBottomWidth: 1,
               }}
             >
-              <Text>Cantidad</Text>
-              <Text>Producto</Text>
-              <Text>Precio</Text>
+              <View
+                style={{
+                  flex: 0.7 / 6,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Text>Cant.</Text>
+              </View>
+
+              <View
+                style={{
+                  flex: 4 / 6,
+                  justifyContent: "center",
+                  alignItems: "flex-start",
+                  paddingLeft: 10,
+                }}
+              >
+                <Text style={{ textTransform: "capitalize" }}>Producto</Text>
+              </View>
+
+              <View
+                style={{
+                  flex: 1.3 / 6,
+                  justifyContent: "center",
+                  alignItems: "flex-end",
+                  paddingRight: 10,
+                }}
+              >
+                <Text>Precio</Text>
+              </View>
             </View>
+            <FlatList
+              data={detallesPedido.ListadoProductos}
+              keyExtractor={(product) => product.id.toString()}
+              renderItem={({ item }) => (
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    paddingHorizontal: 5,
+                    marginVertical: 4,
+                  }}
+                >
+                  <View
+                    style={{
+                      flex: 0.7 / 6,
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Text>{item.cantidad}</Text>
+                  </View>
+
+                  <View
+                    style={{
+                      flex: 4 / 6,
+                      justifyContent: "center",
+                      alignItems: "flex-start",
+                      paddingLeft: 10,
+                    }}
+                  >
+                    <Text style={{ fontSize: 12, textTransform: "capitalize" }}>
+                      {item.nombreProducto}
+                    </Text>
+                  </View>
+
+                  <View
+                    style={{
+                      flex: 1.3 / 6,
+                      justifyContent: "center",
+                      alignItems: "flex-end",
+                      paddingRight: 10,
+                    }}
+                  >
+                    <Text>${numeroMilesimas(item.subtotal)}</Text>
+                  </View>
+                </View>
+              )}
+              ItemSeparatorComponent={() => (
+                <View
+                  style={{
+                    borderBottomColor: colors.gray,
+                    borderBottomWidth: 1,
+                  }}
+                ></View>
+              )}
+            />
           </Collapsible>
         </View>
       </TouchableWithoutFeedback>
@@ -196,7 +276,7 @@ function DetallesPedido() {
                   { marginRight: 10, fontWeight: "bold" },
                 ]}
               >
-                $29.180
+                ${detallesPedido.total}
               </Text>
               <Entypo name="chevron-thin-down" size={24} color="black" />
             </View>
@@ -205,15 +285,17 @@ function DetallesPedido() {
             <View>
               <View style={styles.filaCargos}>
                 <Text>Subtotal de los productos</Text>
-                <Text>$22.000</Text>
+                <Text>${detallesPedido.subtotal}</Text>
               </View>
               <View style={styles.filaCargos}>
-                <Text>IVA</Text>
-                <Text>$4.180</Text>
+                <Text>Domicilio</Text>
+                <Text>${detallesPedido.valorDomicilio}</Text>
               </View>
               <View style={styles.filaCargos}>
                 <Text style={{ fontWeight: "bold" }}>Total</Text>
-                <Text style={{ fontWeight: "bold" }}>$29.180</Text>
+                <Text style={{ fontWeight: "bold" }}>
+                  ${detallesPedido.total}
+                </Text>
               </View>
               <Text
                 style={[
@@ -229,21 +311,21 @@ function DetallesPedido() {
               </Text>
               <View style={styles.filaCargos}>
                 <Text>Descuento de promocion</Text>
-                <Text>-$0.000</Text>
+                <Text>-$0</Text>
               </View>
               <View style={styles.filaCargos}>
                 <Text>Descuento domicilio</Text>
-                <Text>-$3.000</Text>
+                <Text>-$0</Text>
               </View>
               <View style={styles.filaCargos}>
                 <Text style={{ fontWeight: "bold" }}>Total Descuentos</Text>
-                <Text style={{ fontWeight: "bold" }}>-$3.000</Text>
+                <Text style={{ fontWeight: "bold" }}>-$0</Text>
               </View>
             </View>
           </Collapsible>
         </View>
       </TouchableWithoutFeedback>
-      <TouchableWithoutFeedback
+      {/* <TouchableWithoutFeedback
         onPress={() => {
           if (collapsibleTrans === false) setCollapsibleTrans(true);
           else setCollapsibleTrans(false);
@@ -289,7 +371,7 @@ function DetallesPedido() {
             </View>
           </Collapsible>
         </View>
-      </TouchableWithoutFeedback>
+      </TouchableWithoutFeedback> */}
       <View
         style={{
           paddingTop: 20,
@@ -370,7 +452,7 @@ const styles = StyleSheet.create({
     height: 60,
   },
   subtitle: {
-    fontSize: 28,
+    fontSize: 30,
     fontWeight: "500",
     marginBottom: 5,
   },

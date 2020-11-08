@@ -6,6 +6,8 @@ export const GlobalState = ({ children }) => {
 
   const [pagoTotalEfectivo, setPagoTotalEfectivo] = useState(false);
 
+  const [visibleDiferenciaPagar, setVisibleDiferenciaPagar] = useState(false);
+
   const [pagoMixto, setPagoMixto] = useState(false);
 
   const [pagoTotalTransf, setPagoTotalTrasf] = useState(false);
@@ -76,6 +78,8 @@ export const GlobalState = ({ children }) => {
         setCodHorarioEntrega: setCodHorarioEntrega,
         modalAyuda: modalAyuda,
         setModalAyuda: setModalAyuda,
+        visibleDiferenciaPagar: visibleDiferenciaPagar,
+        setVisibleDiferenciaPagar: setVisibleDiferenciaPagar,
       }}
     >
       {children}

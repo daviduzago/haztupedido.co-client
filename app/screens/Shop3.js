@@ -230,7 +230,7 @@ function Shop() {
     timerWrite = setTimeout(() => {
       if (value && value.length) {
         const minValue = value.toLowerCase();
-        const result = DATA.map((d) => ({
+        const result = productos.map((d) => ({
           categoria: d.Categoria,
           data: [
             d.data[0].filter(
@@ -242,14 +242,14 @@ function Shop() {
         }));
         setDataRender(result.filter((r) => r.data[0].length));
       } else {
-        setDataRender(DATA);
+        setDataRender(productos);
       }
     }, 1000);
   };
 
   useEffect(() => {
     loadProductos();
-    setDataRender(DATA);
+    setDataRender(productos);
   }, []);
 
   return (

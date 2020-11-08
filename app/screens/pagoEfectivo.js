@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   Alert,
   KeyboardAvoidingView,
+  Linking,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useClipboard } from "@react-native-community/hooks";
@@ -32,8 +33,11 @@ function PagoEfectivo() {
         pagoTotalTransf,
         setPagoTotalTransf,
         setPagoParcial,
+        pagoParcial,
         total,
         carrito,
+        visibleDiferenciaPagar,
+        setVisibleDiferenciaPagar,
       }) => (
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
           <KeyboardAvoidingView
@@ -92,15 +96,45 @@ function PagoEfectivo() {
                     { marginLeft: 10 },
                   ]}
                   icon={"cash-usd"}
-                  maxLength={6}
+                  maxLength={8}
                   onChangeText={(value) => {
                     if (value > total(carrito)) {
                       setPagoParcial(total(carrito));
                     } else setPagoParcial(value);
+                    if (pagoParcial != 0) setVisibleDiferenciaPagar(true);
                   }}
                   keyboardType={"number-pad"}
                   editable={!pagoTotalEfectivo && !pagoTotalTransf}
                 ></AppTextInput>
+                {visibleDiferenciaPagar && (
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      marginTop: 10,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontSize: 13,
+                        fontWeight: "500",
+                        color: colors.black,
+                      }}
+                    >
+                      Valor pendiente por transferir:{" "}
+                      <Text
+                        style={{
+                          fontSize: 18,
+                          fontWeight: "bold",
+                          color: colors.red,
+                        }}
+                      >
+                        ${numeroMilesimas(total(carrito) - pagoParcial)}
+                      </Text>
+                    </Text>
+                  </View>
+                )}
                 <View
                   style={{
                     flexDirection: "row",
@@ -115,7 +149,8 @@ function PagoEfectivo() {
                     onValueChange={() => {
                       setPagoTotalEfectivo((previousState) => !previousState);
                       if (pagoTotalTransf) setPagoTotalTransf(false);
-                      if (pagoTotalTransf) setPagoParcial(0);
+                      if (pagoTotalEfectivo) setPagoParcial(0);
+                      setVisibleDiferenciaPagar(false);
                     }}
                     trackColor={{ false: colors.gray, true: colors.logoPurple }}
                   ></Switch>
@@ -140,6 +175,7 @@ function PagoEfectivo() {
                       setPagoTotalTransf((previousState) => !previousState);
                       if (pagoTotalEfectivo) setPagoTotalEfectivo(false);
                       if (pagoTotalTransf) setPagoParcial(0);
+                      setVisibleDiferenciaPagar(false);
                     }}
                     trackColor={{ false: colors.gray, true: colors.logoPurple }}
                   ></Switch>
@@ -168,7 +204,7 @@ function PagoEfectivo() {
                   Tambien puedes pagar con transferencia:
                 </Text>
                 {/* Bancolombia */}
-                <View
+                {/* <View
                   style={{
                     flex: 1 / 3,
                     backgroundColor: "white",
@@ -210,9 +246,9 @@ function PagoEfectivo() {
                       </Text>
                     </View>
                   </TouchableOpacity>
-                </View>
+                </View> */}
                 {/* Davivienda */}
-                {/* <View
+                <View
                   style={{
                     flex: 1 / 3,
                     backgroundColor: "white",
@@ -254,7 +290,7 @@ function PagoEfectivo() {
                       </Text>
                     </View>
                   </TouchableOpacity>
-                </View> */}
+                </View>
                 {/* Nequi */}
                 <View
                   style={{
@@ -298,6 +334,30 @@ function PagoEfectivo() {
                     </View>
                   </TouchableOpacity>
                 </View>
+                <TouchableWithoutFeedback
+                  onPress={() =>
+                    Linking.openURL(
+                      `https://wa.me/+573232258306?text=Hola, adjunto captura de pantalla de la transferencia realizada`
+                    )
+                  }
+                >
+                  <View style={{ flex: 1 / 3, marginLeft: 10 }}>
+                    <Text
+                      style={{
+                        fontSize: 12,
+                        fontWeight: "500",
+                        marginTop: 10,
+                        color: colors.red,
+                      }}
+                    >
+                      Al realizar transferencias de compras realizadas, enviar
+                      evidencia (captura de pantalla){" "}
+                      <Text style={{ textDecorationLine: "underline" }}>
+                        aqui.
+                      </Text>
+                    </Text>
+                  </View>
+                </TouchableWithoutFeedback>
               </View>
               <View>
                 <AppButtonGradient
