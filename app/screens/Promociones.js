@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Platform, FlatList } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Platform,
+  FlatList,
+  Image,
+} from "react-native";
 import ActivityIndicator from "../components/ActivityIndicator";
 import Context from "../Context/context";
 import colors from "../config/colors";
@@ -99,7 +106,6 @@ function Promociones() {
           {Platform.OS != "android" && (
             <ActivityIndicator visible={loading}></ActivityIndicator>
           )}
-
           {!loading && (
             <>
               <View>
@@ -115,6 +121,16 @@ function Promociones() {
                         marginLeft: 40,
                       }}
                     >
+                      {Platform.OS === "android" && (
+                        <Image
+                          style={{
+                            width: 90,
+                            height: 90,
+                            resizeMode: "contain",
+                          }}
+                          source={require("../assets/promociones.png")}
+                        ></Image>
+                      )}
                       {Platform.OS != "android" && (
                         <LottieView
                           style={{

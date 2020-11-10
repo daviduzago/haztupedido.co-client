@@ -10,6 +10,7 @@ import {
   ScrollView,
   Linking,
   FlatList,
+  Platform,
 } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import AppButtonGradient from "../components/AppButtonGradient";
@@ -63,10 +64,12 @@ function DetallesPedido() {
 
   return (
     <ScrollView style={styles.container}>
-      <ActivityIndicator
-        style={{ position: "absolute" }}
-        visible={loading}
-      ></ActivityIndicator>
+      {Platform.OS != "android" && (
+        <ActivityIndicator
+          style={{ position: "absolute" }}
+          visible={loading}
+        ></ActivityIndicator>
+      )}
       <View
         style={{
           padding: 15,

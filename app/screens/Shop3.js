@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import productosApi from "../api/productos";
 import Screen from "../components/Screen";
-import ActivityIndicator from "../components/ActivityIndicator";
+import ActivityIndicatorApp from "../components/ActivityIndicator";
 import AppTextInput from "../components/AppTextInput";
 import ProductShop from "../components/ProductShop";
 import Promociones from "../components/promociones-function";
@@ -222,6 +222,7 @@ function Shop() {
     setLoading(true);
     const response = await productosApi.getProductos();
     setProductos(response.data);
+    setDataRender(response.data);
     setLoading(false);
   };
 
@@ -249,7 +250,6 @@ function Shop() {
 
   useEffect(() => {
     loadProductos();
-    setDataRender(productos);
   }, []);
 
   return (
@@ -262,9 +262,7 @@ function Shop() {
         setModalAyuda,
       }) => (
         <Screen style={styles.container}>
-          {Platform.OS != "android" && (
-            <ActivityIndicator visible={loading}></ActivityIndicator>
-          )}
+          <ActivityIndicatorApp visible={loading}></ActivityIndicatorApp>
           {!loading && (
             <View>
               <Modal

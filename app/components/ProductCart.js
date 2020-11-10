@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     padding: 10,
     width: "100%",
     height: 130,
-    backgroundColor: colors.gray,
+    backgroundColor: colors.lightPurple,
     borderRadius: 15,
     marginBottom: 10,
     justifyContent: "space-between",
@@ -64,7 +64,6 @@ const styles = StyleSheet.create({
   productImage: {
     height: 110,
     width: 110,
-    backgroundColor: "white",
     borderRadius: 10,
   },
   title: {

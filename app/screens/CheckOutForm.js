@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { AppForm, AppFormField, SubmitButton } from "../components/forms";
-import ActivityIndicator from "../components/ActivityIndicator";
+import ActivityIndicatorApp from "../components/ActivityIndicator";
 import AsyncStorage from "@react-native-community/async-storage";
 import colors from "../config/colors";
 import userInfoApi from "../api/userInfo";
@@ -46,7 +46,7 @@ function CheckOutForm() {
     const result = await userInfoApi.addUserInfo(user, location);
     if (!result.ok) {
       setLoading(false);
-      return alert("No se puedo enviar la informacion");
+      return alert("No se pudo enviar la informacion", result.originalError);
     }
     setLoading(false);
     const storeData = async (field, data) => {
@@ -71,13 +71,10 @@ function CheckOutForm() {
   const [isKAVEnabled, setKAVEnable] = useState(false);
   return (
     <>
-      {Platform.OS != "android" && (
-        <ActivityIndicator
-          style={{ backgroundColor: "transparent", position: "absolute" }}
-          visible={loading}
-        ></ActivityIndicator>
-      )}
-
+      <ActivityIndicatorApp
+        style={{ backgroundColor: "transparent", position: "absolute" }}
+        visible={loading}
+      ></ActivityIndicatorApp>
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <KeyboardAvoidingView
           enabled={isKAVEnabled}

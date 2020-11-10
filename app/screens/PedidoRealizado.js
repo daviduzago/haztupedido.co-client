@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, Platform } from "react-native";
+import { StyleSheet, Text, View, Platform, Image } from "react-native";
 import LottieView from "lottie-react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -19,6 +19,15 @@ function App() {
           justifyContent: "flex-end",
         }}
       >
+        {Platform.OS === "android" && (
+          <Image
+            style={{
+              width: 270,
+              height: 270,
+            }}
+            source={require("../assets/listoVerde.png")}
+          ></Image>
+        )}
         {Platform.OS != "android" && (
           <LottieView
             style={{

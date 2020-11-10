@@ -6,7 +6,7 @@ export const nuevaCompra = (
   idUsuario,
   carrito,
   subTotal,
-  horario,
+  //horario,
   pagoEfectivo,
   pagoTotalEfectivo,
   pagoTotalTransf
@@ -17,7 +17,7 @@ export const nuevaCompra = (
   data.append("carrito", JSON.stringify(carrito));
   data.append("subTotalCompra", subTotal);
   data.append("valorDomicilio", 3000);
-  data.append("horarioEntrega", horario);
+  data.append("horarioEntrega", 5);
   if (pagoEfectivo > 0) data.append("tipoPago", 3);
   if (pagoEfectivo > 0) data.append("valorEfectivo", pagoEfectivo);
   if (pagoTotalEfectivo) data.append("tipoPago", 1);

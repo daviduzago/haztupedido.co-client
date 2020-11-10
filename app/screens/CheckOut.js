@@ -7,24 +7,21 @@ import {
   Image,
   TouchableWithoutFeedback,
   Alert,
-  Modal,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Moto from "../assets/motoHTP.png";
 import Location from "../assets/location.png";
-import colors from "../config/colors";
 import ButtonCheckOut from "../components/ButtonCheckOut";
 import AppButtonGradient from "../components/AppButtonGradient";
 import numeroMilesimas from "../hooks/numeroMilesimas";
 import Context from "../Context/context";
 import compraApi from "../api/nuevaCompra";
-import ActivityIndicator from "../components/ActivityIndicator";
+import ActivityIndicatorApp from "../components/ActivityIndicator";
 import moment from "moment";
 
 function CheckOut() {
   const navigation = useNavigation();
 
-  const [visibleModalHorario, setVisibleModalHorario] = useState(false);
   const [hora, setHora] = useState();
   const [loading, setLoading] = useState(false);
   const [direccion, setDireccion] = useState("");
@@ -63,9 +60,7 @@ function CheckOut() {
     setCarrito,
     setPagoTotalEfectivo,
     setPagoTotalTransf,
-    setPagoParcial,
-    setHorarioEntrega,
-    setCodHorarioEntrega
+    setPagoParcial
   ) =>
     Alert.alert(
       "Cancelar pedido",
@@ -79,8 +74,6 @@ function CheckOut() {
             setPagoTotalEfectivo(false);
             setPagoTotalTransf(false);
             setPagoParcial(0);
-            setHorarioEntrega("");
-            setCodHorarioEntrega(0);
           },
           style: "cancel",
         },
@@ -89,7 +82,6 @@ function CheckOut() {
     );
 
   const handleIrPagar = (
-    codHorarioEntrega,
     pagoTotalEfectivo,
     pagoTotalTransf,
     pagoParcial,
@@ -99,31 +91,12 @@ function CheckOut() {
     setCarrito,
     setPagoTotalEfectivo,
     setPagoTotalTransf,
-    setPagoParcial,
-    setHorarioEntrega,
-    setCodHorarioEntrega
+    setPagoParcial
   ) => {
-    if (
-      codHorarioEntrega === 0 &&
-      !pagoTotalEfectivo &&
-      !pagoTotalTransf &&
-      pagoParcial <= 0
-    ) {
+    if (!pagoTotalEfectivo && !pagoTotalTransf && pagoParcial <= 0) {
       Alert.alert(
         "Ups, faltan unos pasos",
-        "Debe seleccionar el horario de entrega y el metodo de pago antes de continuar",
-        [
-          {
-            text: "Okay",
-            onPress: () => {},
-            style: "cancel",
-          },
-        ]
-      );
-    } else if (codHorarioEntrega === 0) {
-      Alert.alert(
-        "Ups, faltan unos pasos",
-        "Debe seleccionar el horario de entrega",
+        "Debe seleccionar el metodo de pago antes de continuar",
         [
           {
             text: "Okay",
@@ -160,7 +133,6 @@ function CheckOut() {
                 numeroCelular,
                 carrito,
                 total,
-                codHorarioEntrega,
                 pagoParcial,
                 pagoTotalEfectivo,
                 pagoTotalTransf
@@ -179,8 +151,6 @@ function CheckOut() {
                 setPagoTotalEfectivo(false);
                 setPagoTotalTransf(false);
                 setPagoParcial(0);
-                setHorarioEntrega("");
-                setCodHorarioEntrega(0);
               }
               setLoading(false);
             };
@@ -206,155 +176,15 @@ function CheckOut() {
         setPagoTotalTransf,
         pagoParcial,
         setPagoParcial,
-        horarioEntrega,
-        setHorarioEntrega,
-        setCodHorarioEntrega,
-        codHorarioEntrega,
         totalCompra,
       }) => (
         <View style={styles.container}>
-          {Platform.OS != "android" && (
-            <ActivityIndicator
-              style={{ backgroundColor: "transparent", position: "absolute" }}
-              visible={loading}
-            ></ActivityIndicator>
-          )}
-          {/* Modal Horario */}
+          <ActivityIndicatorApp
+            style={{ backgroundColor: "transparent", position: "absolute" }}
+            visible={loading}
+          ></ActivityIndicatorApp>
           {!loading && (
             <>
-              <Modal
-                animationType={"slide"}
-                transparent={true}
-                visible={visibleModalHorario}
-              >
-                <View style={styles.modalHorario}>
-                  <Text style={{ fontSize: 20 }}>
-                    Seleccione el horario de entrega:
-                  </Text>
-                  <View
-                    style={{
-                      marginTop: 10,
-                      width: "80%",
-                      height: 150,
-                      justifyContent: "flex-start",
-                      alignContent: "center",
-                    }}
-                  >
-                    {(hora <= 9 || hora >= 20) && (
-                      <TouchableWithoutFeedback
-                        onPress={() => {
-                          setHorarioEntrega("8am - 11am");
-                          setCodHorarioEntrega(1);
-                          setVisibleModalHorario(false);
-                        }}
-                      >
-                        <View
-                          style={{
-                            flex: 1,
-                            justifyContent: "center",
-                            alignItems: "center",
-                            width: "100%",
-                          }}
-                        >
-                          <Text
-                            style={{
-                              fontSize: 20,
-                              marginVertical: 8,
-                              fontWeight: "bold",
-                            }}
-                          >
-                            8am - 11am
-                          </Text>
-                        </View>
-                      </TouchableWithoutFeedback>
-                    )}
-                    {(hora <= 11 || hora >= 20) && (
-                      <TouchableWithoutFeedback
-                        onPress={() => {
-                          setHorarioEntrega("11am - 2pm");
-                          setCodHorarioEntrega(2);
-                          setVisibleModalHorario(false);
-                        }}
-                      >
-                        <View
-                          style={{
-                            flex: 1,
-                            justifyContent: "center",
-                            alignItems: "center",
-                            width: "100%",
-                          }}
-                        >
-                          <Text
-                            style={{
-                              fontSize: 20,
-                              marginVertical: 8,
-                              fontWeight: "bold",
-                            }}
-                          >
-                            11am - 2pm
-                          </Text>
-                        </View>
-                      </TouchableWithoutFeedback>
-                    )}
-                    {(hora <= 14 || hora >= 20) && (
-                      <TouchableWithoutFeedback
-                        onPress={() => {
-                          setHorarioEntrega("2pm - 5pm");
-                          setCodHorarioEntrega(3);
-                          setVisibleModalHorario(false);
-                        }}
-                      >
-                        <View
-                          style={{
-                            flex: 1,
-                            justifyContent: "center",
-                            alignItems: "center",
-                            width: "100%",
-                          }}
-                        >
-                          <Text
-                            style={{
-                              fontSize: 20,
-                              marginVertical: 8,
-                              fontWeight: "bold",
-                            }}
-                          >
-                            2pm - 5pm
-                          </Text>
-                        </View>
-                      </TouchableWithoutFeedback>
-                    )}
-                    {(hora <= 17 || hora >= 18) && (
-                      <TouchableWithoutFeedback
-                        onPress={() => {
-                          setHorarioEntrega("5pm - 8pm");
-                          setCodHorarioEntrega(4);
-                          setVisibleModalHorario(false);
-                        }}
-                      >
-                        <View
-                          style={{
-                            flex: 1,
-                            justifyContent: "center",
-                            alignItems: "center",
-                            width: "100%",
-                          }}
-                        >
-                          <Text
-                            style={{
-                              fontSize: 20,
-                              marginVertical: 8,
-                              fontWeight: "bold",
-                            }}
-                          >
-                            5pm - 8pm
-                          </Text>
-                        </View>
-                      </TouchableWithoutFeedback>
-                    )}
-                  </View>
-                </View>
-              </Modal>
               <View
                 style={{
                   flexDirection: "row",
@@ -441,18 +271,11 @@ function CheckOut() {
                   image={require("../assets/cash.png")}
                   onPress={() => navigation.navigate("PagoEfectivo")}
                 />
-                <ButtonCheckOut
-                  title={"Horario de entrega"}
-                  subtitle={horarioEntrega != "" && horarioEntrega}
-                  image={require("../assets/clock.png")}
-                  onPress={() => setVisibleModalHorario(true)}
-                />
               </View>
               <View style={{ flex: 1 / 4, alignItems: "center" }}>
                 <AppButtonGradient
                   onPress={() => {
                     handleIrPagar(
-                      codHorarioEntrega,
                       pagoTotalEfectivo,
                       pagoTotalTransf,
                       pagoParcial,
@@ -462,9 +285,7 @@ function CheckOut() {
                       setCarrito,
                       setPagoTotalEfectivo,
                       setPagoTotalTransf,
-                      setPagoParcial,
-                      setHorarioEntrega,
-                      setCodHorarioEntrega
+                      setPagoParcial
                     );
                   }}
                   title={"Pagar"}
@@ -476,9 +297,7 @@ function CheckOut() {
                       setCarrito,
                       setPagoTotalEfectivo,
                       setPagoTotalTransf,
-                      setPagoParcial,
-                      setHorarioEntrega,
-                      setCodHorarioEntrega
+                      setPagoParcial
                     )
                   }
                 >
@@ -507,19 +326,6 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     justifyContent: "center",
     alignContent: "center",
-  },
-  modalHorario: {
-    width: "100%",
-    height: 220,
-    backgroundColor: colors.white,
-    position: "absolute",
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    padding: 10,
-    bottom: 0,
-    left: 0,
-    justifyContent: "flex-start",
-    alignItems: "center",
   },
   title: {
     fontSize: 50,

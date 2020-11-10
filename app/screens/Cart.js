@@ -118,6 +118,12 @@ function Carrito() {
                 >
                   El carrito esta vacio
                 </Text>
+                {Platform.OS === "android" && (
+                  <Image
+                    style={{ width: 250, height: 250, resizeMode: "contain" }}
+                    source={require("../assets/watermelon.png")}
+                  ></Image>
+                )}
                 {Platform.OS != "android" && (
                   <LottieView
                     style={{
