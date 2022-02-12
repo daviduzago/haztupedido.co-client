@@ -21,7 +21,7 @@
     },
     "android": {
       "package": "co.haztupedido",
-      "versionCode": 5
+      "versionCode": 6
     },
     "web": {
       "favicon": "./app/assets/favicon.png"

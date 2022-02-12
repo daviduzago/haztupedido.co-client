@@ -7,7 +7,6 @@ import {
   TouchableWithoutFeedback,
   KeyboardAvoidingView,
   Keyboard,
-  Platform,
   Linking,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";

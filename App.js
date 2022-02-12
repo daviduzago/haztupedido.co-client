@@ -19,7 +19,6 @@ import Product from "./app/screens/Product";
 import Promociones from "./app/screens/Promociones";
 import GoBackModal from "./app/components/goBackModal";
 import { GlobalState } from "./app/Context/GlobalState";
-import { Context } from "./app/Context/GlobalState";
 import CheckOut from "./app/screens/CheckOut";
 import PagoEfectivo from "./app/screens/pagoEfectivo";
 import PedidoRealizado from "./app/screens/PedidoRealizado";
